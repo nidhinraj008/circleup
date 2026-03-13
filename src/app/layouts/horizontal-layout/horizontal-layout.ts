@@ -1,46 +1,61 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CommonData } from '../../core/services/common-data';
+import { menuItems } from '../../core/data/menu-items';
+import { JsonPipe } from '@angular/common';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-horizontal-layout',
   imports: [
     RouterOutlet,
-    RouterLink
+    RouterLink,
+    JsonPipe,
   ],
   templateUrl: './horizontal-layout.html',
   styleUrl: './horizontal-layout.scss',
 })
-export class HorizontalLayout {
+export class HorizontalLayout implements OnInit {
 
-  menuItems = [
-    {
-      label: "Home",
-      icon: "bi bi-house",
-      routerLink: ['/dashboard']
-    },
-    {
-      label: "Connections",
-      icon: "bi bi-people",
-      routerLink: ['/connections']
-    },
-    {
-      label: "Family Tree",
-      icon: "bi bi-diagram-2",
-      routerLink: ['/familyTree']
-    },
-    {
-      label: "Profile",
-      icon: "bi bi-person",
-      routerLink: ['/profile']
-    },
-  ];
+  isShowAdd: boolean = false;
+  isShowMenuBar: boolean = false;
 
-  constructor(private readonly commonData: CommonData) {
+  menuItems = menuItems;
+
+  configurations: any;
+
+
+  constructor(
+    private readonly commonData: CommonData,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
 
   }
 
+  ngOnInit(): void {
+    this.subscribeRouter();
+    this.configurations = this.commonData.configurations;
+  }
+
+
   public onClickAdd() {
     this.commonData.onAddClick();
+  }
+
+  private subscribeRouter() {
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+      const data = this.getDeepestRoute(this.activatedRoute).snapshot.data;
+      if (data && data['config']) {
+        this.commonData.configurations.set(data['config']);
+      }
+    });
+  }
+
+  private getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route;
   }
 }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HorizontalLayout } from './layouts/horizontal-layout/horizontal-layout';
-
+import { pageWiseConfiguration } from './core/data/pagewise-configuration';
 export const routes: Routes = [
     {
         path: '',
@@ -8,36 +8,43 @@ export const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
+                data: { config: pageWiseConfiguration.dashboard },
                 loadComponent: () => import('./features/dashboard/dashboard')
                 .then(c => c.Dashboard)
             },
             {
                 path: 'connections',
+                data: { config: pageWiseConfiguration.connections },
                 loadComponent: () => import('./features/connection-list/connection-list')
                 .then(c => c.ConnectionList)
             },
             {
                 path: 'connections/add',
+                data: { config: pageWiseConfiguration.connectionsAdd },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/edit',
+                data: { config: pageWiseConfiguration.connectionsEdit },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/view',
+                data: { config: pageWiseConfiguration.connectionsView },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'familyTree',
+                data: { config: pageWiseConfiguration.familyTree },
                 loadComponent: () => import('./features/family-tree/family-tree')
                 .then(c => c.FamilyTree)
             },
             {
                 path: 'profile',
+                data: { config: pageWiseConfiguration.profile },
                 loadComponent: () => import('./features/profile/profile')
                 .then(c => c.Profile)
             },

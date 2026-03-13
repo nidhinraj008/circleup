@@ -1,26 +1,32 @@
 <div class="app-shell">
     <header class="app-header d-flex align-items-center px-3">
-        <h6 class="mb-0">Circle up</h6>
+        <a routerLink="/" class="text-decoration-none text-dark">
+            <h6 class="mb-0">Circle up</h6>
+        </a>
     </header>
 
     <main class="app-content">
         <router-outlet></router-outlet>
     </main>
 
-    <div class="bottom-nav-container pt-3">
-        <div class="bottom-nav-body w-100 h-100" style="position: relative;">
-            <!-- <div class="add-icon-container rounded-pill d-flex justify-content-center align-items-center">
-                <i class="bi bi-plus"></i>
-            </div> -->
-
-            <nav class="d-flex justify-content-around align-items-center">
-                @for(item of menuItems; track item.label) {
-                    <a [routerLink]="item.routerLink" routerLinkActive="active">
-                        <i [class]="item.icon"></i>
-                        <span>{{item.label}}</span>
-                    </a>
+    @if (configurations()?.isShowMenuBar) {
+        <div class="bottom-nav-container pt-3">
+            <div class="bottom-nav-body w-100 h-100" style="position: relative;">
+                @if (configurations()?.isShowAdd) {
+                    <div (click)="onClickAdd()" class="add-icon-container rounded-pill d-flex justify-content-center align-items-center bg-white">
+                        <i class="bi bi-plus"></i>
+                    </div>
                 }
-            </nav>
+    
+                <nav class="d-flex justify-content-around align-items-center">
+                    @for(item of menuItems; track item.label) {
+                        <a [routerLink]="item.routerLink" routerLinkActive="active">
+                            <i [class]="item.icon"></i>
+                            <span>{{item.label}}</span>
+                        </a>
+                    }
+                </nav>
+            </div>
         </div>
-    </div>
+    }
 </div>

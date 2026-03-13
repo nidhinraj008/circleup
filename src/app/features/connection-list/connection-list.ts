@@ -1,23 +1,32 @@
-import { Component } from '@angular/core';
-import { HorizontalMenuBar } from '../../shared/horizontal-menu-bar/horizontal-menu-bar';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonData } from '../../core/services/common-data';
+import { Configurations } from '../../core/types/configuration';
 
 @Component({
   selector: 'app-connection-list',
   imports: [
-    HorizontalMenuBar
   ],
   templateUrl: './connection-list.html',
   styleUrl: './connection-list.scss',
 })
-export class ConnectionList {
+export class ConnectionList implements OnInit {
 
-  constructor(private readonly router: Router) {
+  constructor(private readonly router: Router,
+    private readonly commonData: CommonData
+  ) {
 
   }
 
-  public onClickAdd() {
-    this.router.navigate(['/connections/add']);
+  ngOnInit(): void {
+    // this.setLayout({
+    //   isShowMenuBar: true,
+    //   isShowAdd: true,
+    // });    
+  }
+
+  private setLayout(configuration: Configurations) {
+    this.commonData.configurations.set(configuration);
   }
 
 }
