@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CommonData } from '../../core/services/common-data';
 import { menuItems } from '../../core/data/menu-items';
-import { JsonPipe } from '@angular/common';
 import { filter } from 'rxjs';
 
 @Component({
@@ -10,7 +9,6 @@ import { filter } from 'rxjs';
   imports: [
     RouterOutlet,
     RouterLink,
-    JsonPipe,
   ],
   templateUrl: './horizontal-layout.html',
   styleUrl: './horizontal-layout.scss',
