@@ -12,6 +12,12 @@ import { Configurations } from '../../core/types/configuration';
 })
 export class ConnectionList implements OnInit {
 
+  connectionsList = [
+    { id: 1, name: 'Arjun', age: 28, image: '' },
+    { id: 2, name: 'Meera', age: 24, image: '' },
+    { id: 3, name: 'Rahul', age: 32, image: '' }
+  ];
+
   constructor(private readonly router: Router,
     private readonly commonData: CommonData
   ) {
@@ -27,6 +33,10 @@ export class ConnectionList implements OnInit {
 
   private setLayout(configuration: Configurations) {
     this.commonData.configurations.set(configuration);
+  }
+
+  public onClickItem(item: any) {
+    this.router.navigate(['connections/view'], { queryParams: { id: item.id } });
   }
 
 }

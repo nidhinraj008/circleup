@@ -1,1 +1,16 @@
-<p>connections-list works!</p>
+<div class="d-flex flex-column">
+    @for (item of connectionsList; track item.id) {
+    <div (click)="onClickItem(item)" class="list-container py-2" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+            <img [src]="item.image || 'images/no-image.png'" class="rounded-circle mx-2" width="70" height="70" style="object-fit: cover;">
+            <div class="flex-grow-1">
+                <div class="fw-semibold">{{ item.name }}</div>
+                <div class="text-muted small">Age: {{ item.age }}</div>
+            </div>
+            <div class="mx-2">
+                <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+        </div>
+    </div>
+    }
+</div>

@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "android": "npx cap open android",
     "build": "ng build",
     "prodBuild": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
@@ -29,8 +30,10 @@
     "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "@capacitor/android": "^8.2.0",
     "@capacitor/cli": "^8.2.0",
     "@capacitor/core": "^8.2.0",
+    "moment": "^2.30.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -38,6 +41,7 @@
     "@angular/build": "^20.3.17",
     "@angular/cli": "^20.3.17",
     "@angular/compiler-cli": "^20.3.0",
+    "@capacitor/assets": "^3.0.5",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
