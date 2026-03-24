@@ -3,4 +3,19 @@
     --secondary-color: #6c757d;
     --primary-font-color: #333;
     --secondary-font-color: #53575c;
+    --font-color-3: #ffffff;
+}
+
+.form-control {
+    border: none;
+    box-shadow: 0px 0px 1px 0px var(--primary-color);
+    color: var(--primary-font-color);
+}
+
+.primary-button {
+    height: 50px;
+    border-radius: 6px;
+    color: var(--font-color-3);
+    background-color: var(--primary-color);
+    border: none;
 }

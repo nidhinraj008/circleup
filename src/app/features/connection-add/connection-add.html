@@ -1,93 +1,103 @@
-<div class="p-2">
+<div class="p-3">
     <h5 class="text-center fw-semibold">Add Connection</h5>
     <form [formGroup]="detailsForm" (ngSubmit)="onClickSubmit()">
 
         <div class="text-center py-2">
             <div class="position-relative d-inline-block">
-                <img [src]="imagePreview || 'images/no-image.png'" class="rounded-circle border" width="120" height="120" style="object-fit: cover;">
+                <img [src]="imagePreview() || 'images/no-image.png'" class="rounded-circle border" width="120"
+                    height="120" style="object-fit: cover;">
                 <input type="file" (change)="onFileChange($event)" hidden #fileInput>
-                <button (click)="fileInput.click()" type="button" class="add-button rounded-circle position-absolute bottom-0 end-0">
+                <button (click)="fileInput.click()" type="button"
+                    class="add-button rounded-circle position-absolute bottom-0 end-0">
                     +
                 </button>
             </div>
             <div class="form-text">Upload photo</div>
         </div>
 
-        <div class="basic-control-container">
+        <div class="basic-control-container form-floating">
+            <input formControlName="name" type="text" class="form-control" placeholder="Name"
+                [class.is-invalid]="detailsFormControlls['name'].touched && detailsFormControlls['name'].invalid">
             <label class="primary-label">
                 Name
-                <span class="text-danger">&ast;</span>
             </label>
-            <input formControlName="name" autofocus type="text" class="form-control"
-                [class.is-invalid]="detailsFormControlls['name'].touched && detailsFormControlls['name'].invalid">
-            <!-- <div class="invalid-feedback small">Name is required</div> -->
         </div>
 
-        <div class="basic-control-container">
+        <div class="basic-control-container form-floating">
+            <input formControlName="dateOfBirth" type="date" class="form-control"
+                [max]="currentDate | date:'yyyy-MM-dd'" placeholder="Date of birth"
+                [class.is-invalid]="detailsFormControlls['dateOfBirth'].touched && detailsFormControlls['dateOfBirth'].invalid">
             <label class="primary-label">Date of Birth</label>
-            <input formControlName="dateOfBirth" type="date" class="form-control" [max]="currentDate | date:'yyyy-MM-dd'"
-            [class.is-invalid]="detailsFormControlls['dateOfBirth'].touched && detailsFormControlls['dateOfBirth'].invalid">
-            <!-- <div class="invalid-feedback">Date of birth is required</div> -->
         </div>
 
         <div class="basic-control-container">
-            <label class="primary-label">Age</label>
             <div class="d-flex gap-2">
-                <input formControlName="ageYears" type="text" placeholder="Years" class="form-control" id="ageYears" readonly>
-                <input formControlName="ageMonths" type="text" placeholder="Months" class="form-control" id="ageMonths" readonly>
-                <input formControlName="ageDays" type="text" placeholder="Days" class="form-control" id="ageDays" readonly>
+                <div class="form-floating">
+                    <input formControlName="ageYears" type="text" placeholder="Years" class="form-control" id="ageYears"
+                        readonly>
+                    <label class="primary-label" for="ageYears">Years</label>
+                </div>
+                <div class="form-floating">
+                    <input formControlName="ageMonths" type="text" placeholder="Months" class="form-control"
+                        id="ageMonths" readonly>
+                    <label class="primary-label" for="ageMonths">Months</label>
+                </div>
+                <div class="form-floating">
+                    <input formControlName="ageDays" type="text" placeholder="Days" class="form-control" id="ageDays"
+                        readonly>
+                    <label class="primary-label" for="ageDays">Days</label>
+                </div>
             </div>
             <div class="invalid-feedback">Date of birth is required</div>
         </div>
 
-        <div class="basic-control-container">
-            <label class="primary-label" for="gender">
-                Gender
-                <span class="text-danger">&ast;</span>
-            </label>
+        <div class="basic-control-container form-floating">
             <select formControlName="gender" class="form-select" id="gender"
                 [class.is-invalid]="detailsFormControlls['gender'].touched && detailsFormControlls['gender'].invalid">
                 @for(item of genderOptions; track item.value) {
-                    <option [value]="item.value">
-                        {{ item.label }}
-                    </option>
+                <option [value]="item.value">
+                    {{ item.label }}
+                </option>
                 }
             </select>
-            <!-- <div class="invalid-feedback">Gender is required</div> -->
+            <label class="primary-label" for="gender">
+                Gender
+            </label>
         </div>
 
-        <div class="basic-control-container">
-            <label class="primary-label">Father</label>
+        <div class="basic-control-container form-floating">
             <select formControlName="father" class="form-select"
                 [class.is-invalid]="detailsFormControlls['father'].touched && detailsFormControlls['father'].invalid">
                 @for(item of connectionsList; track item.id) {
-                    <option [value]="item.value">
-                        {{ item.name }}
-                    </option>
+                <option [value]="item.value">
+                    {{ item.name }}
+                </option>
                 }
             </select>
+            <label class="primary-label">Father</label>
         </div>
 
-        <div class="basic-control-container">
-            <label class="primary-label">Mother</label>
+        <div class="basic-control-container form-floating">
             <select formControlName="mother" class="form-select"
                 [class.is-invalid]="detailsFormControlls['mother'].touched && detailsFormControlls['mother'].invalid">
                 @for(item of connectionsList; track item.id) {
-                    <option [value]="item.value">
-                        {{ item.name }}
-                    </option>
+                <option [value]="item.value">
+                    {{ item.name }}
+                </option>
                 }
             </select>
+            <label class="primary-label">Mother</label>
         </div>
 
 
-        <div class="basic-control-container">
+        <div class="basic-control-container form-floating">
+            <textarea formControlName="notes" class="form-control" placeholder="Anything about the person.."
+                style="height: 100px"></textarea>
             <label class="primary-label">Notes</label>
-            <textarea formControlName="notes" class="form-control" placeholder="Anything about the person.." style="height: 100px"></textarea>
         </div>
 
         <div class="pt-2 pb-5">
-            <button type="submit" class="btn btn-primary w-100 rounded-3 py-2">
+            <button type="submit" class="primary-button w-100 py-2">
                 Save
             </button>
         </div>

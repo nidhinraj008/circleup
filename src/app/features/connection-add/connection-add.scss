@@ -1,7 +1,4 @@
-$primary-color: #007bff;
-
-input,
-textarea {
+input, textarea {
     font-size: 16px;
 }
 
@@ -26,8 +23,6 @@ button {
     padding: 4px 0px;
     
     .primary-label {
-        margin: 0px !important;
-        padding: 0px !important;
         font-size: 12px;
         color: var(--secondary-font-color);
         font-weight: 600;

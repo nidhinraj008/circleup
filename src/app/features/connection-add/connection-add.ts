@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { enumToArray } from '../../core/functions/common-functions';
 import { GenderEnum } from '../../core/enum/gender.enum';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
+import { FireService } from '../../core/services/fire-service';
 @Component({
   selector: 'app-connection-add',
   imports: [ ReactiveFormsModule, DatePipe],
@@ -12,7 +13,7 @@ import moment from 'moment';
 })
 export class ConnectionAdd {
 
-  imagePreview: any;
+  imagePreview = signal<string>('');
   detailsForm!: FormGroup;
   connectionsList: any[] = [
     { id: 1, name: 'John Doe' },
@@ -21,10 +22,12 @@ export class ConnectionAdd {
   ];
   genderOptions = enumToArray(GenderEnum);
 
-
   currentDate = new Date();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder, 
+    private fireService: FireService
+  ) {}
 
   ngOnInit(): void {
     this.initDetailsForm();
@@ -71,23 +74,40 @@ export class ConnectionAdd {
     });
   }
 
-  get detailsFormControlls() { return this.detailsForm.controls; }
+  get detailsFormControlls() { 
+    return this.detailsForm.controls;
+  }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (!file) return;
     this.detailsForm.patchValue({ image: file });
     const reader = new FileReader();
-    reader.onload = () => this.imagePreview = reader.result;
+    reader.onload = () => this.imagePreview.set(reader.result as string);
     reader.readAsDataURL(file);
   }
 
-  public onClickSubmit() {
+  public async onClickSubmit() {
     this.detailsForm.markAllAsTouched();
     if (this.detailsForm.invalid) return;
 
+    let imageUrl = '';
+    if(this.imagePreview()) {
+      imageUrl = await this.fireService.uploadImage(this.detailsForm.value.image);
+    }
 
-    console.log(this.detailsForm.value);
+    const params = {
+      name: this.detailsForm.value.name,
+      gender: this.detailsForm.value.gender,
+      dateOfBirth: this.detailsForm.value.dateOfBirth,
+      father: this.detailsForm.value.father,
+      mother: this.detailsForm.value.mother,
+      notes: this.detailsForm.value.notes,
+      primaryimage: imageUrl,
+    }
+    await this.fireService.addConnection(params);
+
+    this.initDetailsForm();
   }
 
 }

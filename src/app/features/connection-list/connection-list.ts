@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonData } from '../../core/services/common-data';
 import { Configurations } from '../../core/types/configuration';
+import { FireService } from '../../core/services/fire-service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-connection-list',
@@ -12,14 +14,12 @@ import { Configurations } from '../../core/types/configuration';
 })
 export class ConnectionList implements OnInit {
 
-  connectionsList = [
-    { id: 1, name: 'Arjun', age: 28, image: '' },
-    { id: 2, name: 'Meera', age: 24, image: '' },
-    { id: 3, name: 'Rahul', age: 32, image: '' }
-  ];
+  connectionsList: any[] = []
 
   constructor(private readonly router: Router,
-    private readonly commonData: CommonData
+    private readonly commonData: CommonData,
+    private fireService: FireService,
+    private cdr: ChangeDetectorRef,
   ) {
 
   }
@@ -29,6 +29,7 @@ export class ConnectionList implements OnInit {
     //   isShowMenuBar: true,
     //   isShowAdd: true,
     // });    
+    this.getAllConnections();
   }
 
   private setLayout(configuration: Configurations) {
@@ -37,6 +38,22 @@ export class ConnectionList implements OnInit {
 
   public onClickItem(item: any) {
     this.router.navigate(['connections/view'], { queryParams: { id: item.id } });
+  }
+
+  private getAllConnections() {
+    this.fireService.getAllConnections().subscribe(res => {
+      if (!res) {
+        return;
+      }
+      this.connectionsList = res.map((item: any) => {
+        const dateOfBirth = item?.dateOfBirth?.seconds ? moment(item.dateOfBirth.seconds * 1000) : null;
+        return {
+          ...item,
+          age: dateOfBirth ? moment().diff(dateOfBirth, 'years') : 0
+        };
+      });
+      this.cdr.markForCheck();
+    });
   }
 
 }
