@@ -5,6 +5,11 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 
+/* store imports */
+import { provideStore } from '@ngrx/store';
+import { reducers } from './core/store/app.reducer';
+import { metaReducers } from './core/store/meta-reducers';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDwIyU33ABgYDcQCIB82S9KJDsrbE5pAMo",
   authDomain: "notifications-d7fc6.firebaseapp.com",
@@ -23,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    provideStore(reducers, { metaReducers })
   ]
 };

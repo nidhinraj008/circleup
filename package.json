@@ -36,6 +36,7 @@
     "@capacitor/core": "^8.2.0",
     "firebase": "^11.10.0",
     "moment": "^2.30.1",
+    "ngrx-store-localstorage": "^20.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

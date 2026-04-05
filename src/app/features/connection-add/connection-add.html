@@ -68,7 +68,7 @@
         <div class="basic-control-container form-floating">
             <select formControlName="father" class="form-select"
                 [class.is-invalid]="detailsFormControlls['father'].touched && detailsFormControlls['father'].invalid">
-                @for(item of connectionsList; track item.id) {
+                @for(item of maleConnections(); track item.id) {
                 <option [value]="item.value">
                     {{ item.name }}
                 </option>
@@ -80,7 +80,7 @@
         <div class="basic-control-container form-floating">
             <select formControlName="mother" class="form-select"
                 [class.is-invalid]="detailsFormControlls['mother'].touched && detailsFormControlls['mother'].invalid">
-                @for(item of connectionsList; track item.id) {
+                @for(item of femaleConnections(); track item.id) {
                 <option [value]="item.value">
                     {{ item.name }}
                 </option>
