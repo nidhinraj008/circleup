@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, effect, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CommonData } from '../../core/services/common-data';
 import { menuItems } from '../../core/data/menu-items';
 import { filter } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-horizontal-layout',
@@ -15,45 +16,33 @@ import { filter } from 'rxjs';
 })
 export class HorizontalLayout implements OnInit {
 
-  isShowAdd: boolean = false;
-  isShowMenuBar: boolean = false;
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   menuItems = menuItems;
 
-  configurations: any;
-
+  private routerEvents = toSignal(this.router.events.pipe(filter(e => e instanceof NavigationEnd)), { initialValue: null });
+  private routeConfig = computed(() => {
+    this.routerEvents();
+    let route = this.activatedRoute;
+    while (route.firstChild) route = route.firstChild;
+    return route.snapshot.data?.['config'];
+  });
 
   constructor(
-    private readonly commonData: CommonData,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    public readonly commonData: CommonData,
   ) {
-
-  }
-
-  ngOnInit(): void {
-    this.subscribeRouter();
-    this.configurations = this.commonData.configurations;
-  }
-
-
-  public onClickAdd() {
-    this.commonData.onAddClick();
-  }
-
-  private subscribeRouter() {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
-      const data = this.getDeepestRoute(this.activatedRoute).snapshot.data;
-      if (data && data['config']) {
-        this.commonData.configurations.set(data['config']);
-      }
+    effect(() => {
+      const config = this.routeConfig();
+      if (config) this.commonData.configurations.set(config);
     });
   }
 
-  private getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
-    return route;
+  ngOnInit(): void {
+    
+  }
+
+  public onClickAdd() {
+    this.commonData.onAddClick();
   }
 }

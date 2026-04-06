@@ -1,5 +1,5 @@
 <div class="app-shell">
-    <header class="app-header d-flex align-items-center px-3">
+    <header class="app-header d-flex align-items-center px-3 bg-white border-bottom">
         <a routerLink="/" class="text-decoration-none text-dark">
             <h6 class="mb-0">Circle up</h6>
         </a>
@@ -9,10 +9,10 @@
         <router-outlet></router-outlet>
     </main>
 
-    @if (configurations()?.isShowMenuBar) {
+    @if (commonData.configurations().isShowMenuBar) {
         <div class="bottom-nav-container pt-3">
             <div class="bottom-nav-body w-100 h-100" style="position: relative;">
-                @if (configurations()?.isShowAdd) {
+                @if (commonData.configurations().isShowAdd) {
                     <div (click)="onClickAdd()" class="add-icon-container rounded-pill d-flex justify-content-center align-items-center bg-white">
                         <i class="bi bi-plus"></i>
                     </div>

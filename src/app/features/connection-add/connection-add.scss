@@ -6,19 +6,6 @@ button {
     font-weight: 500;
 }
 
-.add-button {
-    color: var(--primary-color);
-    background-color: #fff;
-    border: none;
-    box-shadow: 0px 0px 1px 0px var(--primary-color);
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
 .basic-control-container {
     padding: 4px 0px;
     
@@ -27,4 +14,20 @@ button {
         color: var(--secondary-font-color);
         font-weight: 600;
     }
+}
+
+.bottom-container {
+    box-shadow: 0px 0px 10px 4px #cfcece;
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.preview-image {
+    width: 320px;
+    height: 240px;
+    object-fit: contain;
 }

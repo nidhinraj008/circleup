@@ -1,15 +1,6 @@
-.app-shell {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
 /* Header */
 .app-header {
-    height: 50px;
-    background: #ffffff;
-    border-bottom: 1px solid #ddd;
+    min-height: 50px;
     flex-shrink: 0;
 }
 

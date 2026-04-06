@@ -1,19 +1,32 @@
-<div class="p-3">
-    <h5 class="text-center fw-semibold">Add Connection</h5>
-    <button (click)="login()">Login</button>
+<div class="p-3" style="position: relative; padding-bottom: 105px !important;">
+    <!-- <button (click)="login()">Login</button> -->
     <form [formGroup]="detailsForm" (ngSubmit)="onClickSubmit()">
 
-        <div class="text-center py-2">
-            <div class="position-relative d-inline-block">
-                <img [src]="imagePreview() || 'images/no-image.png'" class="rounded-circle border" width="120"
-                    height="120" style="object-fit: cover;">
-                <input type="file" (change)="onFileChange($event)" hidden #fileInput>
-                <button (click)="fileInput.click()" type="button"
-                    class="add-button rounded-circle position-absolute bottom-0 end-0">
-                    +
-                </button>
+        <div class="text-center pb-2">
+            <div (click)="!detailsForm.get('isImageLink')?.value && fileInput.click()" class="position-relative d-inline-block">
+                <img [src]="imagePreview() ?? 'images/no-image.png'" class="profile-image rounded-circle border" 
+                    (error)="$event.target.src='images/unsupported.png'">
+                <input id="fileUploader" type="file" (change)="onFileChange($event)" hidden #fileInput readonly="{{detailsForm.get('isImageLink')?.value}}">
             </div>
-            <div class="form-text">Upload photo</div>
+            <div class="row g-0 justify-content-between">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    @if(detailsForm.get('isImageLink')?.value) {
+                        <label class="form-text m-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> 
+                            Provide link
+                        </label> 
+                    } @else {
+                        <label for="fileUploader" class="form-text m-0">Upload photo</label>
+                    }
+                </div>
+
+                <div class="col-4 d-flex justify-content-end align-items-center gap-2">
+                    <label class="form-check-label form-text p-0 m-0" for="isImageLink">Link</label>
+                    <div class="form-check form-switch m-0 d-flex align-items-center p-0" style="width: fit-content; height: fit-content;">
+                        <input formControlName="isImageLink" class="form-check-input m-0" type="checkbox" id="isImageLink">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="basic-control-container form-floating">
@@ -97,11 +110,45 @@
             <label class="primary-label">Notes</label>
         </div>
 
-        <div class="pt-2 pb-5">
+        <div class="shadow-lg bg-white position-fixed bottom-0 start-0 end-0 p-3">
             <button type="submit" class="primary-button w-100 py-2">
                 Save
             </button>
         </div>
-
     </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Image link</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if(isImageLinkValid()) {
+                    <div class="d-flex w-100 justify-content-center pb-2">
+                        <div class="position-relative d-inline-block">
+                            <img [src]="imageLink() ?? 'images/no-image.png'" class="preview-image border" 
+                                (error)="$event.target.src='images/unsupported.png'">
+                        </div>
+                    </div>
+                }
+                
+                <div class="basic-control-container form-floating">
+                    <input [ngModel]="imageLink()" (ngModelChange)="imageLink.set($event)" type="text" class="form-control" placeholder="Image link"
+                        [class.is-invalid]="!isImageLinkValid()">
+                    <label class="primary-label">
+                        Image link
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between flex-nowrap">
+                <button (click)="onClickLoadImage()" class="w-50 primary-button-outlined" type="button">Load</button>
+                <button (click)="onClickSaveLink()" class="w-50 primary-button" type="button">Save</button>
+            </div>
+        </div>
+    </div>
 </div>

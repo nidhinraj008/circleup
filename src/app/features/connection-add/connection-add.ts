@@ -1,5 +1,5 @@
 import { Component, inject, Signal, signal } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { enumToArray } from '../../core/functions/common-functions';
 import { GenderEnum } from '../../core/enum/gender.enum';
 import { DatePipe } from '@angular/common';
@@ -17,10 +17,12 @@ import { setFileUploadFolderId } from '../../core/features/auth/auth.actions';
 import { Google_Drive_API_Url } from '../../app.config';
 import { ActivatedRoute } from '@angular/router';
 import { CRUDEnum } from '../../core/enum/crud.enum';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-connection-add',
   imports: [ 
+    FormsModule,
     ReactiveFormsModule, 
     DatePipe,
   ],
@@ -30,14 +32,17 @@ import { CRUDEnum } from '../../core/enum/crud.enum';
 export class ConnectionAdd {
 
   googleDriveAPIUrl = inject(Google_Drive_API_Url);
-  fileToUpload!: File;
-  imagePreview = signal<string>('');
+  fileToUpload: File | null = null;
   detailsForm!: FormGroup;
   maleConnections: Signal<any[]> = signal([]);
   femaleConnections: Signal<any[]> = signal([]);
   genderOptions = enumToArray(GenderEnum);
   currentDate = new Date();
   currentMode!: CRUDEnum;
+  
+  imagePreview = signal<string | null>(null);
+  imageLink = signal<string | null>(null);
+  isImageLinkValid = signal<boolean>(false);
 
   constructor(
     private fb: FormBuilder, 
@@ -82,6 +87,7 @@ export class ConnectionAdd {
       deathDate: [undefined],
       deathCause: [''],
       primaryImageUrl: [''],
+      isImageLink: [false]
     });
 
     this.detailsForm.get('dateOfBirth')?.valueChanges.subscribe(value => {
@@ -114,6 +120,47 @@ export class ConnectionAdd {
     return this.detailsForm.controls;
   }
 
+  // image
+  async onClickLoadImage() {
+    if (!this.imageLink()) 
+      return;
+
+    const valid = await this.validateImageUrl(this.imageLink());
+
+    if (valid) {
+      this.isImageLinkValid.set(true);
+    } else {
+      this.isImageLinkValid.set(false);
+    }
+  }
+
+  private validateImageUrl(url: any): Promise<boolean> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  }
+
+  public onClickSaveLink() {
+    if (!this.isImageLinkValid()) {
+      return;
+    }
+
+    this.imagePreview.set(this.imageLink());
+    this.detailsForm.get('primaryImageUrl')?.setValue(this.imageLink());
+    
+    this.fileToUpload = null;
+    this.imageLink.set(null);
+    this.isImageLinkValid.set(false);
+
+    const modalElement = document.getElementById('staticBackdrop');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
+    
+  }
+
   private setFolderId(folderId: string) {
     this.store.dispatch(setFileUploadFolderId({ folderId }));
   }
@@ -131,7 +178,7 @@ export class ConnectionAdd {
   /* API calls */
   private initImageUpload() {
     let folderId = this.store.selectSignal(selectFileUploadFolderId)();
-    if (folderId) {
+    if (folderId && this.fileToUpload) {
       this.uploadFile(this.fileToUpload, folderId);
       return;
     }
@@ -139,7 +186,7 @@ export class ConnectionAdd {
     this.googleDriveService.searchFolder().subscribe({
       next: (res :any) => {
         folderId = res.files?.[0]?.id;
-        if (folderId) {
+        if (folderId && this.fileToUpload) {
           this.uploadFile(this.fileToUpload, folderId);
           this.setFolderId(folderId);
         } else {
@@ -153,7 +200,7 @@ export class ConnectionAdd {
   private createFolderAndUploadFile() {
     this.googleDriveService.createFolder().subscribe({
       next: (res :any) => {
-        if(res?.id) {
+        if(res?.id && this.fileToUpload) {
           this.setFolderId(res.id);
           this.uploadFile(this.fileToUpload, res.id);
         }
@@ -211,6 +258,8 @@ export class ConnectionAdd {
     localStorage.setItem("connectionIdCounter", connectionId.toString());
 
     this.initDetailsForm();
+    this.fileToUpload = null;
+    this.imagePreview.set(null);
   }
 
 }

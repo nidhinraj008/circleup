@@ -1,9 +1,20 @@
 :root {
     --primary-color: #60209a;
+    --primary-color-rgb: 96, 32, 154;
     --secondary-color: #6c757d;
     --primary-font-color: #333;
     --secondary-font-color: #53575c;
     --font-color-3: #ffffff;
+    --safe-top: env(safe-area-inset-top);
+    --safe-bottom: env(safe-area-inset-bottom);
+}
+
+.app-shell {
+    min-height: 100vh;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+    display: flex;
+    flex-direction: column;
 }
 
 .form-control {
@@ -19,3 +30,21 @@
     background-color: var(--primary-color);
     border: none;
 }
+
+.primary-button-outlined {
+    height: 50px;
+    border-radius: 6px;
+    background-color: var(--font-color-3);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+}   

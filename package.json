@@ -34,6 +34,7 @@
     "@capacitor/android": "^8.2.0",
     "@capacitor/cli": "^8.2.0",
     "@capacitor/core": "^8.2.0",
+    "@ngrx/store": "^20.1.0",
     "firebase": "^11.10.0",
     "moment": "^2.30.1",
     "ngrx-store-localstorage": "^20.1.0",
