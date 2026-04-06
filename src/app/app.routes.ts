@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HorizontalLayout } from './layouts/horizontal-layout/horizontal-layout';
 import { pageWiseConfiguration } from './core/data/pagewise-configuration';
+import { CRUDEnum } from './core/enum/crud.enum';
 export const routes: Routes = [
     {
         path: '',
@@ -20,19 +21,19 @@ export const routes: Routes = [
             },
             {
                 path: 'connections/add',
-                data: { config: pageWiseConfiguration.connectionsAdd },
+                data: { config: pageWiseConfiguration.connectionsAdd, mode: CRUDEnum.Create },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/edit',
-                data: { config: pageWiseConfiguration.connectionsEdit },
+                data: { config: pageWiseConfiguration.connectionsEdit, mode: CRUDEnum.Update },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/view',
-                data: { config: pageWiseConfiguration.connectionsView },
+                data: { config: pageWiseConfiguration.connectionsView, mode: CRUDEnum.Read },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },

@@ -6,7 +6,7 @@ export interface Connection {
     father: string;
     mother: string;
     notes: string;
-    primaryImage: string;
+    primaryImageUrl: string;
     home: string;
     status: number;
     deathDate?: Date;
