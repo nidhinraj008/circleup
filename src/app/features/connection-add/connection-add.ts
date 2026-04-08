@@ -17,7 +17,8 @@ import { Google_Drive_API_Url } from '../../app.config';
 import { ActivatedRoute } from '@angular/router';
 import { CRUDEnum } from '../../core/enum/crud.enum';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { take } from 'rxjs';
+import { merge, take } from 'rxjs';
+import { calculateFullAge } from '../../core/functions/common-functions';
 
 declare var bootstrap: any;
 
@@ -105,34 +106,18 @@ export class ConnectionAdd {
       isImageLink: [value?.isImageLink ?? false]
     });
 
-    this.detailsForm.get('dateOfBirth')?.valueChanges.subscribe(value => {
-      this.detailsForm.patchValue(this.calculateAge(value), { emitEvent: false });
+    merge(
+      this.detailsForm.get('dateOfBirth')!.valueChanges,
+      this.detailsForm.get('status')!.valueChanges,
+      this.detailsForm.get('deathDate')!.valueChanges
+    ).subscribe(value => {
+      let fullAge = calculateFullAge(this.detailsForm.value.status, this.detailsForm.value.dateOfBirth, this.detailsForm.value.deathDate)
+      this.detailsForm.patchValue(fullAge, { emitEvent: false });
     });
   }
 
   get detailsFormControlls() { 
     return this.detailsForm.controls;
-  }
-
-  private calculateAge(value: any) {
-    if (!value) {
-      return { ageYears: '', ageMonths: '', ageDays: '' };
-    }
-
-    const birthDate = new Date(value);
-    const start = moment(birthDate);
-    const end = moment(this.currentDate);
-    const years = end.diff(start, 'years');
-    start.add(years, 'years');
-    const months = end.diff(start, 'months');
-    start.add(months, 'months');
-    const days = end.diff(start, 'days');
-
-    return {
-      ageYears: years + ` year${years > 1 ? 's' : ''}`,
-      ageMonths: months + ` month${months > 1 ? 's' : ''}`,
-      ageDays: days + ` day${days > 1 ? 's' : ''}`
-    };
   }
 
   // image section
@@ -287,9 +272,11 @@ export class ConnectionAdd {
     this.store.select(selectConnectionsById(id)).subscribe({
       next: (res: any) => {
         if (this.currentMode == CRUDEnum.Create) {
-          res.id = 0;
+          res = { ...res, id: 0 }
         }
         this.initDetailsForm(res);
+        let fullAge = calculateFullAge(res.status, res.dateOfBirth, res.deathDate)
+        this.detailsForm.patchValue(fullAge, { emitEvent: false });
       }
     })
   }

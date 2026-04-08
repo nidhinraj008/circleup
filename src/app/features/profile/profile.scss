@@ -1,0 +1,17 @@
+.profile-image {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+}
+
+.list-item {
+    .item-icon {
+        font-weight: 600; 
+        font-size: 20; 
+        color: #555;
+    }
+}
+
+.list-item:active {
+    background-color: #d0cfcf;
+}

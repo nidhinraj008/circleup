@@ -4,6 +4,7 @@ import { CommonData } from '../../core/services/common-data';
 import { menuItems } from '../../core/data/menu-items';
 import { filter } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-horizontal-layout',
@@ -31,6 +32,7 @@ export class HorizontalLayout implements OnInit {
 
   constructor(
     public readonly commonData: CommonData,
+    private location: Location
   ) {
     effect(() => {
       const config = this.routeConfig();
@@ -40,6 +42,10 @@ export class HorizontalLayout implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  public backClick() {
+    this.location.back();
   }
 
   public onClickAdd() {
