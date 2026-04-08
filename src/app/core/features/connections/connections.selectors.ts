@@ -34,3 +34,9 @@ export const selectConnectionsByGender = (gender: GenderEnum) => createSelector(
     (ids, entities) => ids.map(id => entities[id])
     .filter(connection => connection.gender === gender)
 );
+
+/* get largest id */
+export const selectLargestId = createSelector(
+    selectConnectionsIds,
+    (ids) => ids.length ? Math.max(...ids.map(Number)) : 0
+);

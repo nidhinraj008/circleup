@@ -9,6 +9,11 @@ export const connectionsReducer = createReducer(initialConnectionsState,
     entities: { ...state.entities, [connection.id]: connection }
   })),
 
+  on(ConnectionsActions.updateConnection, (state, { connection}) => ({
+    ...state,
+    entities: { ...state.entities, [connection.id]: connection }
+  })),
+
   on(ConnectionsActions.removeConnection, (state, { connectionId }) => {
     const modifiedEntities = { ...state.entities };
     delete modifiedEntities[connectionId]; 

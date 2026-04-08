@@ -1,8 +1,10 @@
 <div class="d-flex flex-column">
     @for (item of (connections$ | async); track item.id) {
-    <div (click)="onClickItem(item)" class="list-container py-2 px-3" style="cursor: pointer;">
+
+    <div (click)="onClickItem(item)" longPress (longPress)="onItemLongPress(item)"
+        class="list-container disable-selection py-2 px-3" style="cursor: pointer;">
         <div class="d-flex align-items-center">
-            <img [src]="item.primaryImageUrl || 'images/no-image.png'" class="rounded-circle me-2" width="50" height="50" style="object-fit: cover;">
+            <img [src]="item.primaryImageUrl || 'images/no-image.png'" class="profile-image rounded-circle me-2">
             <div class="flex-grow-1">
                 <div class="fw-semibold">{{ item.name }}</div>
                 <div class="text-muted small">Age: {{ item.age }}</div>
@@ -12,5 +14,63 @@
             </div>
         </div>
     </div>
+    } @empty {
+        <div class="no-items">
+            No items found!
+        </div>
     }
+
+</div>
+
+
+<!-- image linking Modal -->
+<div class="modal fade bottom" id="actionsModal" tabindex="-1" aria-labelledby="actionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog disable-selection d-flex align-items-baseline">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="actionsModalLabel">Actions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="list-actions-container d-flex flex-column w-100">
+                    <div (click)="onClickEdit()" class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
+                        <i class="bi bi-pencil-square"></i>
+                        <span>Edit</span>
+                    </div>
+
+                    <div (click)="showOrHideActionsModal(false)" data-bs-toggle="modal"
+                        data-bs-target="#deleteConfirmationModal"
+                        class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
+                        <i class="bi bi-trash"></i>
+                        <span>Delete</span>
+                    </div>
+
+                    <div (click)="onClickClone()" class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
+                        <i class="bi bi-copy"></i>
+                        <span>Clone</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- dete confirmation -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Confirm Deletion
+            </div>
+            <div class="modal-footer justify-content-between flex-nowrap">
+                <button data-bs-dismiss="modal" class="w-50 primary-button-outlined" type="button">Cancel</button>
+                <button (click)="onClickDelete()" class="w-50 primary-button" type="button">Delete</button>
+            </div>
+        </div>
+    </div>
 </div>

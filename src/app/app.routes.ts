@@ -20,22 +20,22 @@ export const routes: Routes = [
                 .then(c => c.ConnectionList)
             },
             {
-                path: 'connections/add',
+                path: 'connections/add/:id',
                 data: { config: pageWiseConfiguration.connectionsAdd, mode: CRUDEnum.Create },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
-                path: 'connections/edit',
+                path: 'connections/edit/:id',
                 data: { config: pageWiseConfiguration.connectionsEdit, mode: CRUDEnum.Update },
                 loadComponent: () => import('./features/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
-                path: 'connections/view',
+                path: 'connections/view/:id',
                 data: { config: pageWiseConfiguration.connectionsView, mode: CRUDEnum.Read },
-                loadComponent: () => import('./features/connection-add/connection-add')
-                .then(c => c.ConnectionAdd)
+                loadComponent: () => import('./features/connection-view/connection-view')
+                .then(c => c.ConnectionView)
             },
             {
                 path: 'familyTree',

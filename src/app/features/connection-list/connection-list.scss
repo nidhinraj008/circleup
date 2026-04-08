@@ -1,3 +1,35 @@
-// .list-container {
-//     box-shadow: 0px 0px 1px 0px var(--primary-color);
-// }
+.list-container {
+    // box-shadow: 0px 0px 1px 0px var(--primary-color);
+
+    .profile-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;  
+    }
+}
+
+
+.modal.bottom .modal-dialog {
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.modal.bottom .modal-content {
+    border-radius: 12px 12px 0 0;
+}
+
+.list-actions-container {
+    .list-action-item {
+        i {
+            font-weight: 700;
+            font-size: 20px;
+            color: #5e5e5e
+        }
+    }
+
+    .list-action-item:active {
+        background-color: #eee;
+    }
+}

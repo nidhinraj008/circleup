@@ -18,7 +18,7 @@ export class CommonData {
   public onAddClick() {
     const url = this.router.url;
     if(url.includes('connections')) {
-      this.router.navigate(['connections/add']);
+      this.router.navigate(['connections/add', 0]);
     }
 
   }

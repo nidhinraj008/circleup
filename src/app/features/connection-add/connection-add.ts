@@ -5,10 +5,9 @@ import { GenderEnum } from '../../core/enum/gender.enum';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { FireService } from '../../core/services/fire-service';
-
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
-import { addConnection, selectConnectionsByGender } from '../../core/features/connections';
+import { addConnection, updateConnection, selectConnectionsByGender, selectConnectionsById, selectLargestId } from '../../core/features/connections';
 import { Connection } from '../../core/types/connections';
 import { StatusEnum } from '../../core/enum/status.enum';
 import { GoogleDriveService } from '../../core/services/google-drive.service';
@@ -17,6 +16,9 @@ import { setFileUploadFolderId } from '../../core/features/auth/auth.actions';
 import { Google_Drive_API_Url } from '../../app.config';
 import { ActivatedRoute } from '@angular/router';
 import { CRUDEnum } from '../../core/enum/crud.enum';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { take } from 'rxjs';
+
 declare var bootstrap: any;
 
 @Component({
@@ -25,6 +27,7 @@ declare var bootstrap: any;
     FormsModule,
     ReactiveFormsModule, 
     DatePipe,
+    NgSelectModule
   ],
   templateUrl: './connection-add.html',
   styleUrl: './connection-add.scss',
@@ -32,15 +35,16 @@ declare var bootstrap: any;
 export class ConnectionAdd {
 
   googleDriveAPIUrl = inject(Google_Drive_API_Url);
+  statusEnum = StatusEnum;
   fileToUpload: File | null = null;
   detailsForm!: FormGroup;
   maleConnections: Signal<any[]> = signal([]);
   femaleConnections: Signal<any[]> = signal([]);
   genderOptions = enumToArray(GenderEnum);
+  statusOptions = enumToArray(StatusEnum);
   currentDate = new Date();
   currentMode!: CRUDEnum;
-  
-  imagePreview = signal<string | null>(null);
+  imageLinkModalInstance: any;
   imageLink = signal<string | null>(null);
   isImageLinkValid = signal<boolean>(false);
 
@@ -55,15 +59,24 @@ export class ConnectionAdd {
   }
 
   ngOnInit(): void {
-    this.getRouterData();
     this.initDetailsForm();
+    this.getRouterData();
     this.getConnectionsByGender();
     this.googleDriveService.initClient();
+  }
+
+  
+  ngAfterViewInit() {
+    this.imageLinkModalInstance = new bootstrap.Modal(document.getElementById('imageLinkModal'));
   }
 
   private getRouterData() {
     this.activatedRoute.data.subscribe(data => {
       this.currentMode = data['mode'];
+      const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+      if (id > 0) {
+        this.getEditData(id);
+      }
     })
   }
 
@@ -71,28 +84,34 @@ export class ConnectionAdd {
     this.googleDriveService.login();
   }
 
-  private initDetailsForm() {
+  // form section
+  private initDetailsForm(value?: any) {
     this.detailsForm = this.fb.group({
-      name: ['', Validators.required],
-      gender: [undefined, Validators.required],
-      dateOfBirth: [''],
-      ageYears: [''],
-      ageMonths: [''],
-      ageDays: [''],
-      father: [],
-      mother: [],
-      notes: [''],
-      home: [''],
-      status: [StatusEnum.Alive, [Validators.required]],
-      deathDate: [undefined],
-      deathCause: [''],
-      primaryImageUrl: [''],
-      isImageLink: [false]
+      id: [value?.id ?? 0],
+      name: [value?.name ?? '', Validators.required],
+      gender: [value?.gender ?? undefined, Validators.required],
+      dateOfBirth: [value?.dateOfBirth ?? ''],
+      ageYears: [value?.ageYears ?? ''],
+      ageMonths: [value?.ageMonths ?? ''],
+      ageDays: [value?.ageDays ?? ''],
+      father: [value?.father ?? null],
+      mother: [value?.mother ?? null],
+      notes: [value?.notes ?? ''],
+      home: [value?.home ?? ''],
+      status: [value?.status ?? StatusEnum.Alive, [Validators.required]],
+      deathDate: [value?.deathDate ?? undefined],
+      deathCause: [value?.deathCause ?? ''],
+      primaryImageUrl: [value?.primaryImageUrl ?? null],
+      isImageLink: [value?.isImageLink ?? false]
     });
 
     this.detailsForm.get('dateOfBirth')?.valueChanges.subscribe(value => {
       this.detailsForm.patchValue(this.calculateAge(value), { emitEvent: false });
     });
+  }
+
+  get detailsFormControlls() { 
+    return this.detailsForm.controls;
   }
 
   private calculateAge(value: any) {
@@ -116,11 +135,15 @@ export class ConnectionAdd {
     };
   }
 
-  get detailsFormControlls() { 
-    return this.detailsForm.controls;
+  // image section
+  public openOrShowLinkModal(visibility: boolean) {
+    if (visibility) {
+      this.imageLinkModalInstance.show();
+    } else {
+      this.imageLinkModalInstance.hide();
+    }
   }
 
-  // image
   async onClickLoadImage() {
     if (!this.imageLink()) 
       return;
@@ -148,17 +171,11 @@ export class ConnectionAdd {
       return;
     }
 
-    this.imagePreview.set(this.imageLink());
     this.detailsForm.get('primaryImageUrl')?.setValue(this.imageLink());
-    
     this.fileToUpload = null;
     this.imageLink.set(null);
     this.isImageLinkValid.set(false);
-
-    const modalElement = document.getElementById('staticBackdrop');
-    const modal = bootstrap.Modal.getInstance(modalElement);
-    modal.hide();
-    
+    this.openOrShowLinkModal(false);
   }
 
   private setFolderId(folderId: string) {
@@ -172,7 +189,7 @@ export class ConnectionAdd {
 
     this.fileToUpload = file;
     const previewUrl = URL.createObjectURL(file);
-    this.imagePreview.set(previewUrl);
+    this.detailsForm.get('primaryImageUrl')?.setValue(previewUrl);
   }
 
   /* API calls */
@@ -213,7 +230,7 @@ export class ConnectionAdd {
     this.googleDriveService.uploadAsPublicFile(file, folderId).subscribe({
       next: (res: any) => {
         this.detailsForm.patchValue({ primaryImageUrl: res });
-        this.addConnection();
+        this.addOrUpdateConnection();
       },
       error: (err: any) => console.error(err)
     });
@@ -234,13 +251,12 @@ export class ConnectionAdd {
       return;
     } 
     
-    this.addConnection();
+    this.addOrUpdateConnection();
   }
 
-  private addConnection() {
-    const connectionId = localStorage.getItem("connectionIdCounter") ? Number(localStorage.getItem("connectionIdCounter")) + 1 : 1;
+  private addOrUpdateConnection() {
     const params: Connection = {
-      id: connectionId || 1,
+      id: this.detailsForm.value.id,
       name: this.detailsForm.value.name,
       gender: Number(this.detailsForm.value.gender),
       dateOfBirth: this.detailsForm.value.dateOfBirth,
@@ -248,18 +264,33 @@ export class ConnectionAdd {
       mother: this.detailsForm.value.mother,
       notes: this.detailsForm.value.notes,
       primaryImageUrl: this.detailsForm.value.primaryImageUrl,
-      home: '',
-      status: 1,
-      deathDate: undefined,
-      deathCause: ''
+      home: this.detailsForm.value.home,
+      status: this.detailsForm.value.status,
+      deathDate: this.detailsForm.value.deathDate,
+      deathCause: this.detailsForm.value.deathCause
     }
 
-    this.store.dispatch(addConnection({ connection: params }));
-    localStorage.setItem("connectionIdCounter", connectionId.toString());
+    if (this.currentMode == CRUDEnum.Create) {
+      this.store.select(selectLargestId).pipe(take(1)).subscribe(id => {
+        params.id = id + 1;
+        this.store.dispatch(addConnection({ connection: params }));
+      });
+    } else {
+      this.store.dispatch(updateConnection({ connection: params }));
+    }
 
     this.initDetailsForm();
     this.fileToUpload = null;
-    this.imagePreview.set(null);
   }
 
+  private getEditData(id: number) {
+    this.store.select(selectConnectionsById(id)).subscribe({
+      next: (res: any) => {
+        if (this.currentMode == CRUDEnum.Create) {
+          res.id = 0;
+        }
+        this.initDetailsForm(res);
+      }
+    })
+  }
 }

@@ -3,8 +3,8 @@
     <form [formGroup]="detailsForm" (ngSubmit)="onClickSubmit()">
 
         <div class="text-center pb-2">
-            <div (click)="!detailsForm.get('isImageLink')?.value && fileInput.click()" class="position-relative d-inline-block">
-                <img [src]="imagePreview() ?? 'images/no-image.png'" class="profile-image rounded-circle border" 
+            <div (click)="detailsForm.get('isImageLink')?.value ? openOrShowLinkModal(true) : fileInput.click()" class="position-relative d-inline-block">
+                <img [src]="detailsForm.get('primaryImageUrl')?.value ?? 'images/no-image.png'" class="profile-image rounded-circle border" 
                     (error)="$event.target.src='images/unsupported.png'">
                 <input id="fileUploader" type="file" (change)="onFileChange($event)" hidden #fileInput readonly="{{detailsForm.get('isImageLink')?.value}}">
             </div>
@@ -12,7 +12,7 @@
                 <div class="col-4"></div>
                 <div class="col-4">
                     @if(detailsForm.get('isImageLink')?.value) {
-                        <label class="form-text m-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> 
+                        <label class="form-text m-0" data-bs-toggle="modal" data-bs-target="#imageLinkModal"> 
                             Provide link
                         </label> 
                     } @else {
@@ -34,6 +34,15 @@
                 [class.is-invalid]="detailsFormControlls['name'].touched && detailsFormControlls['name'].invalid">
             <label class="primary-label">
                 Name
+            </label>
+        </div>
+
+        <div class="basic-control-container form-floating">
+            <ng-select class="form-select form-ng-select" formControlName="gender" [items]="genderOptions" bindLabel="label" bindValue="value"
+                [class.is-invalid]="detailsFormControlls['gender'].touched && detailsFormControlls['gender'].invalid">
+            </ng-select>
+            <label class="primary-label" for="gender">
+                Gender
             </label>
         </div>
 
@@ -66,43 +75,59 @@
         </div>
 
         <div class="basic-control-container form-floating">
-            <select formControlName="gender" class="form-select" id="gender"
-                [class.is-invalid]="detailsFormControlls['gender'].touched && detailsFormControlls['gender'].invalid">
-                @for(item of genderOptions; track item.value) {
-                <option [value]="item.value">
-                    {{ item.label }}
-                </option>
-                }
-            </select>
-            <label class="primary-label" for="gender">
-                Gender
+            <input formControlName="home" type="text" class="form-control" placeholder="Home">
+            <label class="primary-label">
+                Home
             </label>
         </div>
 
         <div class="basic-control-container form-floating">
-            <select formControlName="father" class="form-select"
-                [class.is-invalid]="detailsFormControlls['father'].touched && detailsFormControlls['father'].invalid">
-                @for(item of maleConnections(); track item.id) {
-                <option [value]="item.value">
-                    {{ item.name }}
-                </option>
+            <ng-select class="form-select form-ng-select" formControlName="father" 
+                bindLabel="label" bindValue="value">
+                @for (item of maleConnections(); track item.id) {
+                    <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
-            </select>
-            <label class="primary-label">Father</label>
+            </ng-select>
+            <label class="primary-label" for="father">
+                Father
+            </label>
         </div>
 
         <div class="basic-control-container form-floating">
-            <select formControlName="mother" class="form-select"
-                [class.is-invalid]="detailsFormControlls['mother'].touched && detailsFormControlls['mother'].invalid">
-                @for(item of femaleConnections(); track item.id) {
-                <option [value]="item.value">
-                    {{ item.name }}
-                </option>
+            <ng-select class="form-select form-ng-select" formControlName="mother" 
+                bindLabel="label" bindValue="value">
+                @for (item of femaleConnections(); track item.id) {
+                    <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
-            </select>
-            <label class="primary-label">Mother</label>
+            </ng-select>
+            <label class="primary-label" for="mother">
+                Father
+            </label>
         </div>
 
+        <div class="basic-control-container form-floating">
+            <ng-select formControlName="status" [items]="statusOptions" bindLabel="label" bindValue="value"
+                [clearable]="false" [clearOnBackspace]="false"
+                class="form-select form-ng-select">
+            </ng-select>
+            <label class="primary-label" for="status">
+                Status
+            </label>
+        </div>
+
+        @if(detailsForm.get("status")?.value == statusEnum.Deceased) {
+            <div class="basic-control-container form-floating">
+                <input formControlName="deathDate" type="date" class="form-control">
+                <label class="primary-label">Date of Death</label>
+            </div>
+
+            <div class="basic-control-container form-floating">
+                <input formControlName="deathCause" type="text" class="form-control" placeholder="Death Cause">
+                <label class="primary-label">
+                    Death Cause
+                </label>
+            </div>
+        }
 
         <div class="basic-control-container form-floating">
             <textarea formControlName="notes" class="form-control" placeholder="Anything about the person.."
@@ -118,13 +143,12 @@
     </form>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- image linking Modal -->
+<div class="modal fade" id="imageLinkModal" tabindex="-1" aria-labelledby="imageLinkModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Image link</h5>
+                <h5 class="modal-title" id="imageLinkModalLabel">Image link</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
