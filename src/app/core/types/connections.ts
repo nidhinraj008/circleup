@@ -3,8 +3,11 @@ export interface Connection {
     name: string;
     gender: number;
     dateOfBirth: Date;
-    father: string;
-    mother: string;
+    familyId: number;
+    fatherId: number;
+    motherId: number;
+    fatherName?: string;
+    motherName?: string;
     notes: string;
     primaryImageUrl: string;
     home: string;

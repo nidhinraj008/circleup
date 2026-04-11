@@ -1,7 +1,6 @@
 <div class="d-flex flex-column">
     @for (item of (connections$ | async); track item.id) {
-
-    <div (click)="onClickItem(item)" longPress (longPress)="onItemLongPress(item)"
+    <div (click)="onClickItem(item)" longPress (onLongPress)="onItemLongPress(item)"
         class="list-container disable-selection py-2 px-3" style="cursor: pointer;">
         <div class="d-flex align-items-center">
             <img [src]="item.primaryImageUrl || 'images/no-image.png'" class="profile-image rounded-circle me-2">
@@ -15,13 +14,11 @@
         </div>
     </div>
     } @empty {
-        <div class="no-items">
-            No items found!
-        </div>
+    <div class="no-items">
+        No items found!
+    </div>
     }
-
 </div>
-
 
 <!-- image linking Modal -->
 <div class="modal fade bottom" id="actionsModal" tabindex="-1" aria-labelledby="actionsModalLabel" aria-hidden="true">
@@ -37,14 +34,12 @@
                         <i class="bi bi-pencil-square"></i>
                         <span>Edit</span>
                     </div>
-
                     <div (click)="showOrHideActionsModal(false)" data-bs-toggle="modal"
                         data-bs-target="#deleteConfirmationModal"
                         class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
                         <i class="bi bi-trash"></i>
                         <span>Delete</span>
                     </div>
-
                     <div (click)="onClickClone()" class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
                         <i class="bi bi-copy"></i>
                         <span>Clone</span>

@@ -1,0 +1,21 @@
+<div class="p-3">
+    <!-- Quick Access -->
+    <div class="card p-3 mb-3" [routerLink]="['/familyTree', myFamily.id]">
+        <div class="fw-bold">🌳 {{myFamily.name}}</div>
+        <div class="text-muted small">View your main family tree</div>
+    </div>
+
+    <!-- List -->
+    <div class="mb-2 fw-semibold">Your Families</div>
+
+    @for(item of familiesList; track item.id) {
+        <div class="card p-2 mb-2">
+            {{item.name}}
+        </div>
+    }
+
+    <!-- Add -->
+    <div class="card p-2 text-center">
+        + Add Family
+    </div>
+</div>

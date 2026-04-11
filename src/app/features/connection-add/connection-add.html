@@ -82,7 +82,19 @@
         </div>
 
         <div class="basic-control-container form-floating">
-            <ng-select class="form-select form-ng-select" formControlName="father" 
+            <ng-select class="form-select form-ng-select" formControlName="familyId" 
+                bindLabel="label" bindValue="value">
+                @for (item of familiesList(); track item.id) {
+                    <ng-option [value]="item.id">{{item.name}}</ng-option>
+                }
+            </ng-select>
+            <label class="primary-label" for="father">
+                Family
+            </label>
+        </div>
+
+        <div class="basic-control-container form-floating">
+            <ng-select class="form-select form-ng-select" formControlName="fatherId" 
                 bindLabel="label" bindValue="value">
                 @for (item of maleConnections(); track item.id) {
                     <ng-option [value]="item.id">{{item.name}}</ng-option>
@@ -94,14 +106,14 @@
         </div>
 
         <div class="basic-control-container form-floating">
-            <ng-select class="form-select form-ng-select" formControlName="mother" 
+            <ng-select class="form-select form-ng-select" formControlName="motherId" 
                 bindLabel="label" bindValue="value">
                 @for (item of femaleConnections(); track item.id) {
                     <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
             </ng-select>
             <label class="primary-label" for="mother">
-                Father
+                Mother
             </label>
         </div>
 

@@ -2,6 +2,7 @@ import { createSelector } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { calculateAge } from '../../functions/common-functions';
 import { GenderEnum } from '../../enum/gender.enum';
+import { selectFamilyEntities } from '../family';
 
 export const selectConnectionsState = (state: AppState) => state.connections;
 
@@ -11,10 +12,31 @@ export const selectConnectionsIds = createSelector(selectConnectionsState, state
 /* entity selector */
 export const selectConnectionsEntities = createSelector(selectConnectionsState, state => state.entities);
 
+/* get largest id */
+export const selectLargestId = createSelector(
+    selectConnectionsIds,
+    (ids) => ids.length ? Math.max(...ids.map(Number)) : 0
+);
+
 /* get by id*/
 export const selectConnectionsById = (id: number) => createSelector(
     selectConnectionsEntities, 
-    entities => entities[id]
+    selectFamilyEntities,
+    (entities, families) => {
+        const entity = entities[id];
+        if (!entity) return null;
+
+        const family = entity.familyId ? families[entity.familyId] : null;
+        const father = entity.fatherId ? entities[entity.fatherId] : null;
+        const mother = entity.motherId ? entities[entity.motherId] : null;
+
+        return {
+            ...entity,
+            familyName: family?.name ?? null,
+            fatherName: father?.name ?? null,
+            motherName: mother?.name ?? null
+        };
+    }
 );
 
 /* get by all with age*/
@@ -35,8 +57,13 @@ export const selectConnectionsByGender = (gender: GenderEnum) => createSelector(
     .filter(connection => connection.gender === gender)
 );
 
-/* get largest id */
-export const selectLargestId = createSelector(
+/* list data for the tree */
+export const selectAllByFamilyId = (familyId: number) => createSelector(
     selectConnectionsIds,
-    (ids) => ids.length ? Math.max(...ids.map(Number)) : 0
-);
+    selectConnectionsEntities,
+    (ids, entities) => ids.map(id => ({
+        ...entities[id],
+        age: calculateAge(entities[id].status, entities[id].dateOfBirth, entities[id].deathDate)
+    }))
+        .filter(connection => connection.familyId === familyId)
+)

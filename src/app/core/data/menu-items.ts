@@ -10,9 +10,9 @@ export const menuItems = [
         routerLink: ['/connections']
     },
     {
-        label: "Family Tree",
+        label: "Families",
         icon: "bi bi-diagram-2",
-        routerLink: ['/familyTree']
+        routerLink: ['/families']
     },
     {
         label: "Profile",

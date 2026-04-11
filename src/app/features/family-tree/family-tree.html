@@ -1,4 +1,29 @@
-<div class="d-flex flex-column justify-content-end align-items-center p-3" style="height: 40vh;">
-    <H2>Family Tree</H2>
-    <h6>comming soon..</h6>
+<div style="width: 100vw; height: 100vh;">
+    <ngx-graph [links]="connectionLinks" [nodes]="conectionNodes" layout="dagre" [layoutSettings]="layoutSettings"
+        style="width: 100%; height: 100%;">
+        <ng-template #nodeTemplate let-node>
+            @if(node.name != 'junction') {
+                <svg:g>
+                    <svg:rect width="220" height="70" fill="white" stroke="#ccc"></svg:rect>
+                    <svg:clipPath [attr.id]="'clip-' + node.id">
+                        <circle cx="35" cy="35" r="25"></circle>
+                    </svg:clipPath>
+                    <svg:image x="10" y="10" width="50" height="50" [attr.href]="'images/no-image.png'" [attr.clip-path]="'url(#clip-' + node.id + ')'">
+                    </svg:image>
+                    <svg:text x="70" y="30" font-size="14" font-weight="600">
+                        {{node.label}}
+                    </svg:text>
+                    <svg:text x="70" y="50" font-size="12">
+                        Age {{node?.age || "_"}}
+                    </svg:text>
+                </svg:g>
+            } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle"
+                    viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                </svg>
+            }
+        </ng-template>
+    </ngx-graph>
 </div>

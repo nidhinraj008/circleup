@@ -30,10 +30,39 @@
                 <div class="label">
                     Age
                 </div>
+                <div class="d-flex gap-1">
+                    <div>
+                        <span class="value">{{connectionDetails().ageYears}}</span>
+                        <span class="label">Year{{connectionDetails().ageYears > 1 ? 's' : ''}} </span>
+                    </div>
+                    <div>
+                        <span class="value">{{connectionDetails().ageMonths}}</span>
+                        <span class="label">Month{{connectionDetails().ageMonths > 1 ? 's' : ''}} </span>
+                    </div>
+                    <div>
+                        <span class="value">{{connectionDetails().ageDays}}</span>
+                        <span class="label">Day{{connectionDetails().ageDays > 1 ? 's' : ''}} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-2 g-0">
+            <div class="col-6 d-flex flex-column">
+                <div class="label">
+                    Home
+                </div>
                 <div class="value">
-                    {{connectionDetails().ageYears}}<span class="label"> Year {{connectionDetails().ageYears > 1 ? 's' : ''}} </span>
-                    {{connectionDetails().ageMonths}}<span class="label"> Month {{connectionDetails().ageMonths > 1 ? 's' : ''}} </span>
-                    {{connectionDetails().ageDays}}<span class="label"> Day {{connectionDetails().ageDays > 1 ? 's' : ''}} </span>
+                    {{connectionDetails().home}}
+                </div>
+            </div>
+    
+            <div class="col-6 d-flex flex-column">
+                <div class="label">
+                    Family
+                </div>
+                <div class="value">
+                    {{connectionDetails().familyName}}
                 </div>
             </div>
         </div>
@@ -44,7 +73,7 @@
                     Father
                 </div>
                 <div class="value">
-                    {{connectionDetails().father}}
+                    {{connectionDetails().fatherName}}
                 </div>
             </div>
     
@@ -53,7 +82,53 @@
                     Mother
                 </div>
                 <div class="value">
-                    {{connectionDetails().mother}}
+                    {{connectionDetails().motherName}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-2 g-0">
+            <div class="col-6 d-flex flex-column">
+                <div class="label">
+                    Status
+                </div>
+                <div class="value">
+                    {{statusEnum[connectionDetails().status]}}
+                </div>
+            </div>
+    
+
+        </div>
+
+        @if (connectionDetails().status == statusEnum.Deceased) {
+            <div class="row py-2 g-0">
+                <div class="col-6 d-flex flex-column">
+                    <div class="label">
+                        Death date
+                    </div>
+                    <div class="value">
+                        {{connectionDetails().deathDate | date : 'dd MMM yyyy'}}
+                    </div>
+                </div>
+    
+                <div class="col-6 d-flex flex-column">
+                    <div class="label">
+                        Death Cause
+                    </div>
+                    <div class="value">
+                        {{connectionDetails().deathCause}}
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="row py-2 g-0">
+            <div class="col-12 d-flex flex-column">
+                <div class="label">
+                    Notes
+                </div>
+                <div class="value" [innerHTML]="connectionDetails().notes">
+                    <!-- {{connectionDetails().notes}} -->
                 </div>
             </div>
         </div>

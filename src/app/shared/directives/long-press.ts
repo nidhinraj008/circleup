@@ -6,7 +6,7 @@ import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/c
 export class LongPressDirective {
 
   @Input() pressDuration = 500;
-  @Output() longPress = new EventEmitter<void>();
+  @Output() onLongPress = new EventEmitter<void>();
 
   private timer: any;
   private isLongPress = false;
@@ -18,7 +18,7 @@ export class LongPressDirective {
     this.timer = setTimeout(() => {
       this.isLongPress = true;
       navigator.vibrate?.(30);
-      this.longPress.emit();
+      this.onLongPress.emit();
     }, this.pressDuration);
   }
 

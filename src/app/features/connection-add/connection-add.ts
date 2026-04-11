@@ -14,11 +14,12 @@ import { GoogleDriveService } from '../../core/services/google-drive.service';
 import { selectFileUploadFolderId } from '../../core/features/auth';
 import { setFileUploadFolderId } from '../../core/features/auth/auth.actions';
 import { Google_Drive_API_Url } from '../../app.config';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CRUDEnum } from '../../core/enum/crud.enum';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { merge, take } from 'rxjs';
 import { calculateFullAge } from '../../core/functions/common-functions';
+import { selectAllFamilies } from '../../core/features/family';
 
 declare var bootstrap: any;
 
@@ -41,6 +42,7 @@ export class ConnectionAdd {
   detailsForm!: FormGroup;
   maleConnections: Signal<any[]> = signal([]);
   femaleConnections: Signal<any[]> = signal([]);
+  familiesList: Signal<any[]> = signal([]);
   genderOptions = enumToArray(GenderEnum);
   statusOptions = enumToArray(StatusEnum);
   currentDate = new Date();
@@ -50,6 +52,7 @@ export class ConnectionAdd {
   isImageLinkValid = signal<boolean>(false);
 
   constructor(
+    private router: Router,
     private fb: FormBuilder, 
     private fireService: FireService,
     private store: Store<AppState>,
@@ -95,8 +98,9 @@ export class ConnectionAdd {
       ageYears: [value?.ageYears ?? ''],
       ageMonths: [value?.ageMonths ?? ''],
       ageDays: [value?.ageDays ?? ''],
-      father: [value?.father ?? null],
-      mother: [value?.mother ?? null],
+      familyId: [value?.familyId ?? null],
+      fatherId: [value?.fatherId ?? null],
+      motherId: [value?.motherId ?? null],
       notes: [value?.notes ?? ''],
       home: [value?.home ?? ''],
       status: [value?.status ?? StatusEnum.Alive, [Validators.required]],
@@ -222,6 +226,7 @@ export class ConnectionAdd {
   }
 
   private getConnectionsByGender() {
+    this.familiesList = this.store.selectSignal(selectAllFamilies);
     this.maleConnections = this.store.selectSignal(selectConnectionsByGender(GenderEnum.Male));
     this.femaleConnections = this.store.selectSignal(selectConnectionsByGender(GenderEnum.Female));
   }
@@ -245,8 +250,9 @@ export class ConnectionAdd {
       name: this.detailsForm.value.name,
       gender: Number(this.detailsForm.value.gender),
       dateOfBirth: this.detailsForm.value.dateOfBirth,
-      father: this.detailsForm.value.father,
-      mother: this.detailsForm.value.mother,
+      familyId: this.detailsForm.value.familyId,
+      fatherId: this.detailsForm.value.fatherId,
+      motherId: this.detailsForm.value.motherId,
       notes: this.detailsForm.value.notes,
       primaryImageUrl: this.detailsForm.value.primaryImageUrl,
       home: this.detailsForm.value.home,
@@ -260,12 +266,13 @@ export class ConnectionAdd {
         params.id = id + 1;
         this.store.dispatch(addConnection({ connection: params }));
       });
+      this.initDetailsForm();
+      this.fileToUpload = null;
+      
     } else {
       this.store.dispatch(updateConnection({ connection: params }));
+      this.router.navigate(['connections'])
     }
-
-    this.initDetailsForm();
-    this.fileToUpload = null;
   }
 
   private getEditData(id: number) {

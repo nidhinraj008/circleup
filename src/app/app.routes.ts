@@ -38,7 +38,13 @@ export const routes: Routes = [
                 .then(c => c.ConnectionView)
             },
             {
-                path: 'familyTree',
+                path: 'families',
+                data: { config: pageWiseConfiguration.families },
+                loadComponent: () => import('./features/families/families')
+                .then(c => c.Families)
+            },
+            {
+                path: 'familyTree/:id',
                 data: { config: pageWiseConfiguration.familyTree },
                 loadComponent: () => import('./features/family-tree/family-tree')
                 .then(c => c.FamilyTree)
