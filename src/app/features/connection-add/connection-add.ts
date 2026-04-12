@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { enumToArray } from '../../core/functions/common-functions';
 import { GenderEnum } from '../../core/enum/gender.enum';
 import { DatePipe } from '@angular/common';
-import moment from 'moment';
 import { FireService } from '../../core/services/fire-service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
@@ -20,6 +19,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { merge, take } from 'rxjs';
 import { calculateFullAge } from '../../core/functions/common-functions';
 import { selectAllFamilies } from '../../core/features/family';
+import { assignConnection } from '../../core/functions/data-assign-functions';
 
 declare var bootstrap: any;
 
@@ -245,32 +245,19 @@ export class ConnectionAdd {
   }
 
   private addOrUpdateConnection() {
-    const params: Connection = {
-      id: this.detailsForm.value.id,
-      name: this.detailsForm.value.name,
-      gender: Number(this.detailsForm.value.gender),
-      dateOfBirth: this.detailsForm.value.dateOfBirth,
-      familyId: this.detailsForm.value.familyId,
-      fatherId: this.detailsForm.value.fatherId,
-      motherId: this.detailsForm.value.motherId,
-      notes: this.detailsForm.value.notes,
-      primaryImageUrl: this.detailsForm.value.primaryImageUrl,
-      home: this.detailsForm.value.home,
-      status: this.detailsForm.value.status,
-      deathDate: this.detailsForm.value.deathDate,
-      deathCause: this.detailsForm.value.deathCause
-    }
+    let connection: Connection = assignConnection(this.detailsForm.value);
+    
 
     if (this.currentMode == CRUDEnum.Create) {
       this.store.select(selectLargestId).pipe(take(1)).subscribe(id => {
-        params.id = id + 1;
-        this.store.dispatch(addConnection({ connection: params }));
+        connection.id = id + 1;
+        this.store.dispatch(addConnection({ connection: connection }));
       });
       this.initDetailsForm();
       this.fileToUpload = null;
-      
+
     } else {
-      this.store.dispatch(updateConnection({ connection: params }));
+      this.store.dispatch(updateConnection({ connection: connection }));
       this.router.navigate(['connections'])
     }
   }

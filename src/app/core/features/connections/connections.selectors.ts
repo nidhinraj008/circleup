@@ -25,11 +25,9 @@ export const selectConnectionsById = (id: number) => createSelector(
     (entities, families) => {
         const entity = entities[id];
         if (!entity) return null;
-
         const family = entity.familyId ? families[entity.familyId] : null;
         const father = entity.fatherId ? entities[entity.fatherId] : null;
         const mother = entity.motherId ? entities[entity.motherId] : null;
-
         return {
             ...entity,
             familyName: family?.name ?? null,

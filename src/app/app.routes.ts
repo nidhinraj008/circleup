@@ -2,10 +2,18 @@ import { Routes } from '@angular/router';
 import { HorizontalLayout } from './layouts/horizontal-layout/horizontal-layout';
 import { pageWiseConfiguration } from './core/data/pagewise-configuration';
 import { CRUDEnum } from './core/enum/crud.enum';
+import { authGuard } from './core/guards/auth-guard';
+
 export const routes: Routes = [
+    {
+        path: 'initial',
+        loadComponent: () => import("./features/initial-page/initial-page")
+        .then(c => c.InitialPage)
+    },
     {
         path: '',
         component: HorizontalLayout,
+        canActivateChild: [authGuard],
         children: [
             {
                 path: 'dashboard',

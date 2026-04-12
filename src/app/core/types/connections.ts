@@ -6,8 +6,6 @@ export interface Connection {
     familyId: number;
     fatherId: number;
     motherId: number;
-    fatherName?: string;
-    motherName?: string;
     notes: string;
     primaryImageUrl: string;
     home: string;
