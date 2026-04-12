@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { HorizontalLayout } from './layouts/horizontal-layout/horizontal-layout';
-import { pageWiseConfiguration } from './core/data/pagewise-configuration';
-import { CRUDEnum } from './core/enum/crud.enum';
+import { pageWiseConfiguration } from './shared/data/pagewise-configuration';
+import { CRUDEnum } from './shared/enum/crud.enum';
 import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     {
         path: 'initial',
-        loadComponent: () => import("./features/initial-page/initial-page")
+        loadComponent: () => import("./pages/initial-page/initial-page")
         .then(c => c.InitialPage)
     },
     {
@@ -18,49 +18,49 @@ export const routes: Routes = [
             {
                 path: 'dashboard',
                 data: { config: pageWiseConfiguration.dashboard },
-                loadComponent: () => import('./features/dashboard/dashboard')
+                loadComponent: () => import('./pages/dashboard/dashboard')
                 .then(c => c.Dashboard)
             },
             {
                 path: 'connections',
                 data: { config: pageWiseConfiguration.connections },
-                loadComponent: () => import('./features/connection-list/connection-list')
+                loadComponent: () => import('./pages/connection-list/connection-list')
                 .then(c => c.ConnectionList)
             },
             {
                 path: 'connections/add/:id',
                 data: { config: pageWiseConfiguration.connectionsAdd, mode: CRUDEnum.Create },
-                loadComponent: () => import('./features/connection-add/connection-add')
+                loadComponent: () => import('./pages/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/edit/:id',
                 data: { config: pageWiseConfiguration.connectionsEdit, mode: CRUDEnum.Update },
-                loadComponent: () => import('./features/connection-add/connection-add')
+                loadComponent: () => import('./pages/connection-add/connection-add')
                 .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/view/:id',
                 data: { config: pageWiseConfiguration.connectionsView, mode: CRUDEnum.Read },
-                loadComponent: () => import('./features/connection-view/connection-view')
+                loadComponent: () => import('./pages/connection-view/connection-view')
                 .then(c => c.ConnectionView)
             },
             {
                 path: 'families',
                 data: { config: pageWiseConfiguration.families },
-                loadComponent: () => import('./features/families/families')
+                loadComponent: () => import('./pages/families/families')
                 .then(c => c.Families)
             },
             {
                 path: 'familyTree/:id',
                 data: { config: pageWiseConfiguration.familyTree },
-                loadComponent: () => import('./features/family-tree/family-tree')
+                loadComponent: () => import('./pages/family-tree/family-tree')
                 .then(c => c.FamilyTree)
             },
             {
                 path: 'profile',
                 data: { config: pageWiseConfiguration.profile },
-                loadComponent: () => import('./features/profile/profile')
+                loadComponent: () => import('./pages/profile/profile')
                 .then(c => c.Profile)
             },
             {

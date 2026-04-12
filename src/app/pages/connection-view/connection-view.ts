@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { selectConnectionsById } from '../../core/features/connections';
 import { ActivatedRoute } from '@angular/router';
-import { GenderEnum } from '../../core/enum/gender.enum';
-import { StatusEnum } from '../../core/enum/status.enum';
+import { GenderEnum } from '../../shared/enum/gender.enum';
+import { StatusEnum } from '../../shared/enum/status.enum';
 import { DatePipe } from '@angular/common';
-import { calculateFullAge } from '../../core/functions/common-functions';
+import { calculateFullAge } from '../../shared/functions/common-functions';
 
 @Component({
   selector: 'app-connection-view',

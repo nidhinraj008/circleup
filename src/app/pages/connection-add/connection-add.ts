@@ -1,25 +1,25 @@
 import { Component, inject, Signal, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { enumToArray } from '../../core/functions/common-functions';
-import { GenderEnum } from '../../core/enum/gender.enum';
+import { enumToArray } from '../../shared/functions/common-functions';
+import { GenderEnum } from '../../shared/enum/gender.enum';
 import { DatePipe } from '@angular/common';
-import { FireService } from '../../core/services/fire-service';
+import { FireService } from '../../shared/services/fire-service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { addConnection, updateConnection, selectConnectionsByGender, selectConnectionsById, selectLargestId } from '../../core/features/connections';
-import { Connection } from '../../core/types/connections';
-import { StatusEnum } from '../../core/enum/status.enum';
-import { GoogleDriveService } from '../../core/services/google-drive.service';
+import { Connection } from '../../shared/types/connections';
+import { StatusEnum } from '../../shared/enum/status.enum';
+import { GoogleDriveService } from '../../shared/services/google-drive.service';
 import { selectFileUploadFolderId } from '../../core/features/auth';
 import { setFileUploadFolderId } from '../../core/features/auth/auth.actions';
 import { Google_Drive_API_Url } from '../../app.config';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CRUDEnum } from '../../core/enum/crud.enum';
+import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { merge, take } from 'rxjs';
-import { calculateFullAge } from '../../core/functions/common-functions';
+import { calculateFullAge } from '../../shared/functions/common-functions';
 import { selectAllFamilies } from '../../core/features/family';
-import { assignConnection } from '../../core/functions/data-assign-functions';
+import { assignConnection } from '../../shared/functions/data-assign-functions';
 
 declare var bootstrap: any;
 

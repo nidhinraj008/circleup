@@ -21,7 +21,7 @@ export const pageWiseConfiguration = {
     },
     families: {
         isShowMenuBar: true,
-        isShowAdd: false,
+        isShowAdd: true,
     },
     familyTree: {
         isShowMenuBar: false,

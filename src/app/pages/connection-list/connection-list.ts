@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonData } from '../../core/services/common-data';
-import { FireService } from '../../core/services/fire-service';
+import { CommonData } from '../../shared/services/common-data';
+import { FireService } from '../../shared/services/fire-service';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import { selectConnectionsWithAge, removeConnection } from '../../core/features/connections';

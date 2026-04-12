@@ -4,14 +4,14 @@ import { ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { AppState } from '../../core/store/app.state';
 import { addConnection, updateConnection } from '../../core/features/connections';
-import { StatusEnum } from '../../core/enum/status.enum';
-import { CRUDEnum } from '../../core/enum/crud.enum';
+import { StatusEnum } from '../../shared/enum/status.enum';
+import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { of } from 'rxjs';
-import { FireService } from '../../core/services/fire-service';
-import { GoogleDriveService } from '../../core/services/google-drive.service';
+import { FireService } from '../../shared/services/fire-service';
+import { GoogleDriveService } from '../../shared/services/google-drive.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Connection } from '../../core/types/connections';
+import { Connection } from '../../shared/types/connections';
 
 describe('ConnectionAdd', () => {
 
@@ -24,8 +24,9 @@ describe('ConnectionAdd', () => {
     name: 'John',
     gender: 1,
     dateOfBirth: new Date('2000-01-01'),
-    father: '',
-    mother: '',
+    familyId: 0,
+    fatherId: 0,
+    motherId: 0,
     notes: '',
     primaryImageUrl: '',
     home: '',
@@ -36,6 +37,10 @@ describe('ConnectionAdd', () => {
 
   const mockInitialState: AppState = {
     connections: {
+      ids: [],
+      entities: {}
+    },
+    families: {
       ids: [],
       entities: {}
     },

@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Google_Drive_API_Url } from '../../app.config';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store/app.state';
-import { setGoogleDriveAccessToken } from '../features/auth/auth.actions';
+import { AppState } from '../../core/store/app.state';
+import { setGoogleDriveAccessToken } from '../../core/features/auth';
 import { map, switchMap } from 'rxjs';
 
 declare const google: any;

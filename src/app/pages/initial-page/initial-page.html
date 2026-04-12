@@ -1,7 +1,7 @@
 <div class="d-flex" style="height: 100vh;">
     <div class="w-100 p-3">
         <form [formGroup]="initialForm" (ngSubmit)="onClickSubmit()" class="d-flex flex-column h-100">
-            <div class="d-flex flex-column pt-3 pb-4">
+            <div class="d-flex flex-column py-4 my-2">
                 <h2 class="m-0 fw-bold">Let's get started</h2>
                 <div class="m-0 fw-light" style="font-size: 14px;">Tell us a little about yourself</div>
             </div>
@@ -31,9 +31,9 @@
                 </div>
             </div>
 
-            <div class="mt-auto">
+            <div class="mt-auto mb-3">
                 <button class="primary-button" type="submit">
-                    Continue
+                    Continue <i class="bi bi-arrow-right fw-bold ms-2"></i>
                 </button>
             </div>
         </form>

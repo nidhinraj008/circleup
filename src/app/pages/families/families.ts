@@ -3,7 +3,7 @@ import { RouterLink } from "@angular/router";
 import { selectAllFamilies } from '../../core/features/family';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
-import { Family } from '../../core/types/family';
+import { Family } from '../../shared/types/family';
 
 @Component({
   selector: 'app-families',

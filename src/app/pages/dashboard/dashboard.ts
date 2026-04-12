@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonData } from '../../core/services/common-data';
+import { CommonData } from '../../shared/services/common-data';
 
 @Component({
   selector: 'app-dashboard',

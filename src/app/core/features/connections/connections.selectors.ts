@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { calculateAge } from '../../functions/common-functions';
-import { GenderEnum } from '../../enum/gender.enum';
+import { calculateAge } from '../../../shared/functions/common-functions';
+import { GenderEnum } from '../../../shared/enum/gender.enum';
 import { selectFamilyEntities } from '../family';
 
 export const selectConnectionsState = (state: AppState) => state.connections;

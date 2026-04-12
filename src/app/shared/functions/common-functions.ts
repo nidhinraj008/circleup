@@ -1,4 +1,4 @@
-import { StatusEnum } from '../enum/status.enum';
+import { StatusEnum } from '../../shared/enum/status.enum';
 import moment from 'moment';
 
 /* enum to array formatter*/

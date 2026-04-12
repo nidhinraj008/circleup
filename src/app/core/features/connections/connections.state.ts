@@ -1,4 +1,4 @@
-import { Connection } from '../../types/connections';
+import { Connection } from '../../../shared/types/connections';
 
 export interface ConnectionsState {
     ids: number[];

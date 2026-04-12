@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Connection } from '../../types/connections';
+import { Connection } from '../../../shared/types/connections';
 
 export const addConnection = createAction('[Connections] Add Connection', props<{ connection: Connection }>());
 export const updateConnection = createAction('[Connections] Update Connection', props<{ connection: Connection }>());

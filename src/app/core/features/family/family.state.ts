@@ -1,4 +1,4 @@
-import { Family } from '../../types/family';
+import { Family } from '../../../shared/types/family';
 
 export interface FamilyState {
     ids: number[];

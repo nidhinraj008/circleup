@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { GenderEnum } from '../../core/enum/gender.enum';
-import { enumToArray } from '../../core/functions/common-functions';
+import { GenderEnum } from '../../shared/enum/gender.enum';
+import { enumToArray } from '../../shared/functions/common-functions';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DatePipe } from '@angular/common';
 import { combineLatest, take, tap } from 'rxjs';
@@ -9,10 +9,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { selectConnectionsById, addConnection, updateConnection } from '../../core/features/connections';
 import { selectFamilyById, addFamily } from '../../core/features/family';
-import { myFamily, primaryConnection } from '../../core/data/primary';
-import { Family } from '../../core/types/family';
-import { Connection } from '../../core/types/connections';
-import { assignConnection } from '../../core/functions/data-assign-functions';
+import { myFamily, primaryConnection } from '../../shared/data/primary';
+import { Family } from '../../shared/types/family';
+import { Connection } from '../../shared/types/connections';
+import { assignConnection } from '../../shared/functions/data-assign-functions';
 import { Router } from '@angular/router';
 
 @Component({

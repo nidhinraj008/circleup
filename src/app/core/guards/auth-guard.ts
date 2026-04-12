@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateChildFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectConnectionsById } from '../features/connections';
-import { myFamily, primaryConnection } from '../data/primary';
+import { myFamily, primaryConnection } from '../../shared/data/primary';
 import { combineLatest, map, take } from 'rxjs';
 import { selectFamilyById } from '../features/family';
 

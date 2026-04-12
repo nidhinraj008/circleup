@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, effect, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { CommonData } from '../../core/services/common-data';
-import { menuItems } from '../../core/data/menu-items';
+import { CommonData } from '../../shared/services/common-data';
+import { menuItems } from '../../shared/data/menu-items';
 import { filter } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Location } from '@angular/common';
