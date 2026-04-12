@@ -19,7 +19,8 @@ export class CommonData {
     const url = this.router.url;
     if(url.includes('connections')) {
       this.router.navigate(['connections/add', 0]);
+    } else if(url.includes('families')) {
+      this.router.navigate(['family/add'])
     }
-
   }
 }

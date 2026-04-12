@@ -1,0 +1,18 @@
+<div class="p-3" style="position: relative; padding-bottom: 105px !important;">
+    <form [formGroup]="familyForm" (ngSubmit)="onClickSubmit()">
+
+        <div class="basic-control-container form-floating">
+            <input formControlName="name" type="text" class="form-control" placeholder="Name"
+                [class.is-invalid]="familyFormControls['name'].touched && familyFormControls['name'].invalid">
+            <label class="primary-label">
+                Name
+            </label>
+        </div>
+
+        <div class="shadow-lg bg-white position-fixed bottom-0 start-0 end-0 p-3">
+            <button type="submit" class="primary-button">
+                Save
+            </button>
+        </div>
+    </form>
+</div>

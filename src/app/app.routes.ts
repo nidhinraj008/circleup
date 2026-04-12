@@ -52,6 +52,24 @@ export const routes: Routes = [
                 .then(c => c.Families)
             },
             {
+                path: 'family/add',
+                data: { config: pageWiseConfiguration.familyAdd, mode: CRUDEnum.Create },
+                loadComponent: () => import('./pages/family-add/family-add')
+                .then(c => c.FamilyAdd)
+            },
+            {
+                path: 'family/edit/:id',
+                data: { config: pageWiseConfiguration.familyAdd, mode: CRUDEnum.Update },
+                loadComponent: () => import('./pages/family-add/family-add')
+                .then(c => c.FamilyAdd)
+            },
+            {
+                path: 'family/view/:id',
+                data: { config: pageWiseConfiguration.familyAdd, mode: CRUDEnum.Read },
+                loadComponent: () => import('./pages/family-add/family-add')
+                .then(c => c.FamilyAdd)
+            },
+            {
                 path: 'familyTree/:id',
                 data: { config: pageWiseConfiguration.familyTree },
                 loadComponent: () => import('./pages/family-tree/family-tree')
