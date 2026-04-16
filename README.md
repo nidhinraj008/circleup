@@ -1,4 +1,4 @@
-# Connections-app
+# Circleup
 
 
 
@@ -21,4 +21,4 @@
         3. build apk from
             build >> Generate App Bundles or APKs >> Generate APKs
         4 go to
-            D:\Projects\frontend\connections-app\android\app\build\outputs\apk\debug
+            D:\Projects\frontend\circleup\android\app\build\outputs\apk\debug

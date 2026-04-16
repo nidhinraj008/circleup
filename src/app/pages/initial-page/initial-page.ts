@@ -14,6 +14,7 @@ import { Family } from '../../shared/types/family';
 import { Connection } from '../../shared/types/connections';
 import { assignConnection } from '../../shared/functions/data-assign-functions';
 import { Router } from '@angular/router';
+import { StatusEnum } from '../../shared/enum/status.enum';
 
 @Component({
   selector: 'app-initial-page',
@@ -98,6 +99,7 @@ export class InitialPage {
       gender: this.initialForm.value.gender,
       dateOfBirth: this.initialForm.value.dateOfBirth,
       familyId: myFamily.id,
+      status: StatusEnum.Alive,
     }
     let connection: Connection = assignConnection(params);
     if(this.userDetails) {

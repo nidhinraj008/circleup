@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.connections.app',
-  appName: 'connections-app',
+  appId: 'com.circleup.app',
+  appName: 'Circleup',
   webDir: 'www',
   server: {
     url: 'https://notifications-d7fc6.web.app/',

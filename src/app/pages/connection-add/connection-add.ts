@@ -94,7 +94,7 @@ export class ConnectionAdd {
       id: [value?.id ?? 0],
       name: [value?.name ?? '', Validators.required],
       gender: [value?.gender ?? undefined, Validators.required],
-      dateOfBirth: [value?.dateOfBirth ?? ''],
+      dateOfBirth: [value?.dateOfBirth ?? null],
       ageYears: [value?.ageYears ?? ''],
       ageMonths: [value?.ageMonths ?? ''],
       ageDays: [value?.ageDays ?? ''],
@@ -110,13 +110,14 @@ export class ConnectionAdd {
       isImageLink: [value?.isImageLink ?? false]
     });
 
-    merge(
-      this.detailsForm.get('dateOfBirth')!.valueChanges,
-      this.detailsForm.get('status')!.valueChanges,
-      this.detailsForm.get('deathDate')!.valueChanges
-    ).subscribe(value => {
-      let fullAge = calculateFullAge(this.detailsForm.value.status, this.detailsForm.value.dateOfBirth, this.detailsForm.value.deathDate)
-      this.detailsForm.patchValue(fullAge, { emitEvent: false });
+    const form = this.detailsForm;
+    const dateOfBirth$ = form.get('dateOfBirth')!.valueChanges;
+    const status$ = form.get('status')!.valueChanges;
+    const deathDate$ = form.get('deathDate')!.valueChanges;
+
+    merge(dateOfBirth$, status$, deathDate$).subscribe(() => {
+      const { status, dateOfBirth, deathDate } = form.getRawValue();
+      form.patchValue(calculateFullAge(status, dateOfBirth, deathDate), { emitEvent: false });
     });
   }
 
@@ -246,8 +247,6 @@ export class ConnectionAdd {
 
   private addOrUpdateConnection() {
     let connection: Connection = assignConnection(this.detailsForm.value);
-    
-
     if (this.currentMode == CRUDEnum.Create) {
       this.store.select(selectLargestId).pipe(take(1)).subscribe(id => {
         connection.id = id + 1;

@@ -3,16 +3,21 @@
     --primary-color-rgb: 96, 32, 154;
     --secondary-color: #6c757d;
     --primary-font-color: #333;
-    --secondary-font-color: #53575c;
+    --secondary-font-color: #666666;
     --font-color-3: #ffffff;
     --safe-top: env(safe-area-inset-top);
     --safe-bottom: env(safe-area-inset-bottom);
 }
 
+$shadow-light: #ffffff;
+$shadow-dark: #c1c2c7;
+$background: #e6e7ee;
+
 // bootstrap style overrides
 .form-control {
     box-shadow: 0px 0px 1px 0px var(--primary-color);
     color: var(--primary-font-color);
+    border-radius: .5rem;
 }
 
 .form-check-input:checked {
@@ -112,6 +117,58 @@
     }
 }
 
-.form-control {
-    border-radius: .5rem;
+.label {
+    font-size: 11px;
+    font-weight: 400;
+    color: #505050;
+}
+
+.value {
+    margin-top: -2px;
+    font-size: 14px;
+}
+
+.modal.bottom .modal-dialog {
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.modal.bottom .modal-content {
+    border-radius: 12px 12px 0 0;
+}
+
+.list-actions-container {
+    .list-action-item {
+        i {
+            font-weight: 700;
+            font-size: 20px;
+            color: #5e5e5e
+        }
+    }
+
+    .list-action-item:active {
+        background-color: #eee;
+    }
+}
+
+/* Cards */
+.neo-card {
+    background: $background;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 8px 8px 15px $shadow-dark, -8px -8px 15px $shadow-light;
+}
+
+/* Icons */
+.neo-icon {
+    height: 70px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $background;
+    box-shadow: 6px 6px 10px $shadow-dark, -6px -6px 10px $shadow-light;
+    font-size: 20px;
 }

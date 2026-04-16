@@ -59,13 +59,7 @@ export const routes: Routes = [
             },
             {
                 path: 'family/edit/:id',
-                data: { config: pageWiseConfiguration.familyAdd, mode: CRUDEnum.Update },
-                loadComponent: () => import('./pages/family-add/family-add')
-                .then(c => c.FamilyAdd)
-            },
-            {
-                path: 'family/view/:id',
-                data: { config: pageWiseConfiguration.familyAdd, mode: CRUDEnum.Read },
+                data: { config: pageWiseConfiguration.familyEdit, mode: CRUDEnum.Update },
                 loadComponent: () => import('./pages/family-add/family-add')
                 .then(c => c.FamilyAdd)
             },

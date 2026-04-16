@@ -1,7 +1,14 @@
+$background: #e6e7ee;
+$light: #ffffff;
+$dark: #c1c2c7;
+$primary: #e0b56d;
+
 /* Header */
 .app-header {
     min-height: 50px;
     flex-shrink: 0;
+    background: $background;
+    border-bottom: 1px solid $dark;
 }
 
 /* Content */
@@ -9,51 +16,72 @@
     flex: 1;
     overflow-y: auto;
     background: #f8f9fa;
+    // padding-bottom: 30px;
 }
 
-/* Bottom Nav */
 .bottom-nav-container {
-    height: 80px;
-    background: #ffffff;
-    border-top: 1px solid #ddd;
-    position: sticky;
+    position: fixed;
     bottom: 0;
-    flex-shrink: 0;
-
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    
     .bottom-nav-body {
-        position: relative;
-
-        .add-icon-container {
-            box-shadow: 0px 0px 2px 2px #2222;
-            position: absolute;
-            left: 50%;
-            top: -45px;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
+        width: 100%;
+        max-width: 420px;
+        height: 75px;
+        background: $background;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid $dark;
+    }
+    
+    .nav-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    
+    .nav-item {
+        text-decoration: none;
+        color: var(--secondary-font-color);
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.2s ease;
+        i {
             font-size: 20px;
+            margin-bottom: 4px;
         }
-
-        a {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            color: #666;
-            font-size: 0.75rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-    
+        &.active {
+            color: $primary;
             i {
-                font-size: 1.2rem;
-                line-height: 1;
+                transform: translateY(-2px);
             }
+        }
+    }
     
-            &.active {
-                color: #0d6efd;
-                font-weight: 600;
-            }
+    .add-btn {
+        position: absolute;
+        top: -25px;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: $background;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 6px 6px 12px $dark, -6px -6px 12px $light;
+        i {
+            font-size: 22px;
+        }
+        &:active {
+            box-shadow: inset 4px 4px 8px $dark, inset -4px -4px 8px $light;
         }
     }
 }

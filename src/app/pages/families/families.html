@@ -1,6 +1,6 @@
 <div class="d-flex flex-column">
     <div class="p-3">
-        <div class="family-container d-flex flex-column p-3 mb-3" [routerLink]="['/familyTree', myFamily.id]">
+        <div class="neo-card d-flex flex-column mb-3" [routerLink]="['/familyTree', myFamily.id]">
             <div class="fw-bold">🌳 {{myFamily.name}}</div>
             <div class="text-muted small">View your family tree</div>
         </div>
@@ -11,12 +11,63 @@
     
         <div class="row g-0 p-2 m-1">
             @for(item of familiesList; track item.id) {
-                <div class="col-6 p-1">
-                    <div class="family-container p-2 d-flex align-items-center justify-content-center" style="aspect-ratio: 2/1" [routerLink]="['/familyTree', item.id]">
+                <div class="col-6 p-2">
+                    <div (click)="onClickItem(item)" longPress (onLongPress)="onItemLongPress(item)" 
+                        class="neo-card p-2 d-flex flex-column" style="aspect-ratio: 2/1">
                         <div class="text-center fw-semibold">{{item.name}}</div>
+                        <!-- <div class="text-center">
+                            <span class="label pe-2">Members:</span>
+                            <span class="value">4</span>
+                        </div> -->
                     </div>
                 </div>
             }
+        </div>
+    </div>
+</div>
+
+<!-- long press action Modal -->
+<div class="modal fade bottom" id="actionsModal" tabindex="-1" aria-labelledby="actionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog disable-selection d-flex align-items-baseline">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="actionsModalLabel">Actions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="list-actions-container d-flex flex-column w-100">
+                    <div (click)="onClickEdit()" class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
+                        <i class="bi bi-pencil-square"></i>
+                        <span>Edit</span>
+                    </div>
+                    <div (click)="showOrHideActionsModal(false)" data-bs-toggle="modal"
+                        data-bs-target="#deleteConfirmationModal"
+                        class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
+                        <i class="bi bi-trash"></i>
+                        <span>Delete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- dete confirmation -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Confirm Deletion
+            </div>
+            <div class="modal-footer justify-content-between flex-nowrap">
+                <button data-bs-dismiss="modal" class="w-50 primary-button-outlined" type="button">Cancel</button>
+                <button (click)="onClickDelete()" class="w-50 primary-button" type="button">Delete</button>
+            </div>
         </div>
     </div>
 </div>

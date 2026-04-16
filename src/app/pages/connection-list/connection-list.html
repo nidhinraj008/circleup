@@ -1,4 +1,10 @@
 <div class="d-flex flex-column">
+    <div class="d-flex justify-content-between p-3">
+        <div class="fw-semibold">Sort by {{'default'}}</div>
+        <div (click)="onClickFilter()">
+            <i class="bi bi-filter"></i>
+        </div>
+    </div>
     @for (item of (connections$ | async); track item.id) {
     <div (click)="onClickItem(item)" longPress (onLongPress)="onItemLongPress(item)"
         class="list-container disable-selection py-2 px-3" style="cursor: pointer;">
@@ -21,7 +27,7 @@
     }
 </div>
 
-<!-- image linking Modal -->
+<!-- long press action Modal -->
 <div class="modal fade bottom" id="actionsModal" tabindex="-1" aria-labelledby="actionsModalLabel" aria-hidden="true">
     <div class="modal-dialog disable-selection d-flex align-items-baseline">
         <div class="modal-content">

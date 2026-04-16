@@ -79,6 +79,10 @@ export class ConnectionList implements OnInit {
     this.router.navigate(['connections/add', this.selectedItem.id])
   }
 
+  public onClickFilter() {
+    
+  }
+
 
   private getAllConnections() {
     this.connections$ = this.store.select(selectConnectionsWithAge);

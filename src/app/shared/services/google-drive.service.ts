@@ -17,7 +17,6 @@ export class GoogleDriveService {
     clientID: "456334548529-lo5r9o4n2umo823tgqkh4ji7g3urjjlt.apps.googleusercontent.com",
     fileUploadFolder: "Circle Up",
     folderMimeType: "application/vnd.google-apps.folder",
-    // imagaBasePath: "https://drive.google.com/uc?id="
     imagaBasePath: "https://lh3.googleusercontent.com/d/"
   }
   baseUrl = inject(Google_Drive_API_Url);

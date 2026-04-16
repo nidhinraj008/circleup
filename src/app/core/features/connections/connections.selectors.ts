@@ -63,5 +63,5 @@ export const selectAllByFamilyId = (familyId: number) => createSelector(
         ...entities[id],
         age: calculateAge(entities[id].status, entities[id].dateOfBirth, entities[id].deathDate)
     }))
-        .filter(connection => connection.familyId === familyId)
+        .filter(connection => connection?.familyId === familyId)
 )

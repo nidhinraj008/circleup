@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "connections-app": {
+    "circleup": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -59,10 +59,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "connections-app:build:production"
+              "buildTarget": "circleup:build:production"
             },
             "development": {
-              "buildTarget": "connections-app:build:development"
+              "buildTarget": "circleup:build:development"
             }
           },
           "defaultConfiguration": "development"

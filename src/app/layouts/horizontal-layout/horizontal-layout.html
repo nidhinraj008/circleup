@@ -1,14 +1,16 @@
 <div class="app-shell">
-    <header class="app-header d-flex align-items-center px-3 bg-white border-bottom">
-        <div class="d-flex align-items-center">
-            <div (click)="backClick()" class="pe-2">
+    <header class="app-header d-flex align-items-center px-3">
+        <div class="row g-0 w-100">
+            <div (click)="backClick()" class="col-2">
                 <i class="bi bi-chevron-left"></i>
             </div>
-
-            <div class="">
-                <a routerLink="/" class="text-decoration-none text-dark">
-                    <h6 class="mb-0">Circle up</h6>
+            <div class="col">
+                <a routerLink="/" class="text-decoration-none text-dark text-center">
+                    <h6 class="mb-0 fw-bold">{{pageTitle()}}</h6>
                 </a>
+            </div>
+            <div class="col-2">
+
             </div>
         </div>
     </header>
@@ -18,20 +20,20 @@
     </main>
 
     @if (commonData.configurations().isShowMenuBar) {
-        <div class="bottom-nav-container pt-3">
-            <div class="bottom-nav-body w-100 h-100" style="position: relative;">
+        <div class="bottom-nav-container">
+            <div class="bottom-nav-body">
                 @if (commonData.configurations().isShowAdd) {
-                    <div (click)="onClickAdd()" class="add-icon-container rounded-pill d-flex justify-content-center align-items-center bg-white">
+                    <div class="add-btn" (click)="onClickAdd()">
                         <i class="bi bi-plus"></i>
                     </div>
                 }
-    
-                <nav class="d-flex justify-content-around align-items-center">
+        
+                <nav class="nav-wrapper">
                     @for(item of menuItems; track item.label) {
-                        <a [routerLink]="item.routerLink" routerLinkActive="active">
-                            <i [class]="item.icon"></i>
-                            <span>{{item.label}}</span>
-                        </a>
+                    <a [routerLink]="item.routerLink" routerLinkActive="active" class="nav-item">
+                        <i [class]="item.icon"></i>
+                        <span>{{item.label}}</span>
+                    </a>
                     }
                 </nav>
             </div>

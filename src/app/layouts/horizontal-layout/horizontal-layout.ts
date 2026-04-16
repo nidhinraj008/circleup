@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, effect, inject } from '@angular/core';
+import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CommonData } from '../../shared/services/common-data';
 import { menuItems } from '../../shared/data/menu-items';
@@ -19,7 +19,7 @@ export class HorizontalLayout implements OnInit {
 
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-
+  pageTitle = signal(null)
   menuItems = menuItems;
 
   private routerEvents = toSignal(this.router.events.pipe(filter(e => e instanceof NavigationEnd)), { initialValue: null });
@@ -36,6 +36,7 @@ export class HorizontalLayout implements OnInit {
   ) {
     effect(() => {
       const config = this.routeConfig();
+      this.pageTitle.set(config?.title ?? 'Circle Up')
       if (config) this.commonData.configurations.set(config);
     });
   }

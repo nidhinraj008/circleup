@@ -3,9 +3,9 @@ export interface Connection {
     name: string;
     gender: number;
     dateOfBirth: Date;
-    familyId: number;
-    fatherId: number;
-    motherId: number;
+    familyId: number | null;
+    fatherId: number | null;
+    motherId: number | null;
     notes: string;
     primaryImageUrl: string;
     home: string;
