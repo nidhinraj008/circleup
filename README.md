@@ -22,3 +22,15 @@
             build >> Generate App Bundles or APKs >> Generate APKs
         4 go to
             D:\Projects\frontend\circleup\android\app\build\outputs\apk\debug
+
+    ⁕ Splash screen
+        1. generate splash screen inage
+            npx @capacitor/assets generate --android
+        2. sync capasitor changes 
+            npx cap sync
+    
+    ⁕ Splash screen and icon
+        1. added splash.png and icon.png in resources folder and run
+            npx capacitor-assets generate
+        2. sync capasitor changes 
+            npx cap sync

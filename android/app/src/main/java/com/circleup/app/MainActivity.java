@@ -1,4 +1,4 @@
-package com.connections.app;
+package com.circleup.app;
 
 import com.getcapacitor.BridgeActivity;
 
