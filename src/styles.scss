@@ -50,6 +50,10 @@ $shadow-dark: #c1c2c7;
     color: var(--primary-color);
 }
 
+.toast {
+    --bs-toast-spacing: .5rem;
+}
+
 // ng select style override class
 .form-ng-select {
     box-shadow: 0px 0px 1px 0px var(--primary-color);

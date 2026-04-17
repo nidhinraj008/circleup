@@ -1,0 +1,13 @@
+<div class="toast-container">
+    @for(toast of commonData.toasts(); track toast.id) {
+    <div class="toast" [ngClass]="toast.type">
+        <span class="icon">
+            {{ toast.type === 'success' ? '✔' :
+            toast.type === 'error' ? '✖' :
+            toast.type === 'warning' ? '⚠' : 'ℹ' }}
+        </span>
+        <span class="message">{{ toast.message }}</span>
+        <span class="close" (click)="commonData.remove(toast.id)">✕</span>
+    </div>
+    }
+</div>

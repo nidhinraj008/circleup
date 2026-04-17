@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { enumToArray } from '../../shared/functions/common-functions';
 import { GenderEnum } from '../../shared/enum/gender.enum';
 import { DatePipe } from '@angular/common';
-import { FireService } from '../../shared/services/fire-service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { addConnection, updateConnection, selectConnectionsByGender, selectConnectionsById, selectLargestId } from '../../core/features/connections';
@@ -20,6 +19,7 @@ import { merge, take } from 'rxjs';
 import { calculateFullAge } from '../../shared/functions/common-functions';
 import { selectAllFamilies } from '../../core/features/family';
 import { assignConnection } from '../../shared/functions/data-assign-functions';
+import { CommonData } from '../../shared/services/common-data';
 
 declare var bootstrap: any;
 
@@ -54,7 +54,7 @@ export class ConnectionAdd {
   constructor(
     private router: Router,
     private fb: FormBuilder, 
-    private fireService: FireService,
+    private commonData: CommonData,
     private store: Store<AppState>,
     private googleDriveService: GoogleDriveService,
     private activatedRoute: ActivatedRoute,
@@ -135,8 +135,10 @@ export class ConnectionAdd {
   }
 
   async onClickLoadImage() {
-    if (!this.imageLink()) 
+    if (!this.imageLink()) {
+      this.commonData.warning("Please provide an image link.")
       return;
+    }
 
     const valid = await this.validateImageUrl(this.imageLink());
 
@@ -144,6 +146,7 @@ export class ConnectionAdd {
       this.isImageLinkValid.set(true);
     } else {
       this.isImageLinkValid.set(false);
+      this.commonData.warning("The provided image link is not valid.")
     }
   }
 
@@ -156,8 +159,9 @@ export class ConnectionAdd {
     });
   }
 
-  public onClickSaveLink() {
-    if (!this.isImageLinkValid()) {
+  public async onClickSaveLink() {
+    if (!this.imageLink() && !await this.validateImageUrl(this.imageLink())) {
+      this.commonData.warning("The provided image link is not valid.")
       return;
     }
 
@@ -200,7 +204,8 @@ export class ConnectionAdd {
           this.createFolderAndUploadFile();
         }
       },
-      error: (err :any) => console.error(err)
+      error: (err :any) => 
+        this.commonData.error("Image upload failed")
     });
   }
 
@@ -212,7 +217,8 @@ export class ConnectionAdd {
           this.uploadFile(this.fileToUpload, res.id);
         }
       },
-      error: (err :any) => console.error(err)
+      error: (err :any) => 
+        this.commonData.error("Image upload failed")
     })
   }
 
@@ -222,7 +228,8 @@ export class ConnectionAdd {
         this.detailsForm.patchValue({ primaryImageUrl: res });
         this.addOrUpdateConnection();
       },
-      error: (err: any) => console.error(err)
+      error: (err: any) => 
+        this.commonData.error("Image upload failed")
     });
   }
 
@@ -254,9 +261,10 @@ export class ConnectionAdd {
       });
       this.initDetailsForm();
       this.fileToUpload = null;
-
+      this.commonData.success("Item added successfully");
     } else {
       this.store.dispatch(updateConnection({ connection: connection }));
+      this.commonData.success("Item updated successfully");
       this.router.navigate(['connections'])
     }
   }
@@ -270,6 +278,9 @@ export class ConnectionAdd {
         this.initDetailsForm(res);
         let fullAge = calculateFullAge(res.status, res.dateOfBirth, res.deathDate)
         this.detailsForm.patchValue(fullAge, { emitEvent: false });
+      },
+      error: () => {
+        this.commonData.error();
       }
     })
   }

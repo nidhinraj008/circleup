@@ -6,6 +6,7 @@ import { selectConnectionsWithAge, removeConnection } from '../../core/features/
 import { LongPressDirective } from '../../shared/directives/long-press';
 import { FormBuilder, FormGroup, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
+import { CommonData } from '../../shared/services/common-data';
 declare var bootstrap: any;
 
 export enum sortOptionsEnum {
@@ -39,7 +40,8 @@ export class ConnectionList implements OnInit {
 
   constructor(private readonly router: Router,
     private formBuilder: FormBuilder,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private commonData: CommonData
   ) {
 
   }
@@ -68,6 +70,7 @@ export class ConnectionList implements OnInit {
   }
 
   private sortConnections() {
+    this.commonData.showLoader();
     const sortValue = this.filterForm.get('sortValue')?.value;
     let sortedList: any[] = [];
     if (sortValue == this.sortOptionsEnum["Created Date: Latest"]) {
@@ -80,6 +83,7 @@ export class ConnectionList implements OnInit {
       sortedList = this.connectionsList().sort((a: any, b: any) => b.name.localeCompare(a.name));
     } 
     this.connectionsList.set(sortedList);
+    this.commonData.hideLoader();
   }
 
   public onClickItem(item: any) {
@@ -87,7 +91,6 @@ export class ConnectionList implements OnInit {
   }
 
   public onItemLongPress(item: any) {
-    // event.preventDefault();
     this.selectedItem = item;
     this.showOrHideActionsModal(true);
   }
@@ -118,6 +121,7 @@ export class ConnectionList implements OnInit {
     this.deleteConfirmationModal.hide();
     this.showOrHideActionsModal(false);
     this.getAllConnections();
+    this.commonData.success("Item deleted successfully");
   }
   
   public onClickClone() {
@@ -126,13 +130,16 @@ export class ConnectionList implements OnInit {
   }
 
   private getAllConnections() {
+    this.commonData.showLoader();
     this.store.select(selectConnectionsWithAge).subscribe({
       next: (res: any) => {
         this.connectionsList.set(res);
         this.sortConnections();
+        this.commonData.hideLoader();
       },
       error: (err: any) => {
-
+        this.commonData.hideLoader();
+        this.commonData.error();
       }
     })
 

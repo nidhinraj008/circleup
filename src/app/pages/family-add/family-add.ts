@@ -7,6 +7,7 @@ import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { addFamily, selectFamilyById, selectLargestFamilyId, updateFamily } from '../../core/features/family'
 import { selectAllByFamilyId } from '../../core/features/connections'
 import { take } from 'rxjs';
+import { CommonData } from '../../shared/services/common-data';
 
 @Component({
   selector: 'app-family-add',
@@ -28,7 +29,8 @@ export class FamilyAdd {
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private commonData: CommonData
   ) { }
 
   ngOnInit(): void {
@@ -75,10 +77,12 @@ export class FamilyAdd {
     if (this.currentMode == CRUDEnum.Create) {
       this.store.select(selectLargestFamilyId).pipe(take(1)).subscribe(id => {
         family.id = id + 1;
-        this.store.dispatch(addFamily({ family: this.familyForm.value }))
+        this.store.dispatch(addFamily({ family: this.familyForm.value }));
+        this.commonData.success("Item added successfully");
       });
     } else {
       this.store.dispatch(updateFamily({ family: this.familyForm.value }))
+      this.commonData.success("Item updated successfully");
     }
     this.router.navigate(['families']);
   }
