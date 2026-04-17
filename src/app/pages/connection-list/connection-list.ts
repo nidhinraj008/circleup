@@ -1,47 +1,85 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonData } from '../../shared/services/common-data';
-import { FireService } from '../../shared/services/fire-service';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import { selectConnectionsWithAge, removeConnection } from '../../core/features/connections';
-import { AsyncPipe } from '@angular/common';
 import { LongPressDirective } from '../../shared/directives/long-press';
+import { FormBuilder, FormGroup, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
+import { enumToArray } from '../../shared/functions/common-functions';
 declare var bootstrap: any;
+
+export enum sortOptionsEnum {
+  "Created Date: Latest" = 1,
+  "Created Date: Earliest" = 2,
+  "Name Ascending" = 3,
+  "Name Descending" = 4,
+}
 
 @Component({
   selector: 'app-connection-list',
   imports: [
-    AsyncPipe,
-    LongPressDirective
-  ],
+    LongPressDirective,
+    ɵInternalFormsSharedModule,
+    ReactiveFormsModule
+],
   templateUrl: './connection-list.html',
   styleUrl: './connection-list.scss',
 })
 export class ConnectionList implements OnInit {
 
-  connectionsList: any[] = []
-  connections$: any;
+  filterForm!: FormGroup;
+  sortOptionsEnum = sortOptionsEnum;
+  connectionsList = signal<any>([]);
   actionsModalInstance: any;
+  sortingModalInstance: any;
   deleteConfirmationModal: any;
   selectedItem: any;
+  sortOptionsList = enumToArray(this.sortOptionsEnum);
+  selectedSortOption = this.sortOptionsList[0];
 
   constructor(private readonly router: Router,
-    private readonly commonData: CommonData,
-    private fireService: FireService,
-    private cdr: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
     private store: Store<AppState>
   ) {
 
   }
 
   ngOnInit(): void {   
+    this.initFilterForm()
     this.getAllConnections();
   }
 
   ngAfterViewInit() {
     this.actionsModalInstance = new bootstrap.Modal(document.getElementById('actionsModal'));
+    this.sortingModalInstance = new bootstrap.Modal(document.getElementById('sortingModal'));
     this.deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+  }
+
+  private initFilterForm() {
+    this.filterForm = this.formBuilder.group({
+      sortValue: [sortOptionsEnum["Created Date: Latest"]],
+      searchValue: [],
+    });
+
+    this.filterForm.get("sortValue")?.valueChanges.subscribe(() => {
+      this.sortConnections();
+      this.showOrHideSortingModal(false)
+    });
+  }
+
+  private sortConnections() {
+    const sortValue = this.filterForm.get('sortValue')?.value;
+    let sortedList: any[] = [];
+    if (sortValue == this.sortOptionsEnum["Created Date: Latest"]) {
+      sortedList = this.connectionsList().sort((a: any, b: any) => b.id - a.id);
+    } else if (sortValue == this.sortOptionsEnum["Created Date: Earliest"]) {
+      sortedList = this.connectionsList().sort((a: any, b: any) => a.id - b.id);
+    } else if (sortValue == this.sortOptionsEnum["Name Ascending"]) {
+      sortedList = this.connectionsList().sort((a: any, b: any) => a.name.localeCompare(b.name));
+    } else if (sortValue == this.sortOptionsEnum["Name Descending"]) {
+      sortedList = this.connectionsList().sort((a: any, b: any) => b.name.localeCompare(a.name));
+    } 
+    this.connectionsList.set(sortedList);
   }
 
   public onClickItem(item: any) {
@@ -52,6 +90,14 @@ export class ConnectionList implements OnInit {
     // event.preventDefault();
     this.selectedItem = item;
     this.showOrHideActionsModal(true);
+  }
+
+  public showOrHideSortingModal(visible: boolean) {
+    if (visible) {
+      this.sortingModalInstance.show();
+    } else {
+        this.sortingModalInstance.hide();
+    }
   }
 
   public showOrHideActionsModal(visible: boolean) {
@@ -79,13 +125,16 @@ export class ConnectionList implements OnInit {
     this.router.navigate(['connections/add', this.selectedItem.id])
   }
 
-  public onClickFilter() {
-    
-  }
-
-
   private getAllConnections() {
-    this.connections$ = this.store.select(selectConnectionsWithAge);
+    this.store.select(selectConnectionsWithAge).subscribe({
+      next: (res: any) => {
+        this.connectionsList.set(res);
+        this.sortConnections();
+      },
+      error: (err: any) => {
+
+      }
+    })
 
     // this.fireService.getAllConnections().subscribe(res => {
     //   if (!res) {

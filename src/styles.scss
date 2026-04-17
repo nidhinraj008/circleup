@@ -1,4 +1,5 @@
 :root {
+    --background-color: #ffffff;
     --primary-color: #60209a;
     --primary-color-rgb: 96, 32, 154;
     --secondary-color: #6c757d;
@@ -9,9 +10,8 @@
     --safe-bottom: env(safe-area-inset-bottom);
 }
 
-$shadow-light: #ffffff;
+$shadow-light: #efefef;
 $shadow-dark: #c1c2c7;
-$background: #ffffff;
 
 // bootstrap style overrides
 .form-control {
@@ -34,6 +34,21 @@ $background: #ffffff;
     background-image: none !important;
 }
 
+.modal-content {
+    border-radius: 18px;
+}
+
+.modal {
+    --bs-modal-header-border-color: none;
+    --bs-modal-header-border-width: none;
+    --bs-modal-footer-border-color: none;
+    --bs-modal-footer-border-width: none;
+    --bs-modal-bg: #f8f9fa;
+}
+
+.btn-light {
+    color: var(--primary-color);
+}
 
 // ng select style override class
 .form-ng-select {
@@ -60,7 +75,7 @@ $background: #ffffff;
 // custom style class
 .app-shell {
     min-height: 100vh;
-    background-color: $background;
+    background-color: var(--background-color);
     padding-top: var(--safe-top);
     padding-bottom: var(--safe-bottom);
     display: flex;
@@ -154,11 +169,25 @@ $background: #ffffff;
     }
 }
 
+.list-actions-container-nonactive {
+    .list-action-item {
+        i {
+            font-weight: 700;
+            font-size: 20px;
+            color: #5e5e5e
+        }
+    }
+}
+
 /* Cards */
 .neo-card {
-    background: $background;
+    background: var(--background-color);
     border-radius: 10px;
     padding: 20px;
+    box-shadow: 8px 8px 15px $shadow-dark, -8px -8px 15px $shadow-light;
+}
+
+.neo-shadow {
     box-shadow: 8px 8px 15px $shadow-dark, -8px -8px 15px $shadow-light;
 }
 
@@ -169,7 +198,7 @@ $background: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $background;
+    background: var(--background-color);
     box-shadow: 6px 6px 10px $shadow-dark, -6px -6px 10px $shadow-light;
     font-size: 20px;
 }
