@@ -1,5 +1,8 @@
 :root {
-    --background-color: #ffffff;
+    --background-color: #eeeeee;
+    --shadow-primary: #c1c2c7;
+    --shadow-secondary: #ffffff;
+
     --primary-color: #60209a;
     --primary-color-rgb: 96, 32, 154;
     --secondary-color: #6c757d;
@@ -10,8 +13,11 @@
     --safe-bottom: env(safe-area-inset-bottom);
 }
 
-$shadow-light: #efefef;
-$shadow-dark: #c1c2c7;
+body {
+    margin: 0;
+    background-color: var(--background-color);
+    font-family: 'Segoe UI', sans-serif;
+}
 
 // bootstrap style overrides
 .form-control {
@@ -185,24 +191,18 @@ $shadow-dark: #c1c2c7;
 
 /* Cards */
 .neo-card {
-    background: var(--background-color);
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 8px 8px 15px $shadow-dark, -8px -8px 15px $shadow-light;
+    // box-shadow: 8px 8px 15px var(--shadow-secondary), -8px -8px 15px var(--shadow-primary);
+    box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
 }
 
-.neo-shadow {
-    box-shadow: 8px 8px 15px $shadow-dark, -8px -8px 15px $shadow-light;
+.neo-shadow-outward {
+    box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
+    border-radius: 10px;
 }
 
-/* Icons */
-.neo-icon {
-    height: 70px;
-    border-radius: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--background-color);
-    box-shadow: 6px 6px 10px $shadow-dark, -6px -6px 10px $shadow-light;
-    font-size: 20px;
+.neo-shadow-inward {
+    box-shadow: 2px 2px 4px var(--shadow-secondary), -2px -2px 4px var(--shadow-primary);
+    border-radius: 10px;
 }

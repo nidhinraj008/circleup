@@ -2,7 +2,7 @@
     <div class="d-flex p-3 gap-3 border-bottom">
         <div class="">
             <img [src]="'images/no-image.png'" class="profile-image rounded-circle border" 
-                (error)="$event.target.src='images/unsupported.png'">
+                referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
         </div>
         <div class="d-flex flex-column py-2">
             <div class="fw-semibold">

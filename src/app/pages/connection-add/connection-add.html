@@ -1,11 +1,11 @@
 <div class="p-3" style="position: relative; padding-bottom: 105px !important;">
-    <!-- <button (click)="login()">Login</button> -->
+    <button (click)="login()">Login</button>
     <form [formGroup]="detailsForm" (ngSubmit)="onClickSubmit()">
 
         <div class="text-center pb-2">
             <div (click)="detailsForm.get('isImageLink')?.value ? openOrShowLinkModal(true) : fileInput.click()" class="position-relative d-inline-block">
                 <img [src]="detailsForm.get('primaryImageUrl')?.value ?? 'images/no-image.png'" class="profile-image rounded-circle border" 
-                    (error)="$event.target.src='images/unsupported.png'">
+                    referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
                 <input id="fileUploader" type="file" (change)="onFileChange($event)" hidden #fileInput readonly="{{detailsForm.get('isImageLink')?.value}}">
             </div>
             <div class="row g-0 justify-content-between">
@@ -168,7 +168,7 @@
                     <div class="d-flex w-100 justify-content-center pb-2">
                         <div class="position-relative d-inline-block">
                             <img [src]="imageLink() ?? 'images/no-image.png'" class="preview-image border" 
-                                (error)="$event.target.src='images/unsupported.png'">
+                                referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
                         </div>
                     </div>
                 }

@@ -1,0 +1,67 @@
+.time {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.pill {
+    padding: 5px;
+    border-radius: 7px;
+    background: #91b5a9;
+    color: #eee;
+    font-size: 11px;
+}
+
+.pill-label {
+    font-size: 11px;
+}
+
+.neo-toggle {
+    height: 70px;
+    border-radius: 40px;
+    // background: linear-gradient(145deg, #d1f0e0, #a0cbb8);
+    background-color: #91b5a9;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    
+    .toggle-circle {
+        height: 50px;
+        aspect-ratio: 1.5/1;
+        background: var(--background-color);
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        i {
+            font-size: 30px;
+            color: #333;
+        }
+    }
+}
+
+
+.progress-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .progress-content {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: var(--background-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 11px;
+    }
+}
+
+
+.neo-icon {
+    aspect-ratio: 1;
+    font-size: 25px;
+    color: #333;
+}

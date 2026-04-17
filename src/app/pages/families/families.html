@@ -1,8 +1,15 @@
 <div class="d-flex flex-column">
-    <div class="p-3">
-        <div class="neo-card d-flex flex-column mb-3" [routerLink]="['/familyTree', myFamily.id]">
-            <div class="fw-bold">🌳 {{myFamily.name}}</div>
-            <div class="text-muted small">View your family tree</div>
+    <div class="p-3 mb-2">
+        <div class="neo-shadow-outward d-flex p-3" [routerLink]="['/familyTree', myFamily.id]">
+            <div class="d-flex flex-column flex-grow-1"> 
+                <div class="fw-bold">🌳 {{myFamily.name}}</div>
+                <div class="text-muted small">View your family tree</div>
+            </div>
+            <div class="neo-shadow-inward p-2 d-flex justify-content-center align-items-cente">
+                <!-- <div class="label">Total Members</div> -->
+                <i class="bi bi-person"></i>
+                <div class="ps-1">{{myFamily.membersCount}}</div>
+            </div>
         </div>
     </div>
 
@@ -13,12 +20,12 @@
             @for(item of familiesList; track item.id) {
                 <div class="col-6 p-2">
                     <div (click)="onClickItem(item)" longPress (onLongPress)="onItemLongPress(item)" 
-                        class="neo-card p-2 d-flex flex-column" style="aspect-ratio: 2/1">
+                        class="neo-shadow-outward p-2 d-flex flex-column">
                         <div class="text-center fw-semibold">{{item.name}}</div>
-                        <!-- <div class="text-center">
+                        <div class="text-center">
                             <span class="label pe-2">Members:</span>
-                            <span class="value">4</span>
-                        </div> -->
+                            <span class="value">{{item.membersCount}}</span>
+                        </div>
                     </div>
                 </div>
             }
@@ -30,11 +37,7 @@
 <div class="modal fade bottom" id="actionsModal" tabindex="-1" aria-labelledby="actionsModalLabel" aria-hidden="true">
     <div class="modal-dialog disable-selection d-flex align-items-baseline">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="actionsModalLabel">Actions</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-0">
+            <div class="modal-body px-0 py-4">
                 <div class="list-actions-container d-flex flex-column w-100">
                     <div (click)="onClickEdit()" class="list-action-item d-flex align-items-center gap-3 px-3 py-2">
                         <i class="bi bi-pencil-square"></i>

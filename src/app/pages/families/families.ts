@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
-import { removeFamily, selectAllFamilies } from '../../core/features/family';
+import { removeFamily, selectAllFamiliesWithMembersCount } from '../../core/features/family';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import { Family } from '../../shared/types/family';
@@ -18,8 +18,8 @@ declare var bootstrap: any;
 })
 export class Families {
 
-  myFamily!: Family;
-  familiesList: Family[] = []
+  myFamily!: any;
+  familiesList: any[] = []
   actionsModalInstance: any;
   deleteConfirmationModal: any;
   selectedItem: any;
@@ -58,7 +58,7 @@ export class Families {
   }
 
   private getAllFamilies() {
-    this.store.select(selectAllFamilies).subscribe({
+    this.store.select(selectAllFamiliesWithMembersCount).subscribe({
       next: (res: any) => {
         [this.myFamily, ...this.familiesList] = res;
       }

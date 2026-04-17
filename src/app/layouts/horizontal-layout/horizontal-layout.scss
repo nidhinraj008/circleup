@@ -1,20 +1,18 @@
 $light: #ffffff;
 $dark: #c1c2c7;
 $primary: #e0b56d;
+$border: #dddddd;
 
-/* Header */
 .app-header {
     min-height: 50px;
     flex-shrink: 0;
     background: var(--background-color);
-    border-bottom: 1px solid $dark;
+    border-bottom: 1px solid $border;
 }
 
-/* Content */
 .app-content {
     flex: 1;
     overflow-y: auto;
-    background: #f8f9fa;
     // padding-bottom: 30px;
 }
 
@@ -25,16 +23,16 @@ $primary: #e0b56d;
     display: flex;
     justify-content: center;
     z-index: 10;
-    
+    background: var(--background-color);
+
     .bottom-nav-body {
         width: 100%;
         max-width: 420px;
         height: 75px;
-        background: var(--background-color);
+        border-top: 1px solid $border;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-top: 1px solid $dark;
     }
     
     .nav-wrapper {

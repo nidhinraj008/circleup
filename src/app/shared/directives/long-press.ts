@@ -17,7 +17,7 @@ export class LongPressDirective {
 
     this.timer = setTimeout(() => {
       this.isLongPress = true;
-      navigator.vibrate?.(30);
+      navigator?.vibrate?.(30);
       this.onLongPress.emit();
     }, this.pressDuration);
   }
