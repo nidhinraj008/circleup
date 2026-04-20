@@ -1,0 +1,13 @@
+<div class="pull-to-refresh-wrapper h-100 d-flex flex-column">
+    <div class="refresher-indicator d-flex align-items-center justify-content-center w-100"
+        [style.height.px]="pullDistance()" [class.refreshing]="isRefreshing()">
+        <div class="icon-wrapper d-flex align-items-center justify-content-center" [style.opacity]="pullDistance() / 60"
+            [style.transform]="'rotate(' + (pullDistance() * 4) + 'deg) scale(' + Math.min(1, pullDistance() / 60) + ')'">
+            <i class="bi bi-arrow-clockwise"></i>
+        </div>
+    </div>
+
+    <div #scrollContainer class="content-container">
+        <ng-content></ng-content>
+    </div>
+</div>

@@ -12,8 +12,7 @@ $border: #dddddd;
 
 .app-content {
     flex: 1;
-    overflow-y: auto;
-    // padding-bottom: 30px;
+    padding-bottom: 25vh;
 }
 
 .bottom-nav-container {
@@ -34,14 +33,14 @@ $border: #dddddd;
         align-items: center;
         justify-content: center;
     }
-    
+
     .nav-wrapper {
         width: 100%;
         display: flex;
         justify-content: space-around;
         align-items: center;
     }
-    
+
     .nav-item {
         text-decoration: none;
         color: var(--secondary-font-color);
@@ -50,18 +49,21 @@ $border: #dddddd;
         flex-direction: column;
         align-items: center;
         transition: all 0.2s ease;
+
         i {
             font-size: 20px;
             margin-bottom: 4px;
         }
+
         &.active {
             color: $primary;
+
             i {
                 transform: translateY(-2px);
             }
         }
     }
-    
+
     .add-btn {
         position: absolute;
         top: -25px;
@@ -74,9 +76,11 @@ $border: #dddddd;
         align-items: center;
         cursor: pointer;
         box-shadow: 6px 6px 12px $dark, -6px -6px 12px $light;
+
         i {
             font-size: 22px;
         }
+
         &:active {
             box-shadow: inset 4px 4px 8px $dark, inset -4px -4px 8px $light;
         }

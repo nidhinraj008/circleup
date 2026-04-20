@@ -1,0 +1,43 @@
+.pull-to-refresh-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.refresher-indicator {
+    overflow: hidden;
+    background: transparent;
+    transition: height 0.2s cubic-bezier(0.2, 0, 0, 1);
+    pointer-events: none;
+    z-index: 5;
+
+    &.refreshing {
+        height: 60px !important;
+
+        .icon-wrapper {
+            opacity: 1 !important;
+            animation: spin 1s linear infinite;
+        }
+    }
+}
+
+.icon-wrapper {
+    font-size: 28px;
+    color: var(--primary-color);
+    will-change: transform, opacity;
+}
+
+.content-container {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,6 +1,6 @@
-<div class="toast-container">
+<div class="toast-container d-flex flex-column gap-2">
     @for(toast of commonData.toasts(); track toast.id) {
-    <div class="toast" [ngClass]="toast.type">
+    <div class="toast d-flex align-items-center gap-2" [ngClass]="toast.type">
         <span class="icon">
             {{ toast.type === 'success' ? '✔' :
             toast.type === 'error' ? '✖' :

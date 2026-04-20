@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { App as CapacitorApp } from '@capacitor/app';
 import { Loader } from './shared/components/loader/loader';
 import { Toast } from './shared/components/toast/toast';
 
@@ -21,5 +22,15 @@ export class App {
     setTimeout(() => {
       SplashScreen.hide();
     }, 2000)
+
+    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+      if (canGoBack) {
+        window.history.back();
+      } else {
+        if (confirm('Exit app?')) {
+          CapacitorApp.exitApp();
+        }
+      }
+    });
   }
 }

@@ -34,7 +34,7 @@ body {
 .form-check-input:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
-}   
+}
 
 .form-select {
     background-image: none !important;
@@ -64,17 +64,20 @@ body {
 .form-ng-select {
     box-shadow: 0px 0px 1px 0px var(--primary-color);
     padding: 21px 0px 0px 0px !important;
+
     .ng-select-container {
         border: none !important;
         border-radius: 10px;
         box-shadow: none !important;
         background-color: transparent;
     }
+
     .ng-arrow-wrapper {
         margin-top: -24px;
         padding-right: 15px;
         opacity: 1;
     }
+
     .ng-clear-wrapper {
         margin-top: -24px;
         margin-right: 1px;
@@ -84,7 +87,7 @@ body {
 
 // custom style class
 .app-shell {
-    min-height: 100vh;
+    height: 100vh;
     background-color: var(--background-color);
     padding-top: var(--safe-top);
     padding-bottom: var(--safe-bottom);
@@ -93,9 +96,9 @@ body {
 }
 
 .disable-selection {
-    -webkit-user-select: none; /* Safari, older Chrome/Opera */
-    -moz-user-select: none;    /* Older Firefox */
-    -ms-user-select: none;     /* Internet Explorer/Edge */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -131,14 +134,15 @@ body {
 
 .basic-control-container {
     padding: 4px 0px;
-    
+
     .primary-label {
         font-size: 12px;
         color: var(--secondary-font-color);
         font-weight: 600;
     }
 
-    input, textarea {
+    input,
+    textarea {
         font-size: 16px;
     }
 }

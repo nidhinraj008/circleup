@@ -25,9 +25,9 @@ declare var bootstrap: any;
 
 @Component({
   selector: 'app-connection-add',
-  imports: [ 
+  imports: [
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     DatePipe,
     NgSelectModule
   ],
@@ -53,7 +53,7 @@ export class ConnectionAdd {
 
   constructor(
     private router: Router,
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private commonData: CommonData,
     private store: Store<AppState>,
     private googleDriveService: GoogleDriveService,
@@ -69,7 +69,7 @@ export class ConnectionAdd {
     this.googleDriveService.initClient();
   }
 
-  
+
   ngAfterViewInit() {
     this.imageLinkModalInstance = new bootstrap.Modal(document.getElementById('imageLinkModal'));
   }
@@ -121,7 +121,7 @@ export class ConnectionAdd {
     });
   }
 
-  get detailsFormControlls() { 
+  get detailsFormControlls() {
     return this.detailsForm.controls;
   }
 
@@ -178,7 +178,7 @@ export class ConnectionAdd {
 
   public onFileChange(event: any) {
     const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) 
+    if (!file)
       return;
 
     this.fileToUpload = file;
@@ -195,7 +195,7 @@ export class ConnectionAdd {
     }
 
     this.googleDriveService.searchFolder().subscribe({
-      next: (res :any) => {
+      next: (res: any) => {
         folderId = res.files?.[0]?.id;
         if (folderId && this.fileToUpload) {
           this.uploadFile(this.fileToUpload, folderId);
@@ -204,20 +204,20 @@ export class ConnectionAdd {
           this.createFolderAndUploadFile();
         }
       },
-      error: (err :any) => 
+      error: (err: any) =>
         this.commonData.error("Image upload failed")
     });
   }
 
   private createFolderAndUploadFile() {
     this.googleDriveService.createFolder().subscribe({
-      next: (res :any) => {
-        if(res?.id && this.fileToUpload) {
+      next: (res: any) => {
+        if (res?.id && this.fileToUpload) {
           this.setFolderId(res.id);
           this.uploadFile(this.fileToUpload, res.id);
         }
       },
-      error: (err :any) => 
+      error: (err: any) =>
         this.commonData.error("Image upload failed")
     })
   }
@@ -228,7 +228,7 @@ export class ConnectionAdd {
         this.detailsForm.patchValue({ primaryImageUrl: res });
         this.addOrUpdateConnection();
       },
-      error: (err: any) => 
+      error: (err: any) =>
         this.commonData.error("Image upload failed")
     });
   }
@@ -241,14 +241,14 @@ export class ConnectionAdd {
 
   public async onClickSubmit() {
     this.detailsForm.markAllAsTouched();
-    if (this.detailsForm.invalid) 
+    if (this.detailsForm.invalid)
       return;
 
     if (this.fileToUpload) {
       this.initImageUpload();
       return;
-    } 
-    
+    }
+
     this.addOrUpdateConnection();
   }
 
