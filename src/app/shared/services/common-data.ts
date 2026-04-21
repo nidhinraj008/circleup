@@ -9,10 +9,11 @@ import { appMessages } from '../data/app-constants';
 })
 export class CommonData {
 
-  configurations = signal<Configurations>({ 
+  configurations = signal<Configurations>({
     isShowMenuBar: true,
     isShowAdd: false
   });
+  submitCount = signal<number>(0);
   isLoading = signal(false);
   requestCount: number = 0;
 
@@ -25,11 +26,15 @@ export class CommonData {
 
   public onAddClick() {
     const url = this.router.url;
-    if(url.includes('connections')) {
+    if (url.includes('connections')) {
       this.router.navigate(['connections/add', 0]);
-    } else if(url.includes('families')) {
+    } else if (url.includes('families')) {
       this.router.navigate(['family/add'])
     }
+  }
+
+  public onSaveClick() {
+    this.submitCount.update(v => v + 1);
   }
 
   //#region Loader
@@ -67,19 +72,19 @@ export class CommonData {
     this.toasts.update(t => t.filter(x => x.id !== id));
   }
 
-  public success(msg: string = appMessages.success) { 
+  public success(msg: string = appMessages.success) {
     this.showToast(msg, 'success');
   }
 
-  public error(msg: string = appMessages.error) { 
+  public error(msg: string = appMessages.error) {
     this.showToast(msg, 'error');
   }
 
-  public info(msg: string = appMessages.info) { 
+  public info(msg: string = appMessages.info) {
     this.showToast(msg, 'info');
   }
 
-  public warning(msg: string = appMessages.warning) { 
+  public warning(msg: string = appMessages.warning) {
     this.showToast(msg, 'warning');
   }
   // #endregion

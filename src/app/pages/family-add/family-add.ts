@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
@@ -31,7 +31,14 @@ export class FamilyAdd {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private commonData: CommonData
-  ) { }
+  ) {
+    effect(() => {
+      const count = this.commonData.submitCount();
+      if (count > 0) {
+        this.onClickSubmit();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.initFamilyForm();
@@ -70,7 +77,8 @@ export class FamilyAdd {
 
   public onClickSubmit() {
     this.familyForm.markAllAsTouched();
-    if(this.familyForm.invalid) {
+    if (this.familyForm.invalid) {
+      this.commonData.warning("Invalid data");
       return;
     }
     let family = this.familyForm.value;

@@ -13,6 +13,7 @@ export const pageWiseConfiguration = {
         title: "Connection Add",
         isShowMenuBar: false,
         isShowAdd: false,
+        isShowSave: true,
     },
     connectionsEdit: {
         title: "Connection Edit",
@@ -33,6 +34,7 @@ export const pageWiseConfiguration = {
         title: "Family Add",
         isShowMenuBar: false,
         isShowAdd: false,
+        isShowSave: true,
     },
     familyEdit: {
         title: "Family Edit",

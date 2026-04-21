@@ -37,7 +37,7 @@ export class GoogleDriveService {
     });
   }
 
-  login() {
+  public login() {
     this.tokenClient.requestAccessToken();
   }
 
@@ -53,7 +53,7 @@ export class GoogleDriveService {
       name: this.credentials.fileUploadFolder,
       mimeType: this.credentials.folderMimeType
     }
-    return this.http.post( this.baseUrl + 'drive/v3/files', params);
+    return this.http.post(this.baseUrl + 'drive/v3/files', params);
   }
 
   /* upload files to drive */
@@ -66,7 +66,7 @@ export class GoogleDriveService {
     };
     formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
     formData.append('file', file);
-    return this.http.post(this.baseUrl + 'upload/drive/v3/files?uploadType=multipart',formData);
+    return this.http.post(this.baseUrl + 'upload/drive/v3/files?uploadType=multipart', formData);
   }
 
   /* makes the file public */

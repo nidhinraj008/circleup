@@ -14,6 +14,10 @@
                 <div [routerLink]="['/settings']" class="d-flex align-items-center justify-content-end">
                     <i class="bi bi-gear-wide item-icon"></i>
                 </div>
+                } @else if(commonData.configurations().isShowSave) {
+                <div (click)="commonData.onSaveClick()" class="d-flex align-items-center justify-content-end">
+                    <i class="bi bi-floppy"></i>
+                </div>
                 }
             </div>
         </div>

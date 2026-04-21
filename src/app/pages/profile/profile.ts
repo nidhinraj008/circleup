@@ -5,6 +5,7 @@ import { AppState } from '../../core/store/app.state';
 import { selectConnectionsById } from '../../core/features/connections/connections.selectors';
 import { primaryConnection } from '../../shared/data/primary';
 import { CommonData } from '../../shared/services/common-data';
+import { GoogleDriveService } from '../../shared/services/google-drive.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,8 @@ export class Profile {
 
   constructor(
     private store: Store<AppState>,
-    private commonData: CommonData
+    private commonData: CommonData,
+    private googleDriveService: GoogleDriveService,
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +36,10 @@ export class Profile {
         this.commonData.error();
       }
     });
+  }
+
+  public googleLogin() {
+    this.googleDriveService.login();
   }
 
 }

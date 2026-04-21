@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, effect, inject, Signal, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
 import { GenderEnum } from '../../shared/enum/gender.enum';
@@ -59,7 +59,12 @@ export class ConnectionAdd {
     private googleDriveService: GoogleDriveService,
     private activatedRoute: ActivatedRoute,
   ) {
-
+    effect(() => {
+      const count = this.commonData.submitCount();
+      if (count > 0) {
+        this.onClickSubmit();
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -82,10 +87,6 @@ export class ConnectionAdd {
         this.getEditData(id);
       }
     })
-  }
-
-  login() {
-    this.googleDriveService.login();
   }
 
   // form section
@@ -241,8 +242,10 @@ export class ConnectionAdd {
 
   public async onClickSubmit() {
     this.detailsForm.markAllAsTouched();
-    if (this.detailsForm.invalid)
+    if (this.detailsForm.invalid) {
+      this.commonData.warning("Invalid data");
       return;
+    }
 
     if (this.fileToUpload) {
       this.initImageUpload();

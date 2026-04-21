@@ -196,6 +196,56 @@ body {
     }
 }
 
+.neo-toggle {
+    display: flex;
+    cursor: pointer;
+
+    input {
+        display: none;
+    }
+
+    .track {
+        width: 60px;
+        height: 32px;
+        border-radius: 50px;
+        position: relative;
+        display: inline-block;
+        transition: all 0.3s ease;
+        box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+        background-color: var(--background-color);
+    }
+
+    .thumb {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
+        transition: all 0.3s ease;
+        background-color: #d4d4d4;
+    }
+
+    // checked track 
+    input:checked+.track {
+        background-color: #d4d4d4;
+    }
+
+    // checked thumb 
+    input:checked+.track .thumb {
+        box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
+        left: 32px;
+        background-color: var(--background-color);
+    }
+
+    // actice thumb (click)
+    .track:active .thumb {
+        box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+    }
+}
+
+
 /* Cards */
 .neo-card {
     border-radius: 10px;
