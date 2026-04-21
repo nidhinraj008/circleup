@@ -4,10 +4,22 @@
     object-fit: cover;
 }
 
+.name-block {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111
+}
+
+.id-block {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888
+}
+
 .list-item {
     .item-icon {
-        font-weight: 600; 
-        font-size: 20; 
+        font-weight: 600;
+        font-size: 20;
         color: #555;
     }
 }

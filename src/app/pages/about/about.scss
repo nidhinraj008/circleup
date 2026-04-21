@@ -1,0 +1,43 @@
+.about-container {
+    // height: 100%;
+    padding: 20px;
+}
+
+.logo-circle {
+    width: 90px;
+    // height: 90px;
+    font-size: 32px;
+}
+
+
+.version-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+}
+
+.feature-card {
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+
+    i {
+        font-size: 22px;
+        margin-bottom: 5px;
+    }
+
+    p {
+        font-size: 12px;
+        margin: 0;
+    }
+}
+
+.made-with {
+    font-size: 14px;
+    color: #666;
+
+    i {
+        margin: 0 4px;
+    }
+}

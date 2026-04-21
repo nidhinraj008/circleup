@@ -1,31 +1,20 @@
 <div class="d-flex flex-column">
     <div class="d-flex p-3 gap-3 border-bottom">
         <div class="">
-            <img [src]="'images/no-image.png'" class="profile-image rounded-circle border" 
-                referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
+            <img [src]="'images/no-image.png'" class="profile-image rounded-circle border" referrerpolicy="no-referrer"
+                (error)="$event.target.src='images/unsupported.png'">
         </div>
         <div class="d-flex flex-column py-2">
-            <div class="fw-semibold">
-                User name
+            <div class="name-block">
+                {{userDetails()?.name ?? ''}}
             </div>
-            <div>
-                about..
+            <div class="id-block">
+                UID: {{userDetails()?.id}}
             </div>
         </div>
     </div>
 
     <div class="d-flex flex-column">
-        <div class="d-flex p-3 list-item">
-            <div>
-                <i class="bi bi-gear-wide item-icon"></i>
-            </div>
-            <div class="px-3 flex-grow-1">
-                Settings
-            </div>
-            <div class="ms-auto">
-                <i class="bi bi-chevron-right"></i>
-            </div>
-        </div>
 
         <div class="d-flex p-3 list-item">
             <div>
@@ -33,6 +22,18 @@
             </div>
             <div class="px-3 flex-grow-1">
                 Link account
+            </div>
+            <div class="ms-auto">
+                <i class="bi bi-chevron-right"></i>
+            </div>
+        </div>
+
+        <div [routerLink]="['/about']" class="d-flex p-3 list-item">
+            <div>
+                <i class="bi bi-info-circle item-icon"></i>
+            </div>
+            <div class="px-3 flex-grow-1">
+                About
             </div>
             <div class="ms-auto">
                 <i class="bi bi-chevron-right"></i>

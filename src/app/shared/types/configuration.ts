@@ -3,4 +3,5 @@ export interface Configurations {
     isShowAdd?: boolean;
     isShowEdit?: boolean;
     isShowDelete?: boolean;
+    isShowGearIcon?: boolean;
 }

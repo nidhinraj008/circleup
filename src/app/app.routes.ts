@@ -8,7 +8,7 @@ export const routes: Routes = [
     {
         path: 'initial',
         loadComponent: () => import("./pages/initial-page/initial-page")
-        .then(c => c.InitialPage)
+            .then(c => c.InitialPage)
     },
     {
         path: '',
@@ -19,65 +19,77 @@ export const routes: Routes = [
                 path: 'dashboard',
                 data: { config: pageWiseConfiguration.dashboard },
                 loadComponent: () => import('./pages/dashboard/dashboard')
-                .then(c => c.Dashboard)
+                    .then(c => c.Dashboard)
             },
             {
                 path: 'connections',
                 data: { config: pageWiseConfiguration.connections },
                 loadComponent: () => import('./pages/connection-list/connection-list')
-                .then(c => c.ConnectionList)
+                    .then(c => c.ConnectionList)
             },
             {
                 path: 'connections/add/:id',
                 data: { config: pageWiseConfiguration.connectionsAdd, mode: CRUDEnum.Create },
                 loadComponent: () => import('./pages/connection-add/connection-add')
-                .then(c => c.ConnectionAdd)
+                    .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/edit/:id',
                 data: { config: pageWiseConfiguration.connectionsEdit, mode: CRUDEnum.Update },
                 loadComponent: () => import('./pages/connection-add/connection-add')
-                .then(c => c.ConnectionAdd)
+                    .then(c => c.ConnectionAdd)
             },
             {
                 path: 'connections/view/:id',
                 data: { config: pageWiseConfiguration.connectionsView, mode: CRUDEnum.Read },
                 loadComponent: () => import('./pages/connection-view/connection-view')
-                .then(c => c.ConnectionView)
+                    .then(c => c.ConnectionView)
             },
             {
                 path: 'families',
                 data: { config: pageWiseConfiguration.families },
                 loadComponent: () => import('./pages/families/families')
-                .then(c => c.Families)
+                    .then(c => c.Families)
             },
             {
                 path: 'family/add',
                 data: { config: pageWiseConfiguration.familyAdd, mode: CRUDEnum.Create },
                 loadComponent: () => import('./pages/family-add/family-add')
-                .then(c => c.FamilyAdd)
+                    .then(c => c.FamilyAdd)
             },
             {
                 path: 'family/edit/:id',
                 data: { config: pageWiseConfiguration.familyEdit, mode: CRUDEnum.Update },
                 loadComponent: () => import('./pages/family-add/family-add')
-                .then(c => c.FamilyAdd)
+                    .then(c => c.FamilyAdd)
             },
             {
                 path: 'familyTree/:id',
                 data: { config: pageWiseConfiguration.familyTree },
                 loadComponent: () => import('./pages/family-tree/family-tree')
-                .then(c => c.FamilyTree)
+                    .then(c => c.FamilyTree)
             },
             {
                 path: 'profile',
                 data: { config: pageWiseConfiguration.profile },
                 loadComponent: () => import('./pages/profile/profile')
-                .then(c => c.Profile)
+                    .then(c => c.Profile)
+            },
+            {
+                path: 'settings',
+                data: { config: pageWiseConfiguration.settings },
+                loadComponent: () => import('./pages/settings/settings')
+                    .then(c => c.Settings)
+            },
+            {
+                path: 'about',
+                data: { config: pageWiseConfiguration.about },
+                loadComponent: () => import('./pages/about/about')
+                    .then(c => c.About)
             },
             {
                 path: '',
-                redirectTo: 'dashboard' ,
+                redirectTo: 'dashboard',
                 pathMatch: 'full'
             }
         ]

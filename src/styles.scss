@@ -11,6 +11,8 @@
     --font-color-3: #ffffff;
     --safe-top: env(safe-area-inset-top);
     --safe-bottom: env(safe-area-inset-bottom);
+
+    --border-radius: 10px;
 }
 
 body {
@@ -93,6 +95,7 @@ body {
     padding-bottom: var(--safe-bottom);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .disable-selection {
@@ -203,10 +206,20 @@ body {
 
 .neo-shadow-outward {
     box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
 }
 
 .neo-shadow-inward {
     box-shadow: 2px 2px 4px var(--shadow-secondary), -2px -2px 4px var(--shadow-primary);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
+}
+
+.neo-shadow-curvedout {
+    box-shadow: inset 2px 2px 4px var(--shadow-secondary), inset -2px -2px 4px var(--shadow-primary);
+    border-radius: var(--border-radius);
+}
+
+.neo-shadow-curvedin {
+    box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+    border-radius: var(--border-radius);
 }

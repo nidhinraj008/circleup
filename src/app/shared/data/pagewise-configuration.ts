@@ -48,5 +48,16 @@ export const pageWiseConfiguration = {
         title: "Profile",
         isShowMenuBar: true,
         isShowAdd: false,
+        isShowGearIcon: true,
+    },
+    settings: {
+        title: "Settings",
+        isShowMenuBar: false,
+        isShowAdd: false,
+    },
+    about: {
+        title: "About",
+        isShowMenuBar: false,
+        isShowAdd: false,
     },
 }
