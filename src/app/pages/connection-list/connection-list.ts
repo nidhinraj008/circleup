@@ -1,13 +1,13 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import { selectConnectionsWithAge, removeConnection } from '../../core/features/connections';
 import { LongPressDirective } from '../../shared/directives/long-press';
-import { FormBuilder, FormGroup, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
 import { CommonData } from '../../shared/services/common-data';
-declare var bootstrap: any;
+import * as bootstrap from 'bootstrap';
 
 export enum sortOptionsEnum {
   "Created Date: Latest" = 1,
@@ -20,23 +20,27 @@ export enum sortOptionsEnum {
   selector: 'app-connection-list',
   imports: [
     LongPressDirective,
-    ɵInternalFormsSharedModule,
     ReactiveFormsModule
-],
+  ],
   templateUrl: './connection-list.html',
   styleUrl: './connection-list.scss',
 })
-export class ConnectionList implements OnInit {
+export class ConnectionList implements OnInit, AfterViewInit {
 
   filterForm!: FormGroup;
   sortOptionsEnum = sortOptionsEnum;
   connectionsList = signal<any>([]);
-  actionsModalInstance: any;
-  sortingModalInstance: any;
-  deleteConfirmationModal: any;
   selectedItem: any;
   sortOptionsList = enumToArray(this.sortOptionsEnum);
   selectedSortOption = this.sortOptionsList[0];
+
+  @ViewChild('sortingModal') sortingModalRef!: ElementRef;
+  @ViewChild('actionsModal') actionsModalRef!: ElementRef;
+  @ViewChild('deleteConfirmationModal') deleteConfirmationModalRef!: ElementRef;
+
+  private sortingModalInstance!: bootstrap.Modal;
+  private actionsModalInstance!: bootstrap.Modal;
+  private deleteConfirmationModalInstance!: bootstrap.Modal;
 
   constructor(private readonly router: Router,
     private formBuilder: FormBuilder,
@@ -46,15 +50,15 @@ export class ConnectionList implements OnInit {
 
   }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.initFilterForm()
     this.getAllConnections();
   }
 
   ngAfterViewInit() {
-    this.actionsModalInstance = new bootstrap.Modal(document.getElementById('actionsModal'));
-    this.sortingModalInstance = new bootstrap.Modal(document.getElementById('sortingModal'));
-    this.deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+    this.sortingModalInstance = new bootstrap.Modal(this.sortingModalRef.nativeElement);
+    this.actionsModalInstance = new bootstrap.Modal(this.actionsModalRef.nativeElement);
+    this.deleteConfirmationModalInstance = new bootstrap.Modal(this.deleteConfirmationModalRef.nativeElement);
   }
 
   private initFilterForm() {
@@ -81,7 +85,7 @@ export class ConnectionList implements OnInit {
       sortedList = this.connectionsList().sort((a: any, b: any) => a.name.localeCompare(b.name));
     } else if (sortValue == this.sortOptionsEnum["Name Descending"]) {
       sortedList = this.connectionsList().sort((a: any, b: any) => b.name.localeCompare(a.name));
-    } 
+    }
     this.connectionsList.set(sortedList);
     this.commonData.hideLoader();
   }
@@ -99,7 +103,7 @@ export class ConnectionList implements OnInit {
     if (visible) {
       this.sortingModalInstance.show();
     } else {
-        this.sortingModalInstance.hide();
+      this.sortingModalInstance.hide();
     }
   }
 
@@ -107,7 +111,7 @@ export class ConnectionList implements OnInit {
     if (visible) {
       this.actionsModalInstance.show();
     } else {
-        this.actionsModalInstance.hide();
+      this.actionsModalInstance.hide();
     }
   }
 
@@ -115,15 +119,15 @@ export class ConnectionList implements OnInit {
     this.showOrHideActionsModal(false);
     this.router.navigate(['connections/edit', this.selectedItem.id])
   }
-  
+
   public onClickDelete() {
     this.store.dispatch(removeConnection({ connectionId: this.selectedItem.id }));
-    this.deleteConfirmationModal.hide();
+    this.deleteConfirmationModalInstance.hide();
     this.showOrHideActionsModal(false);
     this.getAllConnections();
     this.commonData.success("Item deleted successfully");
   }
-  
+
   public onClickClone() {
     this.showOrHideActionsModal(false);
     this.router.navigate(['connections/add', this.selectedItem.id])
@@ -142,20 +146,6 @@ export class ConnectionList implements OnInit {
         this.commonData.error();
       }
     })
-
-    // this.fireService.getAllConnections().subscribe(res => {
-    //   if (!res) {
-    //     return;
-    //   }
-    //   this.connectionsList = res.map((item: any) => {
-    //     const dateOfBirth = item?.dateOfBirth?.seconds ? moment(item.dateOfBirth.seconds * 1000) : null;
-    //     return {
-    //       ...item,
-    //       age: dateOfBirth ? moment().diff(dateOfBirth, 'years') : 0
-    //     };
-    //   });
-    //   this.cdr.markForCheck();
-    // });
   }
 
 }

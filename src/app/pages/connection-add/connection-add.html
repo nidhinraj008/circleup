@@ -2,7 +2,7 @@
     <form [formGroup]="detailsForm" (ngSubmit)="onClickSubmit()">
         <div class="text-center pb-2">
             <div (click)="detailsForm.get('isImageLink')?.value ? openOrShowLinkModal(true) : fileInput.click()"
-                class="p-1 position-relative d-inline-block rounded-pill neo-shadow-outward">
+                class="position-relative d-inline-block rounded-pill neo-shadow-outward" style="padding: 1px;">
                 <img [src]="detailsForm.get('primaryImageUrl')?.value ?? 'images/no-image.png'"
                     class="profile-image rounded-circle" referrerpolicy="no-referrer"
                     (error)="$event.target.src='images/unsupported.png'">

@@ -28,6 +28,12 @@ describe('ConnectionList', () => {
     }
   ];
 
+  const mockModalInstance = {
+    show: jasmine.createSpy('show'),
+    hide: jasmine.createSpy('hide'),
+    dispose: jasmine.createSpy('dispose')
+  };
+
   beforeEach(async () => {
 
     router = jasmine.createSpyObj('Router', ['navigate']);
@@ -46,8 +52,10 @@ describe('ConnectionList', () => {
     fixture = TestBed.createComponent(ConnectionList);
     component = fixture.componentInstance;
 
-    component.actionsModalInstance = { show: jasmine.createSpy(), hide: jasmine.createSpy() };
-    component.deleteConfirmationModal = { hide: jasmine.createSpy() };
+    // Mock the bootstrap Modal instances created via @ViewChild in ngAfterViewInit
+    (component as any).actionsModalInstance = { ...mockModalInstance };
+    (component as any).sortingModalInstance = { ...mockModalInstance };
+    (component as any).deleteConfirmationModalInstance = { ...mockModalInstance };
 
     fixture.detectChanges();
 
@@ -72,13 +80,13 @@ describe('ConnectionList', () => {
     const item = { id: 5 };
     component.onItemLongPress(item);
     expect(component.selectedItem).toEqual(item);
-    expect(component.actionsModalInstance.show).toHaveBeenCalled();
+    expect((component as any).actionsModalInstance.show).toHaveBeenCalled();
   });
 
   it('should navigate to edit page', () => {
     component.selectedItem = { id: 20 };
     component.onClickEdit();
-    expect(component.actionsModalInstance.hide).toHaveBeenCalled();
+    expect((component as any).actionsModalInstance.hide).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['connections/edit', 20]);
   });
 
@@ -98,8 +106,8 @@ describe('ConnectionList', () => {
       removeConnection({ connectionId: 99 })
     );
 
-    expect(component.deleteConfirmationModal.hide).toHaveBeenCalled();
-    expect(component.actionsModalInstance.hide).toHaveBeenCalled();
+    expect((component as any).deleteConfirmationModalInstance.hide).toHaveBeenCalled();
+    expect((component as any).actionsModalInstance.hide).toHaveBeenCalled();
 
   });
 

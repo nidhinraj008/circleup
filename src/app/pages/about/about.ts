@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { APP_INFO } from '../../shared/data/app-info';
 
 @Component({
   selector: 'app-about',
@@ -8,8 +9,6 @@ import { RouterLink } from "@angular/router";
   styleUrl: './about.scss',
 })
 export class About {
-  appName = 'CircleUp';
-  version = 'v1.0.0';
+  appInfo = APP_INFO;
   description = 'CircleUp helps you manage families, connections, and relationships in a simple and meaningful way.';
-
 }

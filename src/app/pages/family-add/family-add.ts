@@ -32,9 +32,10 @@ export class FamilyAdd {
     private router: Router,
     private commonData: CommonData
   ) {
+    let previousCount = this.commonData.submitCount();
     effect(() => {
       const count = this.commonData.submitCount();
-      if (count > 0) {
+      if (count > previousCount) {
         this.onClickSubmit();
       }
     });

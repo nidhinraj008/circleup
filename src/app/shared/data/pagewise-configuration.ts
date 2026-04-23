@@ -19,6 +19,7 @@ export const pageWiseConfiguration = {
         title: "Connection Edit",
         isShowMenuBar: false,
         isShowAdd: false,
+        isShowSave: true,
     },
     connectionsView: {
         title: "Connection View",
@@ -40,6 +41,7 @@ export const pageWiseConfiguration = {
         title: "Family Edit",
         isShowMenuBar: false,
         isShowAdd: false,
+        isShowSave: true,
     },
     familyTree: {
         title: "Family Tree",
