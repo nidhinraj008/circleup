@@ -23,10 +23,11 @@
         </div>
     </header>
 
-    <main class="app-content d-flex flex-column neo-shadow-curvedin">
-        <app-pull-to-refresh class="flex-fill">
-            <router-outlet></router-outlet>
-        </app-pull-to-refresh>
+    <main class="app-content neo-shadow-curvedin">
+        <!-- <app-pull-to-refresh class="flex-fill"
+            [disabled]="commonData.configurations().isPullToRefreshDisabled ?? false">
+        </app-pull-to-refresh> -->
+        <router-outlet></router-outlet>
     </main>
 
     @if (commonData.configurations().isShowMenuBar) {

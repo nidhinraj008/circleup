@@ -41,7 +41,7 @@ export class Families {
   }
 
   public onClickItem(item: any) {
-    this.router.navigate(['familyTree'], item.id)
+    this.router.navigate(['familyTree', item.id]);
   }
 
   public onItemLongPress(item: any) {
@@ -53,7 +53,7 @@ export class Families {
     if (visible) {
       this.actionsModalInstance.show();
     } else {
-        this.actionsModalInstance.hide();
+      this.actionsModalInstance.hide();
     }
   }
 
@@ -71,7 +71,7 @@ export class Families {
     this.showOrHideActionsModal(false);
     this.getAllFamilies();
   }
-  
+
   public onClickEdit() {
     this.showOrHideActionsModal(false);
     this.router.navigate(['family/edit', this.selectedItem.id])

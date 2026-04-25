@@ -12,3 +12,38 @@
 .age {
     font-size: 13px;
 }
+
+.floating-container {
+    background-color: var(--background-color);
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.zoom-btn {
+    border: none;
+    font-weight: 700;
+    color: var(--primary-font-color);
+    transition: all 0.2s ease;
+
+    &:active {
+        box-shadow: 2px 2px 4px var(--shadow-secondary), -2px -2px 4px var(--shadow-primary);
+        transform: scale(0.95);
+    }
+
+    &:hover {
+        color: #000;
+    }
+}
+
+.zoom-level {
+    width: 32px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--primary-font-color);
+}
+
+.y-divider {
+    width: 1px;
+    background-color: #ccc;
+}

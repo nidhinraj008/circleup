@@ -5,4 +5,5 @@ export interface Configurations {
     isShowEdit?: boolean;
     isShowDelete?: boolean;
     isShowGearIcon?: boolean;
+    isPullToRefreshDisabled?: boolean;
 }
