@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, input, signal, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-pull-to-refresh',
@@ -7,6 +7,7 @@ import { Component, ElementRef, HostListener, signal, viewChild } from '@angular
   styleUrl: './pull-to-refresh.scss',
 })
 export class PullToRefresh {
+  public disabled = input<boolean>(false);
   protected readonly Math = Math;
   private container = viewChild<ElementRef<HTMLDivElement>>('scrollContainer');
   
@@ -17,6 +18,7 @@ export class PullToRefresh {
 
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
+    if (this.disabled()) return;
     const el = this.container()?.nativeElement;
     if (el && el.scrollTop === 0) {
       this.startY = event.touches[0].pageY;
@@ -27,6 +29,7 @@ export class PullToRefresh {
 
   @HostListener('touchmove', ['$event'])
   onTouchMove(event: TouchEvent) {
+    if (this.disabled()) return;
     if (this.startY > 0 && !this.isRefreshing()) {
       const currentY = event.touches[0].pageY;
       const diff = currentY - this.startY;
