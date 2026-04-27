@@ -1,13 +1,13 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 
-export const selectConnectionsState = (state: AppState) => state.partners;
+export const selectPartnersState = (state: AppState) => state.partners;
 
 /* id selector */
-export const selectPartnerIds = createSelector(selectConnectionsState, state => state.ids);
+export const selectPartnerIds = createSelector(selectPartnersState, state => state.ids);
 
 /* entity selector */
-export const selectPartnerEntities = createSelector(selectConnectionsState, state => state.entities);
+export const selectPartnerEntities = createSelector(selectPartnersState, state => state.entities);
 
 /* get largest id */
 export const selectLargestPartnerId = createSelector(
@@ -22,7 +22,7 @@ export const selectPartnerById = (id: number) => createSelector(
 );
 
 /* get all */
-export const selectAllFamilies = createSelector(
+export const selectAllPartners = createSelector(
     selectPartnerIds,
     selectPartnerEntities,
     (ids, entities) => ids.map(id => ({

@@ -5,8 +5,8 @@ import { GenderEnum } from '../../shared/enum/gender.enum';
 import { DatePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
-import { addConnection, updateConnection, selectConnectionsByGender, selectConnectionsById, selectLargestId } from '../../core/features/connections';
-import { Connection } from '../../shared/types/connections';
+import { addPerson, updatePerson, selectPersonsByGender, selectPersonsById, selectLargestPersonId } from '../../core/features/persons';
+import { Person } from '../../shared/types/person';
 import { StatusEnum } from '../../shared/enum/status.enum';
 import { GoogleDriveService } from '../../shared/services/google-drive.service';
 import { selectFileUploadFolderId } from '../../core/features/auth';
@@ -18,30 +18,30 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { merge, take } from 'rxjs';
 import { calculateFullAge } from '../../shared/functions/common-functions';
 import { selectAllFamilies } from '../../core/features/family';
-import { assignConnection } from '../../shared/functions/data-assign-functions';
+import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { CommonData } from '../../shared/services/common-data';
 
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-connection-add',
+  selector: 'app-person-add',
   imports: [
     FormsModule,
     ReactiveFormsModule,
     DatePipe,
     NgSelectModule
   ],
-  templateUrl: './connection-add.html',
-  styleUrl: './connection-add.scss',
+  templateUrl: './person-add.html',
+  styleUrl: './person-add.scss',
 })
-export class ConnectionAdd {
+export class PersonAdd {
 
   googleDriveAPIUrl = inject(Google_Drive_API_Url);
   statusEnum = StatusEnum;
   fileToUpload: File | null = null;
   detailsForm!: FormGroup;
-  maleConnections: Signal<any[]> = signal([]);
-  femaleConnections: Signal<any[]> = signal([]);
+  malePersons: Signal<any[]> = signal([]);
+  femalePersons: Signal<any[]> = signal([]);
   familiesList: Signal<any[]> = signal([]);
   genderOptions = enumToArray(GenderEnum);
   statusOptions = enumToArray(StatusEnum);
@@ -72,7 +72,7 @@ export class ConnectionAdd {
   ngOnInit(): void {
     this.initDetailsForm();
     this.getRouterData();
-    this.getConnectionsByGender();
+    this.getPersonsByGender();
     this.googleDriveService.initClient();
   }
 
@@ -229,17 +229,17 @@ export class ConnectionAdd {
     this.googleDriveService.uploadAsPublicFile(file, folderId).subscribe({
       next: (res: any) => {
         this.detailsForm.patchValue({ primaryImageUrl: res });
-        this.addOrUpdateConnection();
+        this.addOrUpdatePerson();
       },
       error: (err: any) =>
         this.commonData.error("Image upload failed")
     });
   }
 
-  private getConnectionsByGender() {
+  private getPersonsByGender() {
     this.familiesList = this.store.selectSignal(selectAllFamilies);
-    this.maleConnections = this.store.selectSignal(selectConnectionsByGender(GenderEnum.Male));
-    this.femaleConnections = this.store.selectSignal(selectConnectionsByGender(GenderEnum.Female));
+    this.malePersons = this.store.selectSignal(selectPersonsByGender(GenderEnum.Male));
+    this.femalePersons = this.store.selectSignal(selectPersonsByGender(GenderEnum.Female));
   }
 
   public async onClickSubmit() {
@@ -254,28 +254,28 @@ export class ConnectionAdd {
       return;
     }
 
-    this.addOrUpdateConnection();
+    this.addOrUpdatePerson();
   }
 
-  private addOrUpdateConnection() {
-    let connection: Connection = assignConnection(this.detailsForm.value);
+  private addOrUpdatePerson() {
+    let person: Person = assignPerson(this.detailsForm.value);
     if (this.currentMode == CRUDEnum.Create) {
-      this.store.select(selectLargestId).pipe(take(1)).subscribe(id => {
-        connection.id = id + 1;
-        this.store.dispatch(addConnection({ connection: connection }));
+      this.store.select(selectLargestPersonId).pipe(take(1)).subscribe(id => {
+        person.id = id + 1;
+        this.store.dispatch(addPerson({ person: person }));
       });
       this.initDetailsForm();
       this.fileToUpload = null;
       this.commonData.success("Item added successfully");
     } else {
-      this.store.dispatch(updateConnection({ connection: connection }));
+      this.store.dispatch(updatePerson({ person: person }));
       this.commonData.success("Item updated successfully");
-      this.router.navigate(['connections'])
+      this.router.navigate(['persons'])
     }
   }
 
   private getEditData(id: number) {
-    this.store.select(selectConnectionsById(id)).subscribe({
+    this.store.select(selectPersonsById(id)).subscribe({
       next: (res: any) => {
         if (this.currentMode == CRUDEnum.Create) {
           res = { ...res, id: 0 }

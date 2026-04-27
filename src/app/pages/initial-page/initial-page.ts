@@ -7,12 +7,12 @@ import { DatePipe } from '@angular/common';
 import { combineLatest, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
-import { selectConnectionsById, addConnection, updateConnection } from '../../core/features/connections';
+import { selectPersonsById, addPerson, updatePerson } from '../../core/features/persons';
 import { selectFamilyById, addFamily } from '../../core/features/family';
-import { myFamily, primaryConnection } from '../../shared/data/primary';
+import { myFamily, primaryPerson } from '../../shared/data/primary';
 import { Family } from '../../shared/types/family';
-import { Connection } from '../../shared/types/connections';
-import { assignConnection } from '../../shared/functions/data-assign-functions';
+import { Person } from '../../shared/types/person';
+import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { Router } from '@angular/router';
 import { StatusEnum } from '../../shared/enum/status.enum';
 
@@ -67,7 +67,7 @@ export class InitialPage {
   // API calls
   private checkDataExist() {
     combineLatest([
-      this.store.select(selectConnectionsById(primaryConnection.id)),
+      this.store.select(selectPersonsById(primaryPerson.id)),
       this.store.select(selectFamilyById(myFamily.id))
     ]).pipe(
       tap(([user, family]) => {
@@ -101,12 +101,12 @@ export class InitialPage {
       familyId: myFamily.id,
       status: StatusEnum.Alive,
     }
-    let connection: Connection = assignConnection(params);
+    let person: Person = assignPerson(params);
     if(this.userDetails) {
-      this.store.dispatch(updateConnection({ connection: connection }))
+      this.store.dispatch(updatePerson({ person: person }))
     } else {
-      connection.id = primaryConnection.id;
-      this.store.dispatch(addConnection({ connection: connection }))
+      person.id = primaryPerson.id;
+      this.store.dispatch(addPerson({ person: person }))
     }
 
     this.router.navigate(['/'])

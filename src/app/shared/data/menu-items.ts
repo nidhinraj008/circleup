@@ -5,9 +5,9 @@ export const menuItems = [
         routerLink: ['/dashboard']
     },
     {
-        label: "Connections",
+        label: "Persons",
         icon: "bi bi-people",
-        routerLink: ['/connections']
+        routerLink: ['/persons']
     },
     {
         label: "Families",

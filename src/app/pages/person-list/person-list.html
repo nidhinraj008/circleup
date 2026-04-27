@@ -5,7 +5,7 @@
             <i class="bi bi-filter"></i>
         </div>
     </div>
-    @for (item of connectionsList(); track item.id) {
+    @for (item of personsList(); track item.id) {
     <div (click)="onClickItem(item)" longPress (onLongPressEnd)="onItemLongPress(item)"
         class="list-container disable-selection py-2 px-3" style="cursor: pointer;">
         <div class="d-flex align-items-center gap-2">

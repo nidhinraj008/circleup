@@ -10,5 +10,5 @@ import { APP_INFO } from '../../shared/data/app-info';
 })
 export class About {
   appInfo = APP_INFO;
-  description = 'CircleUp helps you manage families, connections, and relationships in a simple and meaningful way.';
+  description = 'CircleUp helps you manage families, persons, and relationships in a simple and meaningful way.';
 }

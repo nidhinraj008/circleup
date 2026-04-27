@@ -5,7 +5,7 @@ import { AppState } from '../../core/store/app.state';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { addFamily, selectFamilyById, selectLargestFamilyId, updateFamily } from '../../core/features/family'
-import { selectAllByFamilyId } from '../../core/features/connections'
+import { selectAllByFamilyId } from '../../core/features/persons'
 import { take } from 'rxjs';
 import { CommonData } from '../../shared/services/common-data';
 

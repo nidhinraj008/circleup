@@ -5,28 +5,28 @@ export const pageWiseConfiguration = {
         isShowAdd: false,
         isPullToRefreshDisabled: false,
     },
-    connections: {
-        title: "Connections",
+    persons: {
+        title: "Persons",
         isShowMenuBar: true,
         isShowAdd: true,
         isPullToRefreshDisabled: true,
     },
-    connectionsAdd: {
-        title: "Connection Add",
+    personsAdd: {
+        title: "Person Add",
         isShowMenuBar: false,
         isShowAdd: false,
         isShowSave: true,
         isPullToRefreshDisabled: false,
     },
-    connectionsEdit: {
-        title: "Connection Edit",
+    personsEdit: {
+        title: "Person Edit",
         isShowMenuBar: false,
         isShowAdd: false,
         isShowSave: true,
         isPullToRefreshDisabled: false,
     },
-    connectionsView: {
-        title: "Connection View",
+    personsView: {
+        title: "Person View",
         isShowMenuBar: false,
         isShowAdd: false,
         isPullToRefreshDisabled: false,

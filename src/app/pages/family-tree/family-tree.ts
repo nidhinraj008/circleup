@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { NgxGraphModule, NgxGraphZoomOptions } from '@swimlane/ngx-graph';
-import { selectAllByFamilyId } from '../../core/features/connections';
+import { selectAllByFamilyId } from '../../core/features/persons';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { ActivatedRoute } from '@angular/router';
@@ -19,8 +19,8 @@ import { Subject } from 'rxjs';
 export class FamilyTree {
 
   treeData: any[] = [];
-  conectionNodes: any[] = [];
-  connectionLinks: any[] = [];
+  personNodes: any[] = [];
+  personLinks: any[] = [];
 
   layoutSettings = {
     orientation: 'TB',
@@ -100,8 +100,8 @@ export class FamilyTree {
       links.push({ source: key, target: `id${item.id}` });
     }
 
-    this.connectionLinks = links;
-    this.conectionNodes = nodes;
+    this.personLinks = links;
+    this.personNodes = nodes;
     setTimeout(() => {
       this.fitGraph();
     }, 10);

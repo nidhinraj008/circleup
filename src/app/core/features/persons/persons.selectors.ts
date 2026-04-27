@@ -4,23 +4,23 @@ import { calculateAge } from '../../../shared/functions/common-functions';
 import { GenderEnum } from '../../../shared/enum/gender.enum';
 import { selectFamilyEntities } from '../family';
 
-export const selectConnectionsState = (state: AppState) => state.connections;
+export const selectPersonsState = (state: AppState) => state.persons;
 
 /* id selector */
-export const selectConnectionsIds = createSelector(selectConnectionsState, state => state.ids);
+export const selectPersonsIds = createSelector(selectPersonsState, state => state.ids);
 
 /* entity selector */
-export const selectConnectionsEntities = createSelector(selectConnectionsState, state => state.entities);
+export const selectPersonsEntities = createSelector(selectPersonsState, state => state.entities);
 
 /* get largest id */
-export const selectLargestId = createSelector(
-    selectConnectionsIds,
+export const selectLargestPersonId = createSelector(
+    selectPersonsIds,
     (ids) => ids.length ? Math.max(...ids.map(Number)) : 0
 );
 
 /* get by id*/
-export const selectConnectionsById = (id: number) => createSelector(
-    selectConnectionsEntities, 
+export const selectPersonsById = (id: number) => createSelector(
+    selectPersonsEntities, 
     selectFamilyEntities,
     (entities, families) => {
         const entity = entities[id];
@@ -38,9 +38,9 @@ export const selectConnectionsById = (id: number) => createSelector(
 );
 
 /* get by all with age*/
-export const selectConnectionsWithAge = createSelector(
-    selectConnectionsIds,
-    selectConnectionsEntities,
+export const selectPersonsWithAge = createSelector(
+    selectPersonsIds,
+    selectPersonsEntities,
     (ids, entities) => ids.map(id => ({
         ...entities[id],
         age: calculateAge(entities[id].status, entities[id].dateOfBirth, entities[id].deathDate)
@@ -48,20 +48,20 @@ export const selectConnectionsWithAge = createSelector(
 );
 
 /* get by all with gender filter*/
-export const selectConnectionsByGender = (gender: GenderEnum) => createSelector(
-    selectConnectionsIds, 
-    selectConnectionsEntities,
+export const selectPersonsByGender = (gender: GenderEnum) => createSelector(
+    selectPersonsIds, 
+    selectPersonsEntities,
     (ids, entities) => ids.map(id => entities[id])
-    .filter(connection => connection.gender === gender)
+    .filter(person => person.gender === gender)
 );
 
 /* list data for the tree */
 export const selectAllByFamilyId = (familyId: number) => createSelector(
-    selectConnectionsIds,
-    selectConnectionsEntities,
+    selectPersonsIds,
+    selectPersonsEntities,
     (ids, entities) => ids.map(id => ({
         ...entities[id],
         age: calculateAge(entities[id].status, entities[id].dateOfBirth, entities[id].deathDate)
     }))
-        .filter(connection => connection?.familyId === familyId)
+        .filter(person => person?.familyId === familyId)
 )

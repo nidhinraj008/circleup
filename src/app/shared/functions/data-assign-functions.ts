@@ -1,6 +1,6 @@
-import { Connection } from "../types/connections";
+import { Person } from "../types/person";
 
-export function assignConnection(data: any): Connection {
+export function assignPerson(data: any): Person {
     return {
         id: data?.id ? Number(data.id) : 0,
         name: data?.name ?? null,

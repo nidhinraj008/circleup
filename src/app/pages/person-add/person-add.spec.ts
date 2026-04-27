@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConnectionAdd } from './connection-add';
+import { PersonAdd } from './person-add';
 import { ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { AppState } from '../../core/store/app.state';
-import { addConnection, updateConnection } from '../../core/features/connections';
+import { addPerson, updatePerson } from '../../core/features/persons';
 import { StatusEnum } from '../../shared/enum/status.enum';
 import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { of } from 'rxjs';
@@ -11,15 +11,15 @@ import { FireService } from '../../shared/services/fire-service';
 import { GoogleDriveService } from '../../shared/services/google-drive.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Connection } from '../../shared/types/connections';
+import { Person } from '../../shared/types/person';
 
-describe('ConnectionAdd', () => {
+describe('PersonAdd', () => {
 
-  let component: ConnectionAdd;
-  let fixture: ComponentFixture<ConnectionAdd>;
+  let component: PersonAdd;
+  let fixture: ComponentFixture<PersonAdd>;
   let store: MockStore;
 
-  const mockConnection: Connection = {
+  const mockPerson: Person = {
     id: 1,
     name: 'John',
     gender: 1,
@@ -36,7 +36,7 @@ describe('ConnectionAdd', () => {
   };
 
   const mockInitialState: AppState = {
-    connections: {
+    persons: {
       ids: [],
       entities: {}
     },
@@ -73,7 +73,7 @@ describe('ConnectionAdd', () => {
         ReactiveFormsModule,
         FormsModule,
         NgSelectModule,
-        ConnectionAdd
+        PersonAdd
       ],
       providers: [
         FormBuilder,
@@ -84,7 +84,7 @@ describe('ConnectionAdd', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConnectionAdd);
+    fixture = TestBed.createComponent(PersonAdd);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
 
@@ -112,7 +112,7 @@ describe('ConnectionAdd', () => {
     expect(component.detailsForm.invalid).toBeTrue();
   });
 
-  it('should dispatch addConnection when form valid in create mode', () => {
+  it('should dispatch addPerson when form valid in create mode', () => {
 
     spyOn(store, 'dispatch');
 
@@ -131,7 +131,7 @@ describe('ConnectionAdd', () => {
     expect(store.dispatch).toHaveBeenCalled();
   });
 
-  it('should dispatch updateConnection in edit mode', () => {
+  it('should dispatch updatePerson in edit mode', () => {
 
     spyOn(store, 'dispatch');
 
@@ -148,7 +148,7 @@ describe('ConnectionAdd', () => {
     component.onClickSubmit();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      updateConnection({ connection: mockConnection })
+      updatePerson({ person: mockPerson })
     );
   });
 

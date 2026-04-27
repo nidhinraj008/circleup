@@ -102,7 +102,7 @@
         <div class="basic-control-container form-floating">
             <ng-select class="form-select form-ng-select" formControlName="fatherId" bindLabel="label"
                 bindValue="value">
-                @for (item of maleConnections(); track item.id) {
+                @for (item of malePersons(); track item.id) {
                 <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
             </ng-select>
@@ -114,7 +114,7 @@
         <div class="basic-control-container form-floating">
             <ng-select class="form-select form-ng-select" formControlName="motherId" bindLabel="label"
                 bindValue="value">
-                @for (item of femaleConnections(); track item.id) {
+                @for (item of femalePersons(); track item.id) {
                 <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
             </ng-select>

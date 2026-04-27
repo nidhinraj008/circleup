@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, signal, ViewChild } from 
 import { Router } from '@angular/router';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
-import { selectConnectionsWithAge, removeConnection } from '../../core/features/connections';
+import { selectPersonsWithAge, removePerson } from '../../core/features/persons';
 import { LongPressDirective } from '../../shared/directives/long-press';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
@@ -17,19 +17,19 @@ export enum sortOptionsEnum {
 }
 
 @Component({
-  selector: 'app-connection-list',
+  selector: 'app-person-list',
   imports: [
     LongPressDirective,
     ReactiveFormsModule
   ],
-  templateUrl: './connection-list.html',
-  styleUrl: './connection-list.scss',
+  templateUrl: './person-list.html',
+  styleUrl: './person-list.scss',
 })
-export class ConnectionList implements OnInit, AfterViewInit {
+export class PersonList implements OnInit, AfterViewInit {
 
   filterForm!: FormGroup;
   sortOptionsEnum = sortOptionsEnum;
-  connectionsList = signal<any>([]);
+  personsList = signal<any>([]);
   selectedItem: any;
   sortOptionsList = enumToArray(this.sortOptionsEnum);
   selectedSortOption = this.sortOptionsList[0];
@@ -52,7 +52,7 @@ export class ConnectionList implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initFilterForm()
-    this.getAllConnections();
+    this.getAllPersons();
   }
 
   ngAfterViewInit() {
@@ -68,30 +68,30 @@ export class ConnectionList implements OnInit, AfterViewInit {
     });
 
     this.filterForm.get("sortValue")?.valueChanges.subscribe(() => {
-      this.sortConnections();
+      this.sortPersons();
       this.showOrHideSortingModal(false)
     });
   }
 
-  private sortConnections() {
+  private sortPersons() {
     this.commonData.showLoader();
     const sortValue = this.filterForm.get('sortValue')?.value;
     let sortedList: any[] = [];
     if (sortValue == this.sortOptionsEnum["Created Date: Latest"]) {
-      sortedList = this.connectionsList().sort((a: any, b: any) => b.id - a.id);
+      sortedList = this.personsList().sort((a: any, b: any) => b.id - a.id);
     } else if (sortValue == this.sortOptionsEnum["Created Date: Earliest"]) {
-      sortedList = this.connectionsList().sort((a: any, b: any) => a.id - b.id);
+      sortedList = this.personsList().sort((a: any, b: any) => a.id - b.id);
     } else if (sortValue == this.sortOptionsEnum["Name Ascending"]) {
-      sortedList = this.connectionsList().sort((a: any, b: any) => a.name.localeCompare(b.name));
+      sortedList = this.personsList().sort((a: any, b: any) => a.name.localeCompare(b.name));
     } else if (sortValue == this.sortOptionsEnum["Name Descending"]) {
-      sortedList = this.connectionsList().sort((a: any, b: any) => b.name.localeCompare(a.name));
+      sortedList = this.personsList().sort((a: any, b: any) => b.name.localeCompare(a.name));
     }
-    this.connectionsList.set(sortedList);
+    this.personsList.set(sortedList);
     this.commonData.hideLoader();
   }
 
   public onClickItem(item: any) {
-    this.router.navigate(['connections/view', item.id]);
+    this.router.navigate(['persons/view', item.id]);
   }
 
   public onItemLongPress(item: any) {
@@ -117,28 +117,28 @@ export class ConnectionList implements OnInit, AfterViewInit {
 
   public onClickEdit() {
     this.showOrHideActionsModal(false);
-    this.router.navigate(['connections/edit', this.selectedItem.id])
+    this.router.navigate(['persons/edit', this.selectedItem.id])
   }
 
   public onClickDelete() {
-    this.store.dispatch(removeConnection({ connectionId: this.selectedItem.id }));
+    this.store.dispatch(removePerson({ personId: this.selectedItem.id }));
     this.deleteConfirmationModalInstance.hide();
     this.showOrHideActionsModal(false);
-    this.getAllConnections();
+    this.getAllPersons();
     this.commonData.success("Item deleted successfully");
   }
 
   public onClickClone() {
     this.showOrHideActionsModal(false);
-    this.router.navigate(['connections/add', this.selectedItem.id])
+    this.router.navigate(['persons/add', this.selectedItem.id])
   }
 
-  private getAllConnections() {
+  private getAllPersons() {
     this.commonData.showLoader();
-    this.store.select(selectConnectionsWithAge).subscribe({
+    this.store.select(selectPersonsWithAge).subscribe({
       next: (res: any) => {
-        this.connectionsList.set(res);
-        this.sortConnections();
+        this.personsList.set(res);
+        this.sortPersons();
         this.commonData.hideLoader();
       },
       error: (err: any) => {

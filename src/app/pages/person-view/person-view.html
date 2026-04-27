@@ -1,17 +1,17 @@
 <div class="d-flex flex-column">
     <div class="image-container">
-        <img [src]="connectionDetails()?.primaryImageUrl ?? 'images/no-image.png'" 
+        <img [src]="personDetails()?.primaryImageUrl ?? 'images/no-image.png'" 
             referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
     </div>
     <div class="d-flex justify-content-center">
         <h5 class="name-container px-3 py-2 m-0 text-center">
-            {{connectionDetails().name}}
+            {{personDetails().name}}
         </h5>
     </div>
     <div class="text-center">
-        @if(connectionDetails().gender == genderEnum.Female) {
+        @if(personDetails().gender == genderEnum.Female) {
             <i class="bi bi-gender-female" style="color: #ed72a6;"></i>
-        } @else if (connectionDetails().gender == genderEnum.Male) {
+        } @else if (personDetails().gender == genderEnum.Male) {
             <i class="bi bi-gender-male" style="color: #58beeb;"></i>
         }
     </div>
@@ -23,7 +23,7 @@
                     Date Of Birth
                 </div>
                 <div class="value">
-                    {{connectionDetails().dateOfBirth | date : 'dd MMM yyyy'}}
+                    {{personDetails().dateOfBirth | date : 'dd MMM yyyy'}}
                 </div>
             </div>
     
@@ -33,16 +33,16 @@
                 </div>
                 <div class="d-flex gap-1">
                     <div>
-                        <span class="value">{{connectionDetails().ageYears}}</span>
-                        <span class="label">Year{{connectionDetails().ageYears > 1 ? 's' : ''}} </span>
+                        <span class="value">{{personDetails().ageYears}}</span>
+                        <span class="label">Year{{personDetails().ageYears > 1 ? 's' : ''}} </span>
                     </div>
                     <div>
-                        <span class="value">{{connectionDetails().ageMonths}}</span>
-                        <span class="label">Month{{connectionDetails().ageMonths > 1 ? 's' : ''}} </span>
+                        <span class="value">{{personDetails().ageMonths}}</span>
+                        <span class="label">Month{{personDetails().ageMonths > 1 ? 's' : ''}} </span>
                     </div>
                     <div>
-                        <span class="value">{{connectionDetails().ageDays}}</span>
-                        <span class="label">Day{{connectionDetails().ageDays > 1 ? 's' : ''}} </span>
+                        <span class="value">{{personDetails().ageDays}}</span>
+                        <span class="label">Day{{personDetails().ageDays > 1 ? 's' : ''}} </span>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     Home
                 </div>
                 <div class="value">
-                    {{connectionDetails().home}}
+                    {{personDetails().home}}
                 </div>
             </div>
     
@@ -63,7 +63,7 @@
                     Family
                 </div>
                 <div class="value">
-                    {{connectionDetails().familyName}}
+                    {{personDetails().familyName}}
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     Father
                 </div>
                 <div class="value">
-                    {{connectionDetails().fatherName}}
+                    {{personDetails().fatherName}}
                 </div>
             </div>
     
@@ -83,7 +83,7 @@
                     Mother
                 </div>
                 <div class="value">
-                    {{connectionDetails().motherName}}
+                    {{personDetails().motherName}}
                 </div>
             </div>
         </div>
@@ -94,21 +94,21 @@
                     Status
                 </div>
                 <div class="value">
-                    {{statusEnum[connectionDetails().status]}}
+                    {{statusEnum[personDetails().status]}}
                 </div>
             </div>
     
 
         </div>
 
-        @if (connectionDetails().status == statusEnum.Deceased) {
+        @if (personDetails().status == statusEnum.Deceased) {
             <div class="row py-2 g-0">
                 <div class="col-6 d-flex flex-column">
                     <div class="label">
                         Death date
                     </div>
                     <div class="value">
-                        {{connectionDetails().deathDate | date : 'dd MMM yyyy'}}
+                        {{personDetails().deathDate | date : 'dd MMM yyyy'}}
                     </div>
                 </div>
     
@@ -117,7 +117,7 @@
                         Death Cause
                     </div>
                     <div class="value">
-                        {{connectionDetails().deathCause}}
+                        {{personDetails().deathCause}}
                     </div>
                 </div>
             </div>
@@ -128,8 +128,8 @@
                 <div class="label">
                     Notes
                 </div>
-                <div class="value" [innerHTML]="connectionDetails().notes">
-                    <!-- {{connectionDetails().notes}} -->
+                <div class="value" [innerHTML]="personDetails().notes">
+                    <!-- {{personDetails().notes}} -->
                 </div>
             </div>
         </div>

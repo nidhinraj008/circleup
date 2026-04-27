@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialConnectionsState } from './partner.state';
+import { initialPartnersState } from './partner.state';
 import * as PartnerActions from './partner.actions';
 
-export const partnerReducer = createReducer(initialConnectionsState,
+export const partnerReducer = createReducer(initialPartnersState,
   on(PartnerActions.addPartner, (state, { partner }) => ({
     ...state,
     ids: [...state.ids, partner.id],

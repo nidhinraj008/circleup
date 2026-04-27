@@ -26,8 +26,8 @@ export class CommonData {
 
   public onAddClick() {
     const url = this.router.url;
-    if (url.includes('connections')) {
-      this.router.navigate(['connections/add', 0]);
+    if (url.includes('persons')) {
+      this.router.navigate(['persons/add', 0]);
     } else if (url.includes('families')) {
       this.router.navigate(['family/add'])
     }

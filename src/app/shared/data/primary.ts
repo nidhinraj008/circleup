@@ -1,4 +1,4 @@
-export const primaryConnection = {
+export const primaryPerson = {
     id: 1,
 }
 

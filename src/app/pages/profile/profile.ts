@@ -2,8 +2,8 @@ import { Component, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
-import { selectConnectionsById } from '../../core/features/connections/connections.selectors';
-import { primaryConnection } from '../../shared/data/primary';
+import { selectPersonsById } from '../../core/features/persons/persons.selectors';
+import { primaryPerson } from '../../shared/data/primary';
 import { CommonData } from '../../shared/services/common-data';
 import { GoogleDriveService } from '../../shared/services/google-drive.service';
 
@@ -24,11 +24,11 @@ export class Profile {
   ) { }
 
   ngOnInit(): void {
-    this.getConnections();
+    this.getPersonDetails();
   }
 
-  private getConnections() {
-    this.store.select(selectConnectionsById(primaryConnection.id)).subscribe({
+  private getPersonDetails() {
+    this.store.select(selectPersonsById(primaryPerson.id)).subscribe({
       next: (res: any) => {
         this.userDetails.set(res);
       },

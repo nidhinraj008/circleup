@@ -1,7 +1,7 @@
 import { Component, Signal, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
-import { selectConnectionsById } from '../../core/features/connections';
+import { selectPersonsById } from '../../core/features/persons';
 import { ActivatedRoute } from '@angular/router';
 import { GenderEnum } from '../../shared/enum/gender.enum';
 import { StatusEnum } from '../../shared/enum/status.enum';
@@ -9,16 +9,16 @@ import { DatePipe } from '@angular/common';
 import { calculateFullAge } from '../../shared/functions/common-functions';
 
 @Component({
-  selector: 'app-connection-view',
+  selector: 'app-person-view',
   imports: [
     DatePipe
   ],
-  templateUrl: './connection-view.html',
-  styleUrl: './connection-view.scss',
+  templateUrl: './person-view.html',
+  styleUrl: './person-view.scss',
 })
-export class ConnectionView {
+export class PersonView {
   
-  connectionDetails = signal<any>(null);
+  personDetails = signal<any>(null);
 
   genderEnum = GenderEnum;
   statusEnum = StatusEnum;
@@ -40,10 +40,10 @@ export class ConnectionView {
   }
 
   private getEditData(id: number) {
-    this.store.select(selectConnectionsById(id)).subscribe({
+    this.store.select(selectPersonsById(id)).subscribe({
       next: (res: any) => {
         let fullAge = calculateFullAge(res?.status, res?.dateOfBirth, res?.deathDate);
-        this.connectionDetails.set({ ...res, ...fullAge });
+        this.personDetails.set({ ...res, ...fullAge });
       }
     })
   }

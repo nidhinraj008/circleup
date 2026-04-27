@@ -1,10 +1,10 @@
-import { ConnectionsState } from '../features/connections/connections.state';
+import { PersonsState } from '../features/persons/persons.state';
 import { AuthState } from '../features/auth/auth.state';
 import { FamilyState } from '../features/family';
 import { PartnerState } from '../features/partner';
 
 export interface AppState { 
-    connections: ConnectionsState; 
+    persons: PersonsState; 
     authentication: AuthState;
     families: FamilyState,
     partners: PartnerState,

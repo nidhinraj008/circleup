@@ -1,18 +1,18 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectConnectionsEntities } from '../connections';
+import { selectPersonsEntities } from '../persons';
 
-export const selectConnectionsState = (state: AppState) => state.families;
+export const selectFamiliesState = (state: AppState) => state.families;
 
 /* id selector */
-export const selectFamilyIds = createSelector(selectConnectionsState, state => state.ids);
+export const selectFamilyIds = createSelector(selectFamiliesState, state => state.ids);
 
 /* entity selector */
-export const selectFamilyEntities = createSelector(selectConnectionsState, state => state.entities);
+export const selectFamilyEntities = createSelector(selectFamiliesState, state => state.entities);
 
 /* get by id*/
 export const selectFamilyById = (id: number) => createSelector(
-    selectFamilyEntities, 
+    selectFamilyEntities,
     entities => entities[id]
 );
 
@@ -25,11 +25,11 @@ export const selectAllFamilies = createSelector(
     }))
 );
 
-/* get all mith member count */
+/* get all with member count */
 export const selectAllFamiliesWithMembersCount = createSelector(
     selectFamilyIds,
     selectFamilyEntities,
-    selectConnectionsEntities,
+    selectPersonsEntities,
     (ids, entities, members) => ids.map(id => {
         const family = entities[id];
         const membersCount = Object.values(members).filter(m => m.familyId === id).length;

@@ -22,28 +22,28 @@ export const routes: Routes = [
                     .then(c => c.Dashboard)
             },
             {
-                path: 'connections',
-                data: { config: pageWiseConfiguration.connections },
-                loadComponent: () => import('./pages/connection-list/connection-list')
-                    .then(c => c.ConnectionList)
+                path: 'persons',
+                data: { config: pageWiseConfiguration.persons },
+                loadComponent: () => import('./pages/person-list/person-list')
+                    .then(c => c.PersonList)
             },
             {
-                path: 'connections/add/:id',
-                data: { config: pageWiseConfiguration.connectionsAdd, mode: CRUDEnum.Create },
-                loadComponent: () => import('./pages/connection-add/connection-add')
-                    .then(c => c.ConnectionAdd)
+                path: 'persons/add/:id',
+                data: { config: pageWiseConfiguration.personsAdd, mode: CRUDEnum.Create },
+                loadComponent: () => import('./pages/person-add/person-add')
+                    .then(c => c.PersonAdd)
             },
             {
-                path: 'connections/edit/:id',
-                data: { config: pageWiseConfiguration.connectionsEdit, mode: CRUDEnum.Update },
-                loadComponent: () => import('./pages/connection-add/connection-add')
-                    .then(c => c.ConnectionAdd)
+                path: 'persons/edit/:id',
+                data: { config: pageWiseConfiguration.personsEdit, mode: CRUDEnum.Update },
+                loadComponent: () => import('./pages/person-add/person-add')
+                    .then(c => c.PersonAdd)
             },
             {
-                path: 'connections/view/:id',
-                data: { config: pageWiseConfiguration.connectionsView, mode: CRUDEnum.Read },
-                loadComponent: () => import('./pages/connection-view/connection-view')
-                    .then(c => c.ConnectionView)
+                path: 'persons/view/:id',
+                data: { config: pageWiseConfiguration.personsView, mode: CRUDEnum.Read },
+                loadComponent: () => import('./pages/person-view/person-view')
+                    .then(c => c.PersonView)
             },
             {
                 path: 'families',

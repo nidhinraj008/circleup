@@ -1,4 +1,4 @@
-export interface Connection {
+export interface Person {
     id: number;
     name: string;
     gender: number;

@@ -5,6 +5,6 @@ export interface PartnerState {
     entities: { [key: number]: Partner };
 }
 
-export const initialConnectionsState: PartnerState = { ids: [], entities: {} };
+export const initialPartnersState: PartnerState = { ids: [], entities: {} };
 
 

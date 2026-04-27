@@ -5,6 +5,6 @@ export interface FamilyState {
     entities: { [key: number]: Family };
 }
 
-export const initialConnectionsState: FamilyState = { ids: [], entities: {} };
+export const initialFamilyState: FamilyState = { ids: [], entities: {} };
 
 

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConnectionList } from './connection-list';
+import { PersonList } from './person-list';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { removeConnection } from '../../core/features/connections';
+import { removePerson } from '../../core/features/persons';
 import { LongPressDirective } from '../../shared/directives/long-press';
 
-describe('ConnectionList', () => {
+describe('PersonList', () => {
 
-  let component: ConnectionList;
-  let fixture: ComponentFixture<ConnectionList>;
+  let component: PersonList;
+  let fixture: ComponentFixture<PersonList>;
   let router: jasmine.SpyObj<Router>;
   let store: jasmine.SpyObj<Store>;
 
-  const mockConnections = [
+  const mockPersons = [
     {
       id: 1,
       name: 'John',
@@ -39,17 +39,17 @@ describe('ConnectionList', () => {
     router = jasmine.createSpyObj('Router', ['navigate']);
     store = jasmine.createSpyObj('Store', ['select', 'dispatch']);
 
-    store.select.and.returnValue(of(mockConnections));
+    store.select.and.returnValue(of(mockPersons));
 
     await TestBed.configureTestingModule({
-      imports: [ConnectionList],
+      imports: [PersonList],
       providers: [
         { provide: Router, useValue: router },
         { provide: Store, useValue: store }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConnectionList);
+    fixture = TestBed.createComponent(PersonList);
     component = fixture.componentInstance;
 
     // Mock the bootstrap Modal instances created via @ViewChild in ngAfterViewInit
@@ -65,7 +65,7 @@ describe('ConnectionList', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load connections on init', () => {
+  it('should load persons on init', () => {
     component.ngOnInit();
     expect(store.select).toHaveBeenCalled();
   });
@@ -73,7 +73,7 @@ describe('ConnectionList', () => {
   it('should navigate to view page when item clicked', () => {
     const item = { id: 10 };
     component.onClickItem(item);
-    expect(router.navigate).toHaveBeenCalledWith(['connections/view', 10]);
+    expect(router.navigate).toHaveBeenCalledWith(['persons/view', 10]);
   });
 
   it('should set selected item and show actions modal on long press', () => {
@@ -87,23 +87,23 @@ describe('ConnectionList', () => {
     component.selectedItem = { id: 20 };
     component.onClickEdit();
     expect((component as any).actionsModalInstance.hide).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['connections/edit', 20]);
+    expect(router.navigate).toHaveBeenCalledWith(['persons/edit', 20]);
   });
 
   it('should navigate to clone page', () => {
     component.selectedItem = { id: 30 };
     component.onClickClone();
-    expect(router.navigate).toHaveBeenCalledWith(['connections/add', 30]);
+    expect(router.navigate).toHaveBeenCalledWith(['persons/add', 30]);
   });
 
-  it('should dispatch removeConnection and close modals', () => {
+  it('should dispatch removePerson and close modals', () => {
 
     component.selectedItem = { id: 99 };
 
     component.onClickDelete();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      removeConnection({ connectionId: 99 })
+      removePerson({ personId: 99 })
     );
 
     expect((component as any).deleteConfirmationModalInstance.hide).toHaveBeenCalled();

@@ -17,13 +17,13 @@ export class FireService {
   }
 
 
-  public async addConnection(params: any) {
-    const refCollection = collection(this.firestore, 'connections');
+  public async addPerson(params: any) {
+    const refCollection = collection(this.firestore, 'persons');
     return await addDoc(refCollection, params);
   }
 
-  public getAllConnections() {
-    const ref = collection(this.firestore, 'connections');
+  public getAllPersons() {
+    const ref = collection(this.firestore, 'persons');
     return collectionData(ref, { idField: 'id' });
   }
 
