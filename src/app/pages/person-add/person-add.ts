@@ -20,8 +20,7 @@ import { calculateFullAge } from '../../shared/functions/common-functions';
 import { selectAllFamilies } from '../../core/features/family';
 import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { CommonData } from '../../shared/services/common-data';
-
-declare var bootstrap: any;
+import { Modal } from '../../shared/components/modal/modal';
 
 @Component({
   selector: 'app-person-add',
@@ -29,7 +28,8 @@ declare var bootstrap: any;
     FormsModule,
     ReactiveFormsModule,
     DatePipe,
-    NgSelectModule
+    NgSelectModule,
+    Modal
   ],
   templateUrl: './person-add.html',
   styleUrl: './person-add.scss',
@@ -47,9 +47,11 @@ export class PersonAdd {
   statusOptions = enumToArray(StatusEnum);
   currentDate = new Date();
   currentMode!: CRUDEnum;
-  imageLinkModalInstance: any;
   imageLink = signal<string | null>(null);
   isImageLinkValid = signal<boolean>(false);
+  showImageActionModal: boolean = false;
+  showImageDeleteConfirmationModal: boolean = false;
+  showImageLoadModal: boolean = false;
 
   constructor(
     private router: Router,
@@ -74,11 +76,6 @@ export class PersonAdd {
     this.getRouterData();
     this.getPersonsByGender();
     this.googleDriveService.initClient();
-  }
-
-
-  ngAfterViewInit() {
-    this.imageLinkModalInstance = new bootstrap.Modal(document.getElementById('imageLinkModal'));
   }
 
   private getRouterData() {
@@ -129,12 +126,13 @@ export class PersonAdd {
   }
 
   // image section
-  public openOrShowLinkModal(visibility: boolean) {
-    if (visibility) {
-      this.imageLinkModalInstance.show();
-    } else {
-      this.imageLinkModalInstance.hide();
-    }
+  public removeImage() {
+    this.detailsForm.get('primaryImageUrl')?.setValue(null);
+    this.fileToUpload = null;
+    this.imageLink.set(null);
+    this.isImageLinkValid.set(false);
+    this.showImageDeleteConfirmationModal = false;
+    this.showImageActionModal = false;
   }
 
   async onClickLoadImage() {
@@ -172,7 +170,8 @@ export class PersonAdd {
     this.fileToUpload = null;
     this.imageLink.set(null);
     this.isImageLinkValid.set(false);
-    this.openOrShowLinkModal(false);
+    this.showImageLoadModal = false;
+    this.showImageActionModal = false;
   }
 
   private setFolderId(folderId: string) {
@@ -187,6 +186,7 @@ export class PersonAdd {
     this.fileToUpload = file;
     const previewUrl = URL.createObjectURL(file);
     this.detailsForm.get('primaryImageUrl')?.setValue(previewUrl);
+    this.showImageActionModal = false;
   }
 
   /* API calls */

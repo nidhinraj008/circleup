@@ -34,3 +34,14 @@
             npx capacitor-assets generate
         2. sync capasitor changes 
             npx cap sync
+
+
+
+
+toogle
+<label class="neo-toggle m-0 p-0">
+    <input formControlName="isImageLink" type="checkbox" id="isImageLink" />
+    <span class="track">
+        <span class="thumb"></span>
+    </span>
+</label>

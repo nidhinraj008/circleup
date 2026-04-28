@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { LongPressDirective } from '../../shared/directives/long-press';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
 import { CommonData } from '../../shared/services/common-data';
-import * as bootstrap from 'bootstrap';
+import { Modal } from '../../shared/components/modal/modal';
 
 export enum sortOptionsEnum {
   "Created Date: Latest" = 1,
@@ -20,12 +20,13 @@ export enum sortOptionsEnum {
   selector: 'app-person-list',
   imports: [
     LongPressDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Modal
   ],
   templateUrl: './person-list.html',
   styleUrl: './person-list.scss',
 })
-export class PersonList implements OnInit, AfterViewInit {
+export class PersonList implements OnInit {
 
   filterForm!: FormGroup;
   sortOptionsEnum = sortOptionsEnum;
@@ -33,32 +34,19 @@ export class PersonList implements OnInit, AfterViewInit {
   selectedItem: any;
   sortOptionsList = enumToArray(this.sortOptionsEnum);
   selectedSortOption = this.sortOptionsList[0];
-
-  @ViewChild('sortingModal') sortingModalRef!: ElementRef;
-  @ViewChild('actionsModal') actionsModalRef!: ElementRef;
-  @ViewChild('deleteConfirmationModal') deleteConfirmationModalRef!: ElementRef;
-
-  private sortingModalInstance!: bootstrap.Modal;
-  private actionsModalInstance!: bootstrap.Modal;
-  private deleteConfirmationModalInstance!: bootstrap.Modal;
+  showSortingModal: boolean = false;
+  showActionsModal: boolean = false;
+  showDeleteConfirmationModal: boolean = false;
 
   constructor(private readonly router: Router,
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
     private commonData: CommonData
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.initFilterForm()
     this.getAllPersons();
-  }
-
-  ngAfterViewInit() {
-    this.sortingModalInstance = new bootstrap.Modal(this.sortingModalRef.nativeElement);
-    this.actionsModalInstance = new bootstrap.Modal(this.actionsModalRef.nativeElement);
-    this.deleteConfirmationModalInstance = new bootstrap.Modal(this.deleteConfirmationModalRef.nativeElement);
   }
 
   private initFilterForm() {
@@ -69,7 +57,7 @@ export class PersonList implements OnInit, AfterViewInit {
 
     this.filterForm.get("sortValue")?.valueChanges.subscribe(() => {
       this.sortPersons();
-      this.showOrHideSortingModal(false)
+      this.showSortingModal = false
     });
   }
 
@@ -96,40 +84,24 @@ export class PersonList implements OnInit, AfterViewInit {
 
   public onItemLongPress(item: any) {
     this.selectedItem = item;
-    this.showOrHideActionsModal(true);
-  }
-
-  public showOrHideSortingModal(visible: boolean) {
-    if (visible) {
-      this.sortingModalInstance.show();
-    } else {
-      this.sortingModalInstance.hide();
-    }
-  }
-
-  public showOrHideActionsModal(visible: boolean) {
-    if (visible) {
-      this.actionsModalInstance.show();
-    } else {
-      this.actionsModalInstance.hide();
-    }
+    this.showActionsModal = true;
   }
 
   public onClickEdit() {
-    this.showOrHideActionsModal(false);
+    this.showActionsModal = false;
     this.router.navigate(['persons/edit', this.selectedItem.id])
   }
 
   public onClickDelete() {
     this.store.dispatch(removePerson({ personId: this.selectedItem.id }));
-    this.deleteConfirmationModalInstance.hide();
-    this.showOrHideActionsModal(false);
+    this.showDeleteConfirmationModal = false;
+    this.showActionsModal = false;
     this.getAllPersons();
     this.commonData.success("Item deleted successfully");
   }
 
   public onClickClone() {
-    this.showOrHideActionsModal(false);
+    this.showActionsModal = false;
     this.router.navigate(['persons/add', this.selectedItem.id])
   }
 
@@ -147,5 +119,4 @@ export class PersonList implements OnInit, AfterViewInit {
       }
     })
   }
-
 }

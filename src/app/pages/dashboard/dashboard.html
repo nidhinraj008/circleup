@@ -1,27 +1,20 @@
-<div class="row g-0">
+<div class="row g-0 p-2">
     <div class="col-6 p-2">
         <div class="neo-shadow-outward p-3 d-flex flex-column justify-content-center gap-2">
             <div class="neo-shadow-inward p-2 d-flex justify-content-center align-items-center">
-                <h1 class="m-0">{{currentDate() | date: 'hh:mm'}}</h1>
+                <h1 class="m-0">11:11</h1>
             </div>
 
             <div class="d-flex justify-content-center">
-                <span>{{currentDate() | date : 'dd/MM/yyyy EEE'}}</span>
+                <span>28/04/2026</span>
             </div>
 
             <div class="d-flex justify-content-end align-items-center">
                 <div class="pe-3" style="font-size: 20px;">
-                    @if(isCharging) {
                     <i class="bi bi-battery-charging m-0"></i>
-
-                    } @else {
-                    <i class="bi bi-battery-full m-0"></i>
-                    }
                 </div>
-
                 <div>
-                    charge
-                    {{batteryLevel | number: '1.0-2'}}%
+                    charge 88%
                 </div>
             </div>
         </div>
@@ -33,15 +26,15 @@
                 <h6>Today</h6>
                 <div class="d-flex gap-2">
                     <div class="d-flex align-items-center gap-1">
-                        <span class="pill">{{currentDate() | date : 'HH'}}</span>
+                        <span class="pill">11</span>
                         <span class="pill-label">H</span>
                     </div>
                     <div class="d-flex align-items-center gap-1">
-                        <span class="pill">{{currentDate() | date : 'mm'}}</span>
+                        <span class="pill">11</span>
                         <span class="pill-label">M</span>
                     </div>
                     <div class="d-flex align-items-center gap-1">
-                        <span class="pill">{{currentDate() | date : 'ss'}}</span>
+                        <span class="pill">11</span>
                         <span class="pill-label">S</span>
                     </div>
                 </div>

@@ -1,0 +1,40 @@
+@if (isVisible()) {
+<div (click)="onBackdropClick($event)" class="modal-backdrop d-flex justify-content-center"
+    [class.position-bottom]="position() === 'bottom'">
+    <div class="modal-container py-3" (click)="$event.stopPropagation()">
+        @if(title() || showClose()) {
+        <div class="modal-header d-flex justify-content-between align-items-center px-3">
+            <div class="flex-grow-1">
+                <h5 class="m-0">
+                    {{ title() }}
+                </h5>
+            </div>
+
+            @if(showClose()) {
+            <div (click)="close.emit(false)">
+                <i class="bi bi-x-lg"></i>
+            </div>
+            }
+        </div>
+        }
+
+        <div class="body-container p-3">
+            <ng-content></ng-content>
+        </div>
+
+        @if (showCloseButton() || showProcessButton() || showSaveButton()) {
+        <div class="footer-container d-flex justify-content-end gap-3 px-3">
+            @if (showCloseButton()) {
+            <button (click)="close.emit(true)" class="btn btn-light" type="button">{{ closeButtonLabel() }}</button>
+            }
+            @if (showProcessButton()) {
+            <button (click)="process.emit()" class="btn btn-light" type="button">{{ processButtonLabel() }}</button>
+            }
+            @if (showSaveButton()) {
+            <button (click)="save.emit()" class="btn btn-light" type="button">{{ saveButtonLabel() }}</button>
+            }
+        </div>
+        }
+    </div>
+</div>
+}

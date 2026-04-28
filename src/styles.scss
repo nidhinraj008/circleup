@@ -56,6 +56,7 @@ body {
 
 .btn-light {
     color: var(--primary-color);
+    background-color: #fff;
 }
 
 .toast {
@@ -179,6 +180,11 @@ body {
             font-size: 20px;
             color: #5e5e5e
         }
+    }
+
+    .item-disabled {
+        opacity: .5;
+        pointer-events: none;
     }
 
     .list-action-item:active {

@@ -3,15 +3,15 @@ import { Router, RouterLink } from "@angular/router";
 import { removeFamily, selectAllFamiliesWithMembersCount } from '../../core/features/family';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
-import { Family } from '../../shared/types/family';
 import { LongPressDirective } from '../../shared/directives/long-press';
-declare var bootstrap: any;
+import { Modal } from '../../shared/components/modal/modal';
 
 @Component({
   selector: 'app-families',
   imports: [
     RouterLink,
-    LongPressDirective
+    LongPressDirective,
+    Modal,
   ],
   templateUrl: './families.html',
   styleUrl: './families.scss',
@@ -20,24 +20,17 @@ export class Families {
 
   myFamily!: any;
   familiesList: any[] = []
-  actionsModalInstance: any;
-  deleteConfirmationModal: any;
   selectedItem: any;
+  showActionsModal: boolean = false;
+  showDeleteConfirmationModal: boolean = false;
 
   constructor(
     private store: Store<AppState>,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getAllFamilies();
-  }
-
-  ngAfterViewInit() {
-    this.actionsModalInstance = new bootstrap.Modal(document.getElementById('actionsModal'));
-    this.deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
   }
 
   public onClickItem(item: any) {
@@ -46,15 +39,7 @@ export class Families {
 
   public onItemLongPress(item: any) {
     this.selectedItem = item;
-    this.showOrHideActionsModal(true);
-  }
-
-  public showOrHideActionsModal(visible: boolean) {
-    if (visible) {
-      this.actionsModalInstance.show();
-    } else {
-      this.actionsModalInstance.hide();
-    }
+    this.showActionsModal = true;
   }
 
   private getAllFamilies() {
@@ -67,14 +52,13 @@ export class Families {
 
   public onClickDelete() {
     this.store.dispatch(removeFamily({ familyId: this.selectedItem.id }));
-    this.deleteConfirmationModal.hide();
-    this.showOrHideActionsModal(false);
+    this.showActionsModal = false;
+    this.showDeleteConfirmationModal = false;
     this.getAllFamilies();
   }
 
   public onClickEdit() {
-    this.showOrHideActionsModal(false);
+    this.showActionsModal = false;
     this.router.navigate(['family/edit', this.selectedItem.id])
   }
-
 }
