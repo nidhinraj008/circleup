@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import { selectPersonsWithAge, removePerson } from '../../core/features/persons';
+import { removeFamilyMembersByPersonId } from '../../core/features/family-members';
 import { LongPressDirective } from '../../shared/directives/long-press';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
@@ -94,6 +95,7 @@ export class PersonList implements OnInit {
 
   public onClickDelete() {
     this.store.dispatch(removePerson({ personId: this.selectedItem.id }));
+    this.store.dispatch(removeFamilyMembersByPersonId({ personId: this.selectedItem.id }));
     this.showDeleteConfirmationModal = false;
     this.showActionsModal = false;
     this.getAllPersons();

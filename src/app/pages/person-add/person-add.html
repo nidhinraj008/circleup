@@ -63,18 +63,6 @@
         </div>
 
         <div class="basic-control-container form-floating">
-            <ng-select class="form-select form-ng-select" formControlName="familyId" bindLabel="label"
-                bindValue="value">
-                @for (item of familiesList(); track item.id) {
-                <ng-option [value]="item.id">{{item.name}}</ng-option>
-                }
-            </ng-select>
-            <label class="primary-label" for="father">
-                Family
-            </label>
-        </div>
-
-        <div class="basic-control-container form-floating">
             <ng-select class="form-select form-ng-select" formControlName="fatherId" bindLabel="label"
                 bindValue="value">
                 @for (item of malePersons(); track item.id) {

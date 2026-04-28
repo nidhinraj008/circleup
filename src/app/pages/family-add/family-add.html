@@ -8,5 +8,17 @@
                 Name
             </label>
         </div>
+
+        <div class="basic-control-container form-floating">
+            <ng-select class="form-select form-ng-select" formControlName="familyId" bindLabel="name" bindValue="id"
+                [multiple]="true" placeholder="Select Members" formControlName="members" [closeOnSelect]="false">
+                @for (item of (personsList$ | async); track item.id) {
+                <ng-option [value]="item.id">{{item.name}}</ng-option>
+                }
+            </ng-select>
+            <label class="primary-label" for="father">
+                Family Members
+            </label>
+        </div>
     </form>
 </div>

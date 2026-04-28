@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectPersonsEntities } from '../persons';
+import { selectAllFamilyMembers } from '../family-members';
 
 export const selectFamiliesState = (state: AppState) => state.families;
 
@@ -29,10 +29,10 @@ export const selectAllFamilies = createSelector(
 export const selectAllFamiliesWithMembersCount = createSelector(
     selectFamilyIds,
     selectFamilyEntities,
-    selectPersonsEntities,
-    (ids, entities, members) => ids.map(id => {
+    selectAllFamilyMembers,
+    (ids, entities, familyMembers) => ids.map(id => {
         const family = entities[id];
-        const membersCount = Object.values(members).filter(m => m.familyId === id).length;
+        const membersCount = familyMembers.filter(m => m.familyId === id).length;
         return { ...family, membersCount };
     })
 );

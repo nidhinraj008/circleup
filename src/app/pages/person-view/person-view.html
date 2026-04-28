@@ -60,10 +60,14 @@
     
             <div class="col-6 d-flex flex-column">
                 <div class="label">
-                    Family
+                    Families
                 </div>
                 <div class="value">
-                    {{personDetails().familyName}}
+                    @for (family of personDetails().families; track family.id; let last = $last) {
+                        <span>{{family.name}}{{!last ? ', ' : ''}}</span>
+                    } @empty {
+                        <span class="text-muted">No family assigned</span>
+                    }
                 </div>
             </div>
         </div>

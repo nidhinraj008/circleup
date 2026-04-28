@@ -3,6 +3,7 @@ import { AppState } from '../../store/app.state';
 import { calculateAge } from '../../../shared/functions/common-functions';
 import { GenderEnum } from '../../../shared/enum/gender.enum';
 import { selectFamilyEntities } from '../family';
+import { selectAllFamilyMembers } from '../family-members';
 
 export const selectPersonsState = (state: AppState) => state.persons;
 
@@ -22,15 +23,21 @@ export const selectLargestPersonId = createSelector(
 export const selectPersonsById = (id: number) => createSelector(
     selectPersonsEntities, 
     selectFamilyEntities,
-    (entities, families) => {
+    selectAllFamilyMembers,
+    (entities, families, familyMembers) => {
         const entity = entities[id];
         if (!entity) return null;
-        const family = entity.familyId ? families[entity.familyId] : null;
+        
+        const personFamilyMembers = familyMembers.filter(fm => fm.personId === id);
+        const personFamilies = personFamilyMembers.map(fm => families[fm.familyId]).filter(f => !!f);
+        const familyName = personFamilies.map(f => f.name).join(', ') || null;
+
         const father = entity.fatherId ? entities[entity.fatherId] : null;
         const mother = entity.motherId ? entities[entity.motherId] : null;
         return {
             ...entity,
-            familyName: family?.name ?? null,
+            familyName: familyName,
+            families: personFamilies,
             fatherName: father?.name ?? null,
             motherName: mother?.name ?? null
         };
@@ -57,11 +64,17 @@ export const selectPersonsByGender = (gender: GenderEnum) => createSelector(
 
 /* list data for the tree */
 export const selectAllByFamilyId = (familyId: number) => createSelector(
-    selectPersonsIds,
     selectPersonsEntities,
-    (ids, entities) => ids.map(id => ({
-        ...entities[id],
-        age: calculateAge(entities[id].status, entities[id].dateOfBirth, entities[id].deathDate)
-    }))
-        .filter(person => person?.familyId === familyId)
-)
+    selectAllFamilyMembers,
+    (entities, familyMembers) => {
+        const personIdsInFamily = familyMembers.filter(fm => fm.familyId === familyId).map(fm => fm.personId);
+        return personIdsInFamily.map(id => {
+            const entity = entities[id];
+            if (!entity) return null;
+            return {
+                ...entity,
+                age: calculateAge(entity.status, entity.dateOfBirth, entity.deathDate)
+            };
+        }).filter(p => !!p);
+    }
+);

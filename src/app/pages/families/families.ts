@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { removeFamily, selectAllFamiliesWithMembersCount } from '../../core/features/family';
+import { removeFamilyMembersByFamilyId } from '../../core/features/family-members';
 import { AppState } from '../../core/store/app.state';
 import { Store } from '@ngrx/store';
 import { LongPressDirective } from '../../shared/directives/long-press';
@@ -52,6 +53,7 @@ export class Families {
 
   public onClickDelete() {
     this.store.dispatch(removeFamily({ familyId: this.selectedItem.id }));
+    this.store.dispatch(removeFamilyMembersByFamilyId({ familyId: this.selectedItem.id }));
     this.showActionsModal = false;
     this.showDeleteConfirmationModal = false;
     this.getAllFamilies();

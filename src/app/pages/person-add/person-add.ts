@@ -17,7 +17,6 @@ import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { merge, take } from 'rxjs';
 import { calculateFullAge } from '../../shared/functions/common-functions';
-import { selectAllFamilies } from '../../core/features/family';
 import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { CommonData } from '../../shared/services/common-data';
 import { Modal } from '../../shared/components/modal/modal';
@@ -42,7 +41,6 @@ export class PersonAdd {
   detailsForm!: FormGroup;
   malePersons: Signal<any[]> = signal([]);
   femalePersons: Signal<any[]> = signal([]);
-  familiesList: Signal<any[]> = signal([]);
   genderOptions = enumToArray(GenderEnum);
   statusOptions = enumToArray(StatusEnum);
   currentDate = new Date();
@@ -98,7 +96,6 @@ export class PersonAdd {
       ageYears: [value?.ageYears ?? ''],
       ageMonths: [value?.ageMonths ?? ''],
       ageDays: [value?.ageDays ?? ''],
-      familyId: [value?.familyId ?? null],
       fatherId: [value?.fatherId ?? null],
       motherId: [value?.motherId ?? null],
       notes: [value?.notes ?? ''],
@@ -237,7 +234,6 @@ export class PersonAdd {
   }
 
   private getPersonsByGender() {
-    this.familiesList = this.store.selectSignal(selectAllFamilies);
     this.malePersons = this.store.selectSignal(selectPersonsByGender(GenderEnum.Male));
     this.femalePersons = this.store.selectSignal(selectPersonsByGender(GenderEnum.Female));
   }

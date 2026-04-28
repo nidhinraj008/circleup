@@ -1,19 +1,24 @@
 import { Component, effect } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { addFamily, selectFamilyById, selectLargestFamilyId, updateFamily } from '../../core/features/family'
-import { selectAllByFamilyId } from '../../core/features/persons'
+import { selectPersonsWithAge } from '../../core/features/persons'
 import { take } from 'rxjs';
 import { CommonData } from '../../shared/services/common-data';
+import { addFamilyMember, removeFamilyMembersByFamilyId, selectLargestFamilyMemberId, selectFamilyMembersByFamilyId } from '../../core/features/family-members'
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-family-add',
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgSelectModule,
+    AsyncPipe
   ],
   templateUrl: './family-add.html',
   styleUrl: './family-add.scss',
@@ -22,8 +27,7 @@ export class FamilyAdd {
 
   familyForm!: FormGroup;
   currentMode!: CRUDEnum;
-
-  familyMembers$: any;
+  personsList$: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,12 +48,14 @@ export class FamilyAdd {
   ngOnInit(): void {
     this.initFamilyForm();
     this.getRouterData();
+    this.personsList$ = this.store.select(selectPersonsWithAge);
   }
 
-  private initFamilyForm(data?: any) {
+  private initFamilyForm(data?: any, members?: number[]) {
     this.familyForm = this.formBuilder.group({
       id: [data?.id ?? null],
-      name: [data?.name ?? null, Validators.required]
+      name: [data?.name ?? null, Validators.required],
+      members: [members ?? []]
     })
   }
 
@@ -68,12 +74,14 @@ export class FamilyAdd {
   }
 
   private getFamilyData(id: number) {
-    this.familyMembers$ = this.store.select(selectAllByFamilyId(id))
-    this.store.select(selectFamilyById(id)).subscribe({
-      next: (res: any) => {
-        this.initFamilyForm(res);
+    this.store.select(selectFamilyById(id)).pipe(take(1)).subscribe({
+      next: (familyRes: any) => {
+        this.store.select(selectFamilyMembersByFamilyId(id)).pipe(take(1)).subscribe(familyMembers => {
+          const members = familyMembers.map(fm => fm.personId);
+          this.initFamilyForm(familyRes, members);
+        });
       }
-    })
+    });
   }
 
   public onClickSubmit() {
@@ -82,17 +90,35 @@ export class FamilyAdd {
       this.commonData.warning("Invalid data");
       return;
     }
-    let family = this.familyForm.value;
+    let family = { ...this.familyForm.value };
+    const memberIds: number[] = family.members || [];
+    delete family.members;
+
     if (this.currentMode == CRUDEnum.Create) {
       this.store.select(selectLargestFamilyId).pipe(take(1)).subscribe(id => {
-        family.id = id + 1;
-        this.store.dispatch(addFamily({ family: this.familyForm.value }));
+        const newFamilyId = id + 1;
+        family.id = newFamilyId;
+        this.store.dispatch(addFamily({ family }));
+        this.saveFamilyMembers(newFamilyId, memberIds);
         this.commonData.success("Item added successfully");
+        this.router.navigate(['families']);
       });
     } else {
-      this.store.dispatch(updateFamily({ family: this.familyForm.value }))
+      this.store.dispatch(updateFamily({ family }))
+      this.saveFamilyMembers(family.id, memberIds);
       this.commonData.success("Item updated successfully");
+      this.router.navigate(['families']);
     }
-    this.router.navigate(['families']);
+  }
+
+  private saveFamilyMembers(familyId: number, memberIds: number[]) {
+    this.store.dispatch(removeFamilyMembersByFamilyId({ familyId }));
+    this.store.select(selectLargestFamilyMemberId).pipe(take(1)).subscribe(largestId => {
+      let currentId = largestId;
+      memberIds.forEach(personId => {
+        currentId++;
+        this.store.dispatch(addFamilyMember({ familyMember: { id: currentId, familyId, personId } }));
+      });
+    });
   }
 }

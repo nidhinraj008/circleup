@@ -15,6 +15,7 @@ import { Person } from '../../shared/types/person';
 import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { Router } from '@angular/router';
 import { StatusEnum } from '../../shared/enum/status.enum';
+import { addFamilyMember, removeFamilyMember } from '../../core/features/family-members';
 
 @Component({
   selector: 'app-initial-page',
@@ -40,12 +41,12 @@ export class InitialPage {
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.initInitialForm(); 
-    this.getAllValues(); 
-    this.checkDataExist(); 
+    this.initInitialForm();
+    this.getAllValues();
+    this.checkDataExist();
   }
 
   private initInitialForm() {
@@ -85,24 +86,29 @@ export class InitialPage {
     ).subscribe();
   }
 
+  private saveFamilyMembers(familyId: number, personId: number) {
+    this.store.dispatch(removeFamilyMember({ id: personId }));
+    this.store.dispatch(addFamilyMember({ familyMember: { id: 1, familyId, personId } }));
+  }
+
   public onClickSubmit() {
     this.initialForm.markAllAsTouched();
     if (this.initialForm.invalid) {
       return;
     }
-    if(!this.familyDetails) {
+    if (!this.familyDetails) {
       this.store.dispatch(addFamily({ family: myFamily }));
+      this.saveFamilyMembers(myFamily.id, primaryPerson.id)
     }
     let params = {
       ...this.userDetails,
       name: this.initialForm.value.name,
       gender: this.initialForm.value.gender,
       dateOfBirth: this.initialForm.value.dateOfBirth,
-      familyId: myFamily.id,
       status: StatusEnum.Alive,
     }
     let person: Person = assignPerson(params);
-    if(this.userDetails) {
+    if (this.userDetails) {
       this.store.dispatch(updatePerson({ person: person }))
     } else {
       person.id = primaryPerson.id;

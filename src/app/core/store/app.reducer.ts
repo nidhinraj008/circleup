@@ -4,10 +4,12 @@ import { personsReducer } from '../features/persons';
 import { authenticationReducer } from '../features/auth';
 import { familyReducer } from '../features/family';
 import { partnerReducer } from '../features/partner';
+import { familyMembersReducer } from '../features/family-members';
 
 export const reducers: ActionReducerMap<AppState> = {
     persons: personsReducer,
     authentication: authenticationReducer,
     families: familyReducer,
     partners: partnerReducer,
+    familyMembers: familyMembersReducer,
 };
