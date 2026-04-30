@@ -12,7 +12,8 @@
 
         <div class="col-12 d-flex justify-content-center">
             <div class="version-badge neo-shadow-curvedin">
-                <i class="bi bi-tag"></i> {{ appInfo.version }}
+                <i class="bi bi-tag"></i>
+                V{{appInfo.version }}.{{ appInfo.buildTime.split('-').join('.')}}.{{appInfo.buildNumber}}
             </div>
         </div>
     </div>

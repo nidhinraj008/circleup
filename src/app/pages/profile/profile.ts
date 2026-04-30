@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 export class Profile {
 
   showLogoutConfirmation: boolean = false;
-  showLoginModal: boolean = !false;
+  showLoginModal: boolean = false;
 
   constructor(
     private commonData: CommonData,
