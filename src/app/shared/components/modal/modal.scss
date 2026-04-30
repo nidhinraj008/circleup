@@ -25,7 +25,7 @@
     .modal-container {
         width: 90%;
         max-width: 500px;
-        background: #ffffff;
+        background: var(--background-color);
         border-radius: 18px;
         height: fit-content;
         max-height: 90vh;

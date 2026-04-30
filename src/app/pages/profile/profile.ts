@@ -1,45 +1,54 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { Store } from '@ngrx/store';
-import { AppState } from '../../core/store/app.state';
-import { selectPersonsById } from '../../core/features/persons/persons.selectors';
-import { primaryPerson } from '../../shared/data/primary';
 import { CommonData } from '../../shared/services/common-data';
-import { GoogleDriveService } from '../../shared/services/google-drive.service';
+import { AuthService } from '../../core/services/auth.service';
+import { Modal } from '../../shared/components/modal/modal';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    Modal,
+    CommonModule,
+  ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
 export class Profile {
 
-  userDetails = signal<any>(null);;
+  showLogoutConfirmation: boolean = false;
+  showLoginModal: boolean = !false;
 
   constructor(
-    private store: Store<AppState>,
     private commonData: CommonData,
-    private googleDriveService: GoogleDriveService,
+    public authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.getPersonDetails();
+
   }
 
-  private getPersonDetails() {
-    this.store.select(selectPersonsById(primaryPerson.id)).subscribe({
-      next: (res: any) => {
-        this.userDetails.set(res);
-      },
-      error: (err: any) => {
-        this.commonData.error();
-      }
-    });
+  public async googleLogin() {
+    if (this.authService.isAuthenticated()) {
+      this.commonData.info('Already logged in');
+      return;
+    }
+
+    try {
+      await this.authService.loginWithGoogle();
+      this.showLoginModal = false;
+    } catch (error: any) {
+      this.commonData.error(error.message || 'Login failed');
+    }
   }
 
-  public googleLogin() {
-    this.googleDriveService.login();
+  public async logout() {
+    try {
+      await this.authService.logout();
+      this.showLoginModal = this.showLogoutConfirmation = false;
+    } catch (error: any) {
+      this.commonData.error(error.message || 'Logout failed');
+    }
   }
-
 }

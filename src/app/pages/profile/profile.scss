@@ -1,12 +1,17 @@
-.profile-image {
+.profile-image-wrapper {
     width: 65px;
     height: 65px;
-    object-fit: cover;
+    padding: 1px;
+    border-radius: 50% !important;
+
+    img {
+        object-fit: cover;
+    }
 }
 
 .name-block {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 500;
     color: #111
 }
 
@@ -26,4 +31,44 @@
 
 .list-item:active {
     background-color: #d0cfcf;
+}
+
+
+.login-container {
+    // height: 50vh;
+
+    .login-header {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary-color);
+        letter-spacing: 1px;
+    }
+
+    .login-sub {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .highlight {
+        color: #444;
+        font-weight: 600;
+    }
+
+    .login-items {
+        border-radius: 50px;
+
+        .list-image {
+            width: 30px;
+
+            img {
+                height: 30px;
+                object-fit: cover;
+            }
+
+            i {
+                font-size: 20px;
+            }
+        }
+    }
 }

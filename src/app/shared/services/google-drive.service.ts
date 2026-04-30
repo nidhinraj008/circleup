@@ -4,7 +4,7 @@ import { Google_Drive_API_Url } from '../../app.config';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { setGoogleDriveAccessToken } from '../../core/features/auth';
-import { map, switchMap } from 'rxjs';
+import { map, switchMap, Observable, Subscriber } from 'rxjs';
 
 declare const google: any;
 
@@ -39,6 +39,26 @@ export class GoogleDriveService {
 
   public login() {
     this.tokenClient.requestAccessToken();
+  }
+
+  public refreshTokenSilently(): Observable<string> {
+    return new Observable((observer: Subscriber<string>) => {
+      if (!this.tokenClient) {
+        this.initClient();
+      }
+      // Override the callback for this specific request
+      this.tokenClient.callback = (resp: any) => {
+        if (resp.error) {
+          observer.error(resp.error);
+        } else {
+          this.store.dispatch(setGoogleDriveAccessToken({ accessToken: resp.access_token }));
+          observer.next(resp.access_token);
+          observer.complete();
+        }
+      };
+      // Request without prompting the user (relies on active Google session)
+      this.tokenClient.requestAccessToken({ prompt: 'none' });
+    });
   }
 
   /* search for the folder in the parent repository */

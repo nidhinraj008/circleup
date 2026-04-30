@@ -51,6 +51,6 @@
 <!-- dete confirmation -->
 <app-modal [isVisible]="showDeleteConfirmationModal" (close)="showDeleteConfirmationModal = false" position="center"
     title="Confirmation" [showClose]="true" [showCloseButton]="true" [showSaveButton]="true" closeButtonLabel="Cancel"
-    saveButtonLabel="Confirm" (close)="showDeleteConfirmationModal=false" (save)="onClickDelete()">
+    saveButtonLabel="Confirm" (save)="onClickDelete()">
     Are you sure you want to delete this item?
 </app-modal>
