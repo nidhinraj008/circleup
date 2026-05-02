@@ -8,6 +8,8 @@
     "build": "ng build",
     "prodBuild": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
+    "copy": "xcopy dist\\circleup\\browser firebase\\public /E /H /I /Y",
+    "deploy": "cd firebase && firebase deploy",
     "test": "ng test"
   },
   "prettier": {
