@@ -6,28 +6,23 @@
                 <div class="m-0 fw-light" style="font-size: 14px;">Tell us a little about yourself</div>
             </div>
             <div class="d-flex flex-column gap-2">
-                <div class="basic-control-container form-floating">
-                    <input formControlName="name" type="text" class="form-control" placeholder="Name"
-                        [class.is-invalid]="initialFormControlls['name'].touched && initialFormControlls['name'].invalid">
-                    <label class="primary-label">
-                        Name
-                    </label>
+                <div class="neo-formcontrol" [class.filled]="initialFormControlls['name']?.value"
+                    [class.invalid]="initialFormControlls['name'].touched && initialFormControlls['name'].invalid">
+                    <input formControlName="name" type="text" autocomplete="off" />
+                    <label>Name</label>
                 </div>
 
-                <div class="basic-control-container form-floating">
-                    <ng-select class="form-select form-ng-select" formControlName="gender" [items]="genderOptions" bindLabel="label" bindValue="value"
-                        [class.is-invalid]="initialFormControlls['gender'].touched && initialFormControlls['gender'].invalid">
+                <div class="neo-formcontrol" [class.filled]="initialFormControlls['gender']?.value"
+                    [class.invalid]="initialFormControlls['gender'].touched && initialFormControlls['gender'].invalid">
+                    <ng-select formControlName="gender" [items]="genderOptions" bindLabel="label" bindValue="value">
                     </ng-select>
-                    <label class="primary-label" for="gender">
-                        Gender
-                    </label>
+                    <label>Gender</label>
                 </div>
 
-                <div class="basic-control-container form-floating">
-                    <input formControlName="dateOfBirth" type="date" class="form-control"
-                        [max]="currentDate | date:'yyyy-MM-dd'" placeholder="Date of birth"
-                        [class.is-invalid]="initialFormControlls['dateOfBirth'].touched && initialFormControlls['dateOfBirth'].invalid">
-                    <label class="primary-label">Date of Birth</label>
+                <div class="neo-formcontrol" [class.filled]="initialFormControlls['dateOfBirth']?.value"
+                    [class.invalid]="initialFormControlls['dateOfBirth'].touched && initialFormControlls['dateOfBirth'].invalid">
+                    <input formControlName="dateOfBirth" type="date" [max]="currentDate | date:'yyyy-MM-dd'" />
+                    <label>Date of Birth</label>
                 </div>
             </div>
 

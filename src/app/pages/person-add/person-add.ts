@@ -46,6 +46,7 @@ export class PersonAdd {
   currentDate = new Date();
   currentMode!: CRUDEnum;
   imageLink = signal<string | null>(null);
+  profileImageUrl = signal<string | null>(null);
   isImageLinkValid = signal<boolean>(false);
   showImageActionModal: boolean = false;
   showImageDeleteConfirmationModal: boolean = false;
@@ -108,6 +109,9 @@ export class PersonAdd {
     });
 
     const form = this.detailsForm;
+    this.profileImageUrl.set(form.get('primaryImageUrl')?.value);
+    form.get('primaryImageUrl')?.valueChanges.subscribe(v => this.profileImageUrl.set(v));
+
     const dateOfBirth$ = form.get('dateOfBirth')!.valueChanges;
     const status$ = form.get('status')!.valueChanges;
     const deathDate$ = form.get('deathDate')!.valueChanges;
@@ -158,7 +162,7 @@ export class PersonAdd {
   }
 
   public async onClickSaveLink() {
-    if (!this.imageLink() && !await this.validateImageUrl(this.imageLink())) {
+    if (!this.imageLink() || !await this.validateImageUrl(this.imageLink())) {
       this.commonData.warning("The provided image link is not valid.")
       return;
     }

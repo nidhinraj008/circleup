@@ -4,6 +4,7 @@
     --shadow-secondary: #ffffff;
 
     --primary-color: #60209a;
+    --error-color: #d2465f;
     --primary-color-rgb: 96, 32, 154;
     --secondary-color: #6c757d;
     --primary-font-color: #333;
@@ -22,38 +23,38 @@ body {
 }
 
 // bootstrap style overrides
-.form-control {
-    box-shadow: 0px 0px 1px 0px var(--primary-color);
-    color: var(--primary-font-color);
-    border-radius: .5rem;
-}
+// .form-control {
+//     box-shadow: 0px 0px 1px 0px var(--primary-color);
+//     color: var(--primary-font-color);
+//     border-radius: .5rem;
+// }
 
-.form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
+// .form-check-input:checked {
+//     background-color: var(--primary-color);
+//     border-color: var(--primary-color);
+// }
 
-.form-check-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
-}
+// .form-check-input:focus {
+//     border-color: var(--primary-color);
+//     box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+// }
 
-.form-select {
-    background-image: none !important;
-    height: auto !important;
-}
+// .form-select {
+//     background-image: none !important;
+//     height: auto !important;
+// }
 
-.modal-content {
-    border-radius: 18px;
-}
+// .modal-content {
+//     border-radius: 18px;
+// }
 
-.modal {
-    --bs-modal-header-border-color: none;
-    --bs-modal-header-border-width: none;
-    --bs-modal-footer-border-color: none;
-    --bs-modal-footer-border-width: none;
-    --bs-modal-bg: #f8f9fa;
-}
+// .modal {
+//     --bs-modal-header-border-color: none;
+//     --bs-modal-header-border-width: none;
+//     --bs-modal-footer-border-color: none;
+//     --bs-modal-footer-border-width: none;
+//     --bs-modal-bg: #f8f9fa;
+// }
 
 .btn-light {
     color: var(--primary-color);
@@ -67,31 +68,6 @@ body {
 
 .toast {
     --bs-toast-spacing: .5rem;
-}
-
-// ng select style override class
-.form-ng-select {
-    box-shadow: 0px 0px 1px 0px var(--primary-color);
-    padding: 21px 0px 0px 0px !important;
-
-    .ng-select-container {
-        border: none !important;
-        border-radius: 10px;
-        box-shadow: none !important;
-        background-color: transparent;
-    }
-
-    .ng-arrow-wrapper {
-        margin-top: -24px;
-        padding-right: 15px;
-        opacity: 1;
-    }
-
-    .ng-clear-wrapper {
-        margin-top: -24px;
-        margin-right: 1px;
-        color: #343a40;
-    }
 }
 
 // custom style class
@@ -208,6 +184,7 @@ body {
     }
 }
 
+// neomorhic design style
 .neo-toggle {
     display: flex;
     cursor: pointer;
@@ -257,30 +234,152 @@ body {
     }
 }
 
-
-/* Cards */
 .neo-card {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
 }
 
-.neo-shadow-outward {
+.shadow-outward-out {
     box-shadow: 2px 2px 4px var(--shadow-primary), -2px -2px 4px var(--shadow-secondary);
     border-radius: var(--border-radius);
 }
 
-.neo-shadow-inward {
+.shadow-outward-in {
     box-shadow: 2px 2px 4px var(--shadow-secondary), -2px -2px 4px var(--shadow-primary);
     border-radius: var(--border-radius);
 }
 
-.neo-shadow-curvedout {
+.shadow-inward-out {
     box-shadow: inset 2px 2px 4px var(--shadow-secondary), inset -2px -2px 4px var(--shadow-primary);
     border-radius: var(--border-radius);
 }
 
-.neo-shadow-curvedin {
+.shadow-inward-in {
     box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
     border-radius: var(--border-radius);
+}
+
+
+.neo-formcontrol {
+    position: relative;
+    margin: 10px 0;
+    min-height: 55px;
+    border-radius: var(--border-radius);
+    box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+    transition: all 0.2s ease;
+    border: 1px solid var(--background-color);
+
+    input,
+    textarea {
+        width: 100%;
+        height: 100%;
+        padding: 24px 14px 5px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--primary-font-color);
+        font-size: 16px;
+    }
+
+    label {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: all 0.2s ease;
+        font-size: 12px;
+        color: var(--secondary-font-color);
+        font-weight: 600;
+    }
+
+    .ng-select {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--primary-font-color);
+        font-size: 16px;
+
+        .ng-select-container {
+            padding: 24px 14px 5px;
+
+            .ng-value-container {
+                display: flex;
+                gap: 4px;
+                align-items: baseline;
+
+            }
+        }
+    }
+
+    .ng-input>input {
+        padding-left: 14px !important;
+    }
+
+    .ng-select-multiple .ng-value {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        height: fit-content !important;
+        background-color: #fff;
+
+        .ng-value-icon {
+            border-right: 1px solid #eee;
+            padding: 0px 5px
+        }
+
+        .ng-value-label {
+            padding: 0px 5px;
+        }
+    }
+
+    .ng-dropdown-panel {
+        background-color: var(--background-color) !important;
+        box-shadow: inset 2px 2px 4px var(--shadow-secondary), inset -2px -2px 4px var(--shadow-primary);
+        border-radius: var(--border-radius);
+        padding: 10px 0px;
+
+        .ng-dropdown-panel-items {
+            .ng-option {
+                padding: 5px 14px;
+            }
+        }
+
+        .ng-option-selected {
+            color: var(--primary-color);
+        }
+    }
+}
+
+.neo-formcontrol:has(textarea) label {
+    top: 24px;
+    transform: translateY(0);
+}
+
+.neo-formcontrol:focus-within label,
+.neo-formcontrol.filled label,
+.neo-formcontrol:has(input[type="date"]) label {
+    top: 8px;
+    font-size: 10px;
+    transform: translateY(0);
+}
+
+.neo-formcontrol.invalid {
+    border-color: #ff8888;
+
+    label {
+        color: var(--error-color);
+    }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: grayscale(1) opacity(0.5);
+    cursor: pointer;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
 }

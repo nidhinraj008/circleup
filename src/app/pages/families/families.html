@@ -1,12 +1,12 @@
 <div class="d-flex flex-column">
     <div class="p-3 mb-2">
-        <div class="neo-shadow-outward d-flex p-3" longPress (onLongPressEnd)="onItemLongPress(myFamily)"
+        <div class="shadow-outward-out d-flex p-3" longPress (onLongPressEnd)="onItemLongPress(myFamily)"
             [routerLink]="['/familyTree', myFamily.id]" style="user-select: none;">
             <div class="d-flex flex-column flex-grow-1">
                 <div class="fw-bold">🌳 {{myFamily.name}}</div>
                 <div class="text-muted small">View your family tree</div>
             </div>
-            <div class="neo-shadow-inward p-2 d-flex justify-content-center align-items-cente">
+            <div class="shadow-outward-in p-2 d-flex justify-content-center align-items-cente">
                 <!-- <div class="label">Total Members</div> -->
                 <i class="bi bi-person"></i>
                 <div class="ps-1">{{myFamily.membersCount}}</div>
@@ -20,7 +20,7 @@
             @for(item of familiesList; track item.id) {
             <div class="col-6 p-2">
                 <div (click)="onClickItem(item)" longPress (onLongPressEnd)="onItemLongPress(item)"
-                    class="neo-shadow-outward p-2 d-flex flex-column">
+                    class="shadow-outward-out p-2 d-flex flex-column">
                     <div class="text-center fw-semibold">{{item.name}}</div>
                     <div class="text-center">
                         <span class="label pe-2">Members:</span>

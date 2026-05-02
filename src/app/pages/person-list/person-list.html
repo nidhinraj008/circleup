@@ -9,7 +9,7 @@
     <div (click)="onClickItem(item)" longPress (onLongPressEnd)="onItemLongPress(item)"
         class="list-container disable-selection py-2 px-3" style="cursor: pointer;">
         <div class="d-flex align-items-center gap-3">
-            <div class="rounded-pill neo-shadow-outward" style="padding: 1px;">
+            <div class="rounded-pill shadow-outward-out" style="padding: 1px;">
                 <img [src]="item.primaryImageUrl || 'images/no-image.png'" class="profile-image rounded-circle"
                     referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
             </div>

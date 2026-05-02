@@ -1,21 +1,21 @@
 <div class="d-flex flex-column h-100">
     <div class="d-flex justify-content-end position-relative">
-        <div class="floating-container neo-shadow-outward p-2 d-flex gap-2">
-            <button (click)="fitGraph()" class="zoom-btn neo-shadow-outward">
+        <div class="floating-container shadow-outward-out p-2 d-flex gap-2">
+            <button (click)="fitGraph()" class="zoom-btn shadow-outward-out">
                 <i class="bi bi-arrows-angle-expand"></i>
             </button>
-            <button (click)="resetZoom()" class="zoom-btn neo-shadow-outward">
+            <button (click)="resetZoom()" class="zoom-btn shadow-outward-out">
                 <i class="bi bi-arrow-clockwise"></i>
             </button>
             <div class="y-divider"></div>
-            <button (click)="onClickZoom(false)" class="zoom-btn neo-shadow-outward">
+            <button (click)="onClickZoom(false)" class="zoom-btn shadow-outward-out">
                 <i class="bi bi-dash"></i>
             </button>
-            <div class="neo-shadow-inward d-flex align-items-center justify-content-center zoom-level">
+            <div class="shadow-outward-in d-flex align-items-center justify-content-center zoom-level">
                 {{ (zoomLevel() * 100) | number:'1.0-0' }}%
 
             </div>
-            <button (click)="onClickZoom(true)" class="zoom-btn neo-shadow-outward">
+            <button (click)="onClickZoom(true)" class="zoom-btn shadow-outward-out">
                 <i class="bi bi-plus"></i>
             </button>
         </div>
@@ -50,9 +50,9 @@
                     <svg:foreignObject width="220" height="90">
                         <div class="w-100 h-100 position-relative" style="border-radius: var(--border-radius);">
 
-                            <div class="d-flex gap-3 p-2 neo-shadow-outward align-items-center position-absolute"
+                            <div class="d-flex gap-3 p-2 shadow-outward-out align-items-center position-absolute"
                                 style="inset: 5px;">
-                                <div class="rounded-pill neo-shadow-outward"
+                                <div class="rounded-pill shadow-outward-out"
                                     style="width: fit-content; height: fit-content; padding: 1px;">
                                     <img [src]="node.primaryImageUrl || 'images/no-image.png'"
                                         class="profile-image rounded-circle" referrerpolicy="no-referrer"

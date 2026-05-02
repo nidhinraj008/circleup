@@ -2,117 +2,92 @@
     <form [formGroup]="detailsForm" (ngSubmit)="onClickSubmit()">
         <div class="text-center pb-2">
             <div (click)="showImageActionModal = true"
-                class="position-relative d-inline-block rounded-pill neo-shadow-outward" style="padding: 1px;">
-                <img [src]="detailsForm.get('primaryImageUrl')?.value ?? 'images/no-image.png'"
+                class="position-relative d-inline-block rounded-pill shadow-outward-out" style="padding: 1px;">
+                <img [src]="profileImageUrl() ?? 'images/no-image.png'"
                     class="profile-image rounded-circle" referrerpolicy="no-referrer"
                     (error)="$event.target.src='images/unsupported.png'">
             </div>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <input formControlName="name" type="text" class="form-control" placeholder="Name"
-                [class.is-invalid]="detailsFormControlls['name'].touched && detailsFormControlls['name'].invalid">
-            <label class="primary-label">
-                Name
-            </label>
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['name']?.value"
+            [class.invalid]="detailsFormControlls['name'].touched && detailsFormControlls['name'].invalid">
+            <input formControlName="name" type="text" autocomplete="off" />
+            <label>Name</label>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <ng-select class="form-select form-ng-select" formControlName="gender" [items]="genderOptions"
-                bindLabel="label" bindValue="value"
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['gender']?.value">
+            <ng-select formControlName="gender" [items]="genderOptions" bindLabel="label" bindValue="value"
                 [class.is-invalid]="detailsFormControlls['gender'].touched && detailsFormControlls['gender'].invalid">
             </ng-select>
-            <label class="primary-label" for="gender">
-                Gender
-            </label>
+            <label>Gender</label>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <input formControlName="dateOfBirth" type="date" class="form-control"
-                [max]="currentDate | date:'yyyy-MM-dd'" placeholder="Date of birth"
-                [class.is-invalid]="detailsFormControlls['dateOfBirth'].touched && detailsFormControlls['dateOfBirth'].invalid">
-            <label class="primary-label">Date of Birth</label>
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['dateOfBirth']?.value"
+            [class.invalid]="detailsFormControlls['dateOfBirth'].touched && detailsFormControlls['dateOfBirth'].invalid">
+            <input formControlName="dateOfBirth" type="date" [max]="currentDate | date:'yyyy-MM-dd'" />
+            <label>Date of Birth</label>
         </div>
 
-        <div class="basic-control-container">
-            <div class="d-flex gap-2">
-                <div class="form-floating">
-                    <input formControlName="ageYears" type="text" placeholder="Years" class="form-control" id="ageYears"
-                        readonly>
-                    <label class="primary-label" for="ageYears">Years</label>
-                </div>
-                <div class="form-floating">
-                    <input formControlName="ageMonths" type="text" placeholder="Months" class="form-control"
-                        id="ageMonths" readonly>
-                    <label class="primary-label" for="ageMonths">Months</label>
-                </div>
-                <div class="form-floating">
-                    <input formControlName="ageDays" type="text" placeholder="Days" class="form-control" id="ageDays"
-                        readonly>
-                    <label class="primary-label" for="ageDays">Days</label>
-                </div>
+        <div class="d-flex gap-2">
+            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageYears']?.value >= 0">
+                <input formControlName="ageYears" type="text" readonly />
+                <label>Years</label>
             </div>
-            <div class="invalid-feedback">Date of birth is required</div>
+            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageMonths']?.value >= 0">
+                <input formControlName="ageMonths" type="text" readonly />
+                <label>Months</label>
+            </div>
+            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageDays']?.value >= 0">
+                <input formControlName="ageDays" type="text" readonly />
+                <label>Days</label>
+            </div>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <input formControlName="home" type="text" class="form-control" placeholder="Home">
-            <label class="primary-label">
-                Home
-            </label>
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['home']?.value">
+            <input formControlName="home" type="text" autocomplete="off" />
+            <label>Home</label>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <ng-select class="form-select form-ng-select" formControlName="fatherId" bindLabel="label"
-                bindValue="value">
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['fatherId']?.value">
+            <ng-select formControlName="fatherId" bindLabel="label" bindValue="value">
                 @for (item of malePersons(); track item.id) {
                 <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
             </ng-select>
-            <label class="primary-label" for="father">
-                Father
-            </label>
+            <label>Father</label>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <ng-select class="form-select form-ng-select" formControlName="motherId" bindLabel="label"
-                bindValue="value">
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['motherId']?.value">
+            <ng-select formControlName="motherId" bindLabel="label" bindValue="value">
                 @for (item of femalePersons(); track item.id) {
                 <ng-option [value]="item.id">{{item.name}}</ng-option>
                 }
             </ng-select>
-            <label class="primary-label" for="mother">
-                Mother
-            </label>
+            <label>Mother</label>
         </div>
 
-        <div class="basic-control-container form-floating">
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['status']?.value">
             <ng-select formControlName="status" [items]="statusOptions" bindLabel="label" bindValue="value"
-                [clearable]="false" [clearOnBackspace]="false" class="form-select form-ng-select">
+                [clearable]="false" [clearOnBackspace]="false">
             </ng-select>
-            <label class="primary-label" for="status">
-                Status
-            </label>
+            <label>Status</label>
         </div>
 
         @if(detailsForm.get("status")?.value == statusEnum.Deceased) {
-        <div class="basic-control-container form-floating">
-            <input formControlName="deathDate" type="date" class="form-control">
-            <label class="primary-label">Date of Death</label>
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['deathDate']?.value">
+            <input formControlName="deathDate" type="date" />
+            <label>Date of Death</label>
         </div>
 
-        <div class="basic-control-container form-floating">
-            <input formControlName="deathCause" type="text" class="form-control" placeholder="Death Cause">
-            <label class="primary-label">
-                Death Cause
-            </label>
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['deathCause']?.value">
+            <input formControlName="deathCause" type="text" autocomplete="off" />
+            <label>Death Cause</label>
         </div>
         }
 
-        <div class="basic-control-container form-floating">
-            <textarea formControlName="notes" class="form-control" placeholder="Anything about the person.."
-                style="height: 100px"></textarea>
-            <label class="primary-label">Notes</label>
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['notes']?.value">
+            <textarea formControlName="notes" style="height: 100px"></textarea>
+            <label>Notes</label>
         </div>
     </form>
 </div>
@@ -131,8 +106,8 @@
             <span>Link</span>
         </div>
 
-        <div (click)="detailsForm.get('primaryImageUrl')?.value && showImageDeleteConfirmationModal = true"
-            [class.item-disabled]="!detailsForm.get('primaryImageUrl')?.value"
+        <div (click)="profileImageUrl() && showImageDeleteConfirmationModal = true"
+            [class.item-disabled]="!profileImageUrl()"
             class="list-action-item d-flex align-items-center gap-3 py-2">
             <i class="bi bi-trash"></i>
             <span>Delete</span>
@@ -152,12 +127,9 @@
         </div>
     </div>
     }
-    <div class="basic-control-container form-floating">
-        <input [ngModel]="imageLink()" (ngModelChange)="imageLink.set($event)" type="text" class="form-control"
-            placeholder="Image link" [class.is-invalid]="!isImageLinkValid()">
-        <label class="primary-label">
-            Image link
-        </label>
+    <div class="neo-formcontrol" [class.filled]="imageLink()" [class.invalid]="!isImageLinkValid() && imageLink()">
+        <input [ngModel]="imageLink()" (ngModelChange)="imageLink.set($event)" type="text" autocomplete="off" />
+        <label>Image link</label>
     </div>
 </app-modal>
 
