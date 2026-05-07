@@ -20,6 +20,7 @@ import { calculateFullAge } from '../../shared/functions/common-functions';
 import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { CommonData } from '../../shared/services/common-data';
 import { Modal } from '../../shared/components/modal/modal';
+import moment from 'moment';
 
 @Component({
   selector: 'app-person-add',
@@ -51,6 +52,11 @@ export class PersonAdd {
   showImageActionModal: boolean = false;
   showImageDeleteConfirmationModal: boolean = false;
   showImageLoadModal: boolean = false;
+
+  dobDisplay = '';
+  dodDisplay = '';
+  dobInvalid = signal<boolean>(false);
+  dodInvalid = signal<boolean>(false);
 
   constructor(
     private router: Router,
@@ -111,6 +117,11 @@ export class PersonAdd {
     const form = this.detailsForm;
     this.profileImageUrl.set(form.get('primaryImageUrl')?.value);
     form.get('primaryImageUrl')?.valueChanges.subscribe(v => this.profileImageUrl.set(v));
+
+    this.dobDisplay = value?.dateOfBirth ? moment(value.dateOfBirth).format('DD-MM-YYYY') : 'dd-mm-yyyy';
+    this.dodDisplay = value?.deathDate ? moment(value.deathDate).format('DD-MM-YYYY') : 'dd-mm-yyyy';
+    this.dobInvalid.set(false);
+    this.dodInvalid.set(false);
 
     const dateOfBirth$ = form.get('dateOfBirth')!.valueChanges;
     const status$ = form.get('status')!.valueChanges;
@@ -189,6 +200,134 @@ export class PersonAdd {
     this.detailsForm.get('primaryImageUrl')?.setValue(previewUrl);
     this.showImageActionModal = false;
   }
+
+  // #region Datepicker
+  public onDateClick(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+
+    // Find the first index of a placeholder character (d, m, or y)
+    const firstPlaceholder = value.search(/[dmy]/);
+    if (firstPlaceholder !== -1) {
+      input.setSelectionRange(firstPlaceholder, firstPlaceholder);
+    }
+  }
+
+  public onDateTextChange(event: Event, controlName: 'dateOfBirth' | 'deathDate') {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+    const selectionStart = input.selectionStart ?? 0;
+
+    // Split by hyphens to maintain slots
+    let parts = value.split('-');
+    while (parts.length < 3) parts.push('');
+
+    // Extract digits for each part and limit lengths
+    const d = parts[0].replace(/\D/g, '').slice(0, 2);
+    const m = parts[1].replace(/\D/g, '').slice(0, 2);
+    const y = parts[2].replace(/\D/g, '').slice(0, 4);
+    const fullDigits = d + m + y;
+
+    // Reconstruct with placeholders
+    const formatted =
+      (d + 'dd').slice(0, 2) + '-' +
+      (m + 'mm').slice(0, 2) + '-' +
+      (y + 'yyyy').slice(0, 4);
+
+    if (controlName === 'dateOfBirth') this.dobDisplay = formatted;
+    else this.dodDisplay = formatted;
+
+    input.value = formatted;
+
+    // Restore cursor position
+    // We calculate how many digits/delimiters are before the original cursor
+    // and try to map it back. 
+    // A simple digitsBefore + hyphen adjustment works for most cases.
+    const rawBefore = value.substring(0, selectionStart);
+    const digitsBefore = rawBefore.replace(/\D/g, '').length;
+    const hyphensBefore = (rawBefore.match(/-/g) || []).length;
+
+    let newPos = 0;
+    let digitsSeen = 0;
+    let hyphensSeen = 0;
+
+    for (let i = 0; i < formatted.length; i++) {
+      if (formatted[i] === '-') {
+        if (hyphensSeen < hyphensBefore || (digitsSeen === digitsBefore && hyphensSeen < 2)) {
+          newPos = i + 1;
+          hyphensSeen++;
+        }
+      } else if (!isNaN(parseInt(formatted[i]))) {
+        if (digitsSeen < digitsBefore) {
+          newPos = i + 1;
+          digitsSeen++;
+        }
+      } else {
+        // Placeholder char
+        if (digitsSeen < digitsBefore) {
+          // This shouldn't really happen if we only have digits in digitsBefore
+        } else if (newPos === 0) {
+          newPos = i;
+        }
+        break;
+      }
+    }
+
+    // Fallback for empty or initial typing
+    if (newPos === 0 && digitsBefore > 0) newPos = formatted.indexOf(fullDigits[0]) + 1;
+    if (newPos === 0) newPos = selectionStart;
+
+    // Boundary checks
+    newPos = Math.min(newPos, 10);
+    input.setSelectionRange(newPos, newPos);
+
+    // Sync form value
+    if (fullDigits.length === 8) {
+      const momentObj = moment(formatted, 'DD-MM-YYYY', true);
+      if (momentObj.isValid()) {
+        const isoDate = momentObj.format('YYYY-MM-DD');
+        if (controlName === 'dateOfBirth' && momentObj.isAfter(moment())) {
+          this.setDateInvalid(controlName, true);
+          this.detailsForm.get(controlName)?.setValue(null, { emitEvent: true });
+        } else {
+          this.setDateInvalid(controlName, false);
+          this.detailsForm.get(controlName)?.setValue(isoDate, { emitEvent: true });
+        }
+      } else {
+        this.setDateInvalid(controlName, true);
+        this.detailsForm.get(controlName)?.setValue(null, { emitEvent: true });
+      }
+    } else {
+      this.setDateInvalid(controlName, false);
+      this.detailsForm.get(controlName)?.setValue(null, { emitEvent: true });
+    }
+  }
+
+  public onNativeDateChange(event: Event, controlName: 'dateOfBirth' | 'deathDate') {
+    const value = (event.target as HTMLInputElement).value;
+    if (!value)
+      return;
+
+    const m = moment(value, 'YYYY-MM-DD');
+    const display = m.format('DD-MM-YYYY');
+
+    if (controlName === 'dateOfBirth')
+      this.dobDisplay = display;
+    else if (controlName == 'deathDate')
+      this.dodDisplay = display;
+
+    this.setDateInvalid(controlName, false);
+    this.detailsForm.get(controlName)?.setValue(value, { emitEvent: true });
+  }
+
+  private setDateInvalid(controlName: 'dateOfBirth' | 'deathDate', invalid: boolean) {
+    if (controlName === 'dateOfBirth')
+      this.dobInvalid.set(invalid);
+    else if (controlName == 'deathDate')
+      this.dodInvalid.set(invalid);
+  }
+  // #endregion
+
 
   /* API calls */
   private initImageUpload() {

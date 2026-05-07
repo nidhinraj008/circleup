@@ -22,40 +22,6 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 
-// bootstrap style overrides
-// .form-control {
-//     box-shadow: 0px 0px 1px 0px var(--primary-color);
-//     color: var(--primary-font-color);
-//     border-radius: .5rem;
-// }
-
-// .form-check-input:checked {
-//     background-color: var(--primary-color);
-//     border-color: var(--primary-color);
-// }
-
-// .form-check-input:focus {
-//     border-color: var(--primary-color);
-//     box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
-// }
-
-// .form-select {
-//     background-image: none !important;
-//     height: auto !important;
-// }
-
-// .modal-content {
-//     border-radius: 18px;
-// }
-
-// .modal {
-//     --bs-modal-header-border-color: none;
-//     --bs-modal-header-border-width: none;
-//     --bs-modal-footer-border-color: none;
-//     --bs-modal-footer-border-width: none;
-//     --bs-modal-bg: #f8f9fa;
-// }
-
 .btn-light {
     color: var(--primary-color);
     background-color: var(--background-color);
@@ -294,6 +260,74 @@ body {
         font-weight: 600;
     }
 
+    .right-icon {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        bottom: 5px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: var(--border-radius);
+        transition: all 0.15s ease;
+        z-index: 2;
+        color: var(--secondary-font-color);
+        font-size: 1.1rem;
+
+        &:active {
+            box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+        }
+    }
+
+    .hidden-date-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+        bottom: 0;
+        left: 50%;
+    }
+
+    .ng-select .ng-clear-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        margin-top: -22px;
+
+        .ng-clear {
+            font-size: 24px !important;
+            font-weight: 500;
+            color: var(--secondary-font-color);
+        }
+    }
+
+    .ng-select .ng-arrow-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        margin-top: -22px;
+
+        .ng-arrow {
+            width: 10px;
+            height: 10px;
+            border: none;
+            border-right: 2px solid var(--secondary-font-color);
+            border-bottom: 2px solid var(--secondary-font-color);
+            transform: rotate(45deg);
+            transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+    }
+
+    .ng-select.ng-select-opened .ng-arrow {
+        transform: rotate(-135deg) translateY(-5px) translateX(-5px);
+    }
+
     .ng-select {
         width: 100%;
         height: 100%;
@@ -305,12 +339,17 @@ body {
 
         .ng-select-container {
             padding: 24px 14px 5px;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            cursor: pointer;
 
             .ng-value-container {
+                min-height: 25px;
                 display: flex;
                 gap: 4px;
                 align-items: baseline;
-
+                padding: 0 !important;
             }
         }
     }
@@ -340,16 +379,21 @@ body {
         background-color: var(--background-color) !important;
         box-shadow: inset 2px 2px 4px var(--shadow-secondary), inset -2px -2px 4px var(--shadow-primary);
         border-radius: var(--border-radius);
-        padding: 10px 0px;
+        border: none;
 
         .ng-dropdown-panel-items {
-            .ng-option {
-                padding: 5px 14px;
-            }
-        }
+            border-radius: inherit;
 
-        .ng-option-selected {
-            color: var(--primary-color);
+            .ng-option {
+                padding: 10px 14px;
+                color: var(--primary-font-color);
+
+                &.ng-option-selected {
+                    background-color: var(--primary-color) !important;
+                    color: #fff !important;
+                    font-weight: 600;
+                }
+            }
         }
     }
 }

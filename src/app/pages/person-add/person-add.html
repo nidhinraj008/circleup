@@ -3,9 +3,8 @@
         <div class="text-center pb-2">
             <div (click)="showImageActionModal = true"
                 class="position-relative d-inline-block rounded-pill shadow-outward-out" style="padding: 1px;">
-                <img [src]="profileImageUrl() ?? 'images/no-image.png'"
-                    class="profile-image rounded-circle" referrerpolicy="no-referrer"
-                    (error)="$event.target.src='images/unsupported.png'">
+                <img [src]="profileImageUrl() ?? 'images/no-image.png'" class="profile-image rounded-circle"
+                    referrerpolicy="no-referrer" (error)="$event.target.src='images/unsupported.png'">
             </div>
         </div>
 
@@ -15,17 +14,23 @@
             <label>Name</label>
         </div>
 
-        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['gender']?.value">
-            <ng-select formControlName="gender" [items]="genderOptions" bindLabel="label" bindValue="value"
-                [class.is-invalid]="detailsFormControlls['gender'].touched && detailsFormControlls['gender'].invalid">
+        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['gender']?.value"
+            [class.invalid]="detailsFormControlls['gender'].touched && detailsFormControlls['gender'].invalid">
+            <ng-select formControlName="gender" [items]="genderOptions" bindLabel="label" bindValue="value">
             </ng-select>
             <label>Gender</label>
         </div>
 
-        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['dateOfBirth']?.value"
-            [class.invalid]="detailsFormControlls['dateOfBirth'].touched && detailsFormControlls['dateOfBirth'].invalid">
-            <input formControlName="dateOfBirth" type="date" [max]="currentDate | date:'yyyy-MM-dd'" />
+        <div class="neo-formcontrol filled" [class.invalid]="dobInvalid()">
+            <input type="text" [value]="dobDisplay" (input)="onDateTextChange($event, 'dateOfBirth')"
+                (click)="onDateClick($event)" placeholder="dd-mm-yyyy" autocomplete="off" />
             <label>Date of Birth</label>
+            <div class="right-icon" (click)="dobInput.showPicker()">
+                <i class="bi bi-calendar3"></i>
+            </div>
+            <input #dobInput type="date" [max]="currentDate | date:'yyyy-MM-dd'"
+                [value]="detailsFormControlls['dateOfBirth'].value" (change)="onNativeDateChange($event, 'dateOfBirth')"
+                class="hidden-date-input" />
         </div>
 
         <div class="d-flex gap-2">
@@ -74,9 +79,15 @@
         </div>
 
         @if(detailsForm.get("status")?.value == statusEnum.Deceased) {
-        <div class="neo-formcontrol" [class.filled]="detailsFormControlls['deathDate']?.value">
-            <input formControlName="deathDate" type="date" />
+        <div class="neo-formcontrol filled" [class.invalid]="dodInvalid()">
+            <input type="text" [value]="dodDisplay" (input)="onDateTextChange($event, 'deathDate')"
+                (click)="onDateClick($event)" placeholder="dd-mm-yyyy" autocomplete="off" />
             <label>Date of Death</label>
+            <div class="right-icon" (click)="dodInput.showPicker()">
+                <i class="bi bi-calendar3"></i>
+            </div>
+            <input #dodInput type="date" [value]="detailsFormControlls['deathDate']?.value"
+                (change)="onNativeDateChange($event, 'deathDate')" class="hidden-date-input" />
         </div>
 
         <div class="neo-formcontrol" [class.filled]="detailsFormControlls['deathCause']?.value">
@@ -107,8 +118,7 @@
         </div>
 
         <div (click)="profileImageUrl() && showImageDeleteConfirmationModal = true"
-            [class.item-disabled]="!profileImageUrl()"
-            class="list-action-item d-flex align-items-center gap-3 py-2">
+            [class.item-disabled]="!profileImageUrl()" class="list-action-item d-flex align-items-center gap-3 py-2">
             <i class="bi bi-trash"></i>
             <span>Delete</span>
         </div>

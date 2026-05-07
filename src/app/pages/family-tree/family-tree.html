@@ -22,9 +22,9 @@
     </div>
 
     <div class="flex-fill" style="width: 100vw;">
-        <ngx-graph #graph [links]="personLinks" [nodes]="personNodes" layout="dagre"
-            [layoutSettings]="layoutSettings" [autoCenter]="false" [draggingEnabled]="true" [panningEnabled]="true"
-            [enableZoom]="true" [minZoomLevel]="minZoomLevel" [maxZoomLevel]="maxZoomLevel" [zoomLevel]="zoomLevel()"
+        <ngx-graph #graph [links]="personLinks" [nodes]="personNodes" layout="dagre" [layoutSettings]="layoutSettings"
+            [autoCenter]="false" [draggingEnabled]="true" [panningEnabled]="true" [enableZoom]="true"
+            [minZoomLevel]="minZoomLevel" [maxZoomLevel]="maxZoomLevel" [zoomLevel]="zoomLevel()"
             [zoomToFit$]="zoomToFit$" style="width: 100%; height: 100%; touch-action: none; overflow: hidden;">
             <ng-template #nodeTemplate let-node>
                 @if(node.name != 'junction') {
@@ -80,7 +80,7 @@
 
             <ng-template #linkTemplate let-link>
                 <svg:g class="edge">
-                    <svg:path [attr.d]="link.line" stroke="#eee" stroke-width="3" fill="none"
+                    <svg:path [attr.d]="link.line" stroke="#888" stroke-width="1" fill="none"
                         style="filter: drop-shadow(0px 0px 1px #888)">
                     </svg:path>
                 </svg:g>
