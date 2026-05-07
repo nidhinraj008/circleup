@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "375661429566",
+    "firebase_url": "https://notifications-d7fc6-default-rtdb.firebaseio.com",
+    "project_id": "notifications-d7fc6",
+    "storage_bucket": "notifications-d7fc6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375661429566:android:89406772408145d204a26f",
+        "android_client_info": {
+          "package_name": "com.circleup.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375661429566-omme93o09ohc1niac14b68gnuaae5luq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.circleup.app",
+            "certificate_hash": "da75cc8b1aadf3075a9cae57ed9480e1bc091f22"
+          }
+        },
+        {
+          "client_id": "375661429566-avapsqku22iiijd2jcv4kiihf0e8be76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFZlC8JW3wt7p__ToZZKJ4ICJ9qbNFHhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375661429566-avapsqku22iiijd2jcv4kiihf0e8be76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

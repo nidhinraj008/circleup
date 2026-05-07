@@ -18,7 +18,11 @@ const config: CapacitorConfig = {
       showSpinner: false,
       androidSpinnerStyle: "large",
       spinnerColor: "#999999"
-    }
+    },
+    FirebaseAuthentication: {
+      skipNativeAuth: true,
+      providers: ["google.com"],
+    },
   }
 };
 

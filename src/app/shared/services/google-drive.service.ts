@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { setGoogleDriveAccessToken } from '../../core/features/auth';
 import { map, switchMap, Observable, Subscriber } from 'rxjs';
+import { credentials } from '../data/app-info';
 
 declare const google: any;
 
@@ -13,14 +14,7 @@ declare const google: any;
 })
 export class GoogleDriveService {
 
-  private credentials = {
-    clientID: "456334548529-lo5r9o4n2umo823tgqkh4ji7g3urjjlt.apps.googleusercontent.com",
-    fileUploadFolder: "Circle Up",
-    folderMimeType: "application/vnd.google-apps.folder",
-    imageBasePath: "https://lh3.googleusercontent.com/d/"
-  }
   baseUrl = inject(Google_Drive_API_Url);
-
   tokenClient: any;
 
   constructor(private http: HttpClient,
@@ -29,7 +23,7 @@ export class GoogleDriveService {
 
   public initClient() {
     this.tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: this.credentials.clientID,
+      client_id: credentials.clientID,
       scope: this.baseUrl + 'auth/drive.file',
       callback: (resp: any) => {
         this.store.dispatch(setGoogleDriveAccessToken({ accessToken: resp.access_token }));
@@ -63,15 +57,15 @@ export class GoogleDriveService {
 
   /* search for the folder in the parent repository */
   public searchFolder() {
-    const query = `name='${this.credentials.fileUploadFolder}' and mimeType='${this.credentials.folderMimeType}' and 'root' in parents and trashed=false`;
+    const query = `name='${credentials.fileUploadFolder}' and mimeType='${credentials.folderMimeType}' and 'root' in parents and trashed=false`;
     return this.http.get(this.baseUrl + 'drive/v3/files?q=' + encodeURIComponent(query) + '&fields=files(id,name)');
   }
 
   /* create folder in root directory */
   public createFolder() {
     const params = {
-      name: this.credentials.fileUploadFolder,
-      mimeType: this.credentials.folderMimeType
+      name: credentials.fileUploadFolder,
+      mimeType: credentials.folderMimeType
     }
     return this.http.post(this.baseUrl + 'drive/v3/files', params);
   }
@@ -103,7 +97,7 @@ export class GoogleDriveService {
     return this.uploadFile(file, folderId).pipe(
       switchMap((res: any) =>
         this.makeFilePublic(res.id).pipe(
-          map(() => `${this.credentials.imageBasePath}${res.id}`)
+          map(() => `${credentials.imageBasePath}${res.id}`)
         )
       )
     );
