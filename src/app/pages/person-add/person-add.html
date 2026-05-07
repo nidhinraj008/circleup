@@ -29,15 +29,15 @@
         </div>
 
         <div class="d-flex gap-2">
-            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageYears']?.value >= 0">
+            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageYears']?.value != null">
                 <input formControlName="ageYears" type="text" readonly />
                 <label>Years</label>
             </div>
-            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageMonths']?.value >= 0">
+            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageMonths']?.value != null">
                 <input formControlName="ageMonths" type="text" readonly />
                 <label>Months</label>
             </div>
-            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageDays']?.value >= 0">
+            <div class="neo-formcontrol w-100" [class.filled]="detailsFormControlls['ageDays']?.value != null">
                 <input formControlName="ageDays" type="text" readonly />
                 <label>Days</label>
             </div>

@@ -17,7 +17,7 @@ export class GoogleDriveService {
     clientID: "456334548529-lo5r9o4n2umo823tgqkh4ji7g3urjjlt.apps.googleusercontent.com",
     fileUploadFolder: "Circle Up",
     folderMimeType: "application/vnd.google-apps.folder",
-    imagaBasePath: "https://lh3.googleusercontent.com/d/"
+    imageBasePath: "https://lh3.googleusercontent.com/d/"
   }
   baseUrl = inject(Google_Drive_API_Url);
 
@@ -103,7 +103,7 @@ export class GoogleDriveService {
     return this.uploadFile(file, folderId).pipe(
       switchMap((res: any) =>
         this.makeFilePublic(res.id).pipe(
-          map(() => `${this.credentials.imagaBasePath}${res.id}`)
+          map(() => `${this.credentials.imageBasePath}${res.id}`)
         )
       )
     );

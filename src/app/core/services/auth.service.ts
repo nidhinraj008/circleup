@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, computed } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, user } from '@angular/fire/auth';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
@@ -16,22 +16,11 @@ export class AuthService {
   private store = inject(Store<AppState>);
   private driveApiUrl = inject(Google_Drive_API_Url);
   private commonData = inject(CommonData);
-  private user$ = user(this.auth); // Observable converted to Signal for modern Angular patterns
+  private user$ = user(this.auth); 
   readonly currentUser = toSignal(this.user$);
-  readonly isAuthenticated = signal(false); // Computed-like state for authentication
+  readonly isAuthenticated = computed(() => !!this.currentUser());
 
-  constructor() {
-    // this.commonData.showLoader();
-    let isAuthLoading = true;
-    // Sync isAuthenticated state
-    this.user$.subscribe(user => {
-      this.isAuthenticated.set(!!user);
-      if (isAuthLoading) {
-        isAuthLoading = false;
-        // this.commonData.hideLoader();
-      }
-    });
-  }
+  constructor() { }
 
   /* Triggers Google Login via Popup */
   async loginWithGoogle() {

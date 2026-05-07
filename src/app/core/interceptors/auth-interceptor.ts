@@ -1,5 +1,5 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectGoogleDriveAccessToken } from '../features/auth';
 import { Google_Drive_API_Url } from '../../app.config';
@@ -12,7 +12,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
 
   const store = inject(Store);
-  const googleDriveService = inject(GoogleDriveService);
+  const injector = inject(Injector);
   const token = store.selectSignal(selectGoogleDriveAccessToken)();
   const authReq = token ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : req;
 
@@ -21,6 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status !== 401)
         return throwError(() => error);
 
+      const googleDriveService = injector.get(GoogleDriveService);
       return googleDriveService.refreshTokenSilently().pipe(
         switchMap((newToken) => {
           if (!newToken)
