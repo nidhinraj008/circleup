@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { addFamily, selectFamilyById, selectLargestFamilyId, updateFamily } from '../../core/features/family'
 import { selectPersonsWithAge } from '../../core/features/persons'
 import { take } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonData } from '../../shared/services/common-data';
 import { addFamilyMember, removeFamilyMembersByFamilyId, selectLargestFamilyMemberId, selectFamilyMembersByFamilyId } from '../../core/features/family-members'
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -28,6 +29,7 @@ export class FamilyAdd {
   familyForm!: FormGroup;
   currentMode!: CRUDEnum;
   personsList$: any;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,13 +38,9 @@ export class FamilyAdd {
     private router: Router,
     private commonData: CommonData
   ) {
-    let previousCount = this.commonData.submitCount();
-    effect(() => {
-      const count = this.commonData.submitCount();
-      if (count > previousCount) {
-        this.onClickSubmit();
-      }
-    });
+    this.commonData.submitClick$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => this.onClickSubmit());
   }
 
   ngOnInit(): void {

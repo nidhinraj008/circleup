@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Configurations } from '../types/configuration';
 import { Router } from '@angular/router';
 import { Toast } from '../types/toast';
@@ -13,7 +14,7 @@ export class CommonData {
     isShowMenuBar: true,
     isShowAdd: false
   });
-  submitCount = signal<number>(0);
+  submitClick$ = new Subject<void>();
   isLoading = signal(false);
   requestCount: number = 0;
 
@@ -34,7 +35,7 @@ export class CommonData {
   }
 
   public onSaveClick() {
-    this.submitCount.update(v => v + 1);
+    this.submitClick$.next();
   }
 
   //#region Loader

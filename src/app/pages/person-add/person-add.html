@@ -106,7 +106,8 @@
 <!-- long press action Modal -->
 <app-modal [isVisible]="showImageActionModal" (close)="showImageActionModal = false" position="bottom">
     <div class="list-actions-container d-flex flex-column w-100">
-        <div (click)="fileInput.click()" class="list-action-item d-flex align-items-center gap-3 py-2">
+        <div (click)="isAuthenticated() && fileInput.click()"
+            class="list-action-item d-flex align-items-center gap-3 py-2">
             <i class="bi bi-upload"></i>
             <span>Upload</span>
             <input id="fileUploader" type="file" (change)="onFileChange($event)" hidden #fileInput>
@@ -138,7 +139,8 @@
     </div>
     }
     <div class="neo-formcontrol" [class.filled]="imageLink()" [class.invalid]="!isImageLinkValid() && imageLink()">
-        <input [ngModel]="imageLink()" (ngModelChange)="imageLink.set($event)" type="text" autocomplete="off" />
+        <input [ngModel]="imageLink()" (ngModelChange)="imageLink.set($event)" type="text" autocomplete="off"
+            autofocus />
         <label>Image link</label>
     </div>
 </app-modal>

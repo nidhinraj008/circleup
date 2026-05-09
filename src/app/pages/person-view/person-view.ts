@@ -2,7 +2,7 @@ import { Component, Signal, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
 import { selectPersonsById } from '../../core/features/persons';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GenderEnum } from '../../shared/enum/gender.enum';
 import { StatusEnum } from '../../shared/enum/status.enum';
 import { DatePipe } from '@angular/common';
@@ -11,7 +11,8 @@ import { calculateFullAge } from '../../shared/functions/common-functions';
 @Component({
   selector: 'app-person-view',
   imports: [
-    DatePipe
+    DatePipe,
+    RouterLink
   ],
   templateUrl: './person-view.html',
   styleUrl: './person-view.scss',
@@ -33,8 +34,8 @@ export class PersonView {
   }
 
   private getRouterData() {
-    this.activatedRoute.data.subscribe(data => {
-      const id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.activatedRoute.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
       id && this.getEditData(id);
     })
   }

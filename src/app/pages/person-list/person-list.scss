@@ -4,6 +4,17 @@
         height: 50px;
         object-fit: cover;
     }
+
+    .details-container {
+        flex: 1;
+        min-width: 0;
+
+        .name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
 }
 
 .list-action-item:active {

@@ -1,4 +1,4 @@
-import { Component, effect, inject, Signal, signal } from '@angular/core';
+import { Component, DestroyRef, inject, Signal, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { enumToArray } from '../../shared/functions/common-functions';
 import { GenderEnum } from '../../shared/enum/gender.enum';
@@ -16,11 +16,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CRUDEnum } from '../../shared/enum/crud.enum';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { merge, take } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { calculateFullAge } from '../../shared/functions/common-functions';
 import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { CommonData } from '../../shared/services/common-data';
 import { Modal } from '../../shared/components/modal/modal';
 import moment from 'moment';
+import { credentials } from '../../shared/data/app-info';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-person-add',
@@ -37,6 +40,7 @@ import moment from 'moment';
 export class PersonAdd {
 
   googleDriveAPIUrl = inject(Google_Drive_API_Url);
+  private destroyRef = inject(DestroyRef);
   statusEnum = StatusEnum;
   fileToUpload: File | null = null;
   detailsForm!: FormGroup;
@@ -52,7 +56,7 @@ export class PersonAdd {
   showImageActionModal: boolean = false;
   showImageDeleteConfirmationModal: boolean = false;
   showImageLoadModal: boolean = false;
-
+  readonly driveShareLink: string = "https://drive.google.com/file/d/";
   dobDisplay = '';
   dodDisplay = '';
   dobInvalid = signal<boolean>(false);
@@ -65,15 +69,11 @@ export class PersonAdd {
     private store: Store<AppState>,
     private googleDriveService: GoogleDriveService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {
-
-    let previousCount = this.commonData.submitCount();
-    effect(() => {
-      const count = this.commonData.submitCount();
-      if (count > previousCount) {
-        this.onClickSubmit();
-      }
-    });
+    this.commonData.submitClick$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => this.onClickSubmit());
   }
 
   ngOnInit(): void {
@@ -164,6 +164,13 @@ export class PersonAdd {
   }
 
   private validateImageUrl(url: any): Promise<boolean> {
+    url = url.trim();
+    const imageId = url.match(new RegExp(`${this.driveShareLink}([^/]+)`))?.[1];
+    if (imageId) {
+      url = `${credentials.imageBasePath}${imageId}`
+      this.imageLink.set(url)
+    }
+
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => resolve(true);
@@ -188,6 +195,14 @@ export class PersonAdd {
 
   private setFolderId(folderId: string) {
     this.store.dispatch(setFileUploadFolderId({ folderId }));
+  }
+
+  public isAuthenticated(): boolean {
+    if (!this.authService.isAuthenticated()) {
+      this.commonData.warning("Please login with google to upload image.");
+    }
+
+    return this.authService.isAuthenticated();
   }
 
   public onFileChange(event: any) {
@@ -347,8 +362,10 @@ export class PersonAdd {
           this.createFolderAndUploadFile();
         }
       },
-      error: (err: any) =>
+      error: (err: any) => {
+        this.commonData.hideLoader();
         this.commonData.error("Image upload failed")
+      }
     });
   }
 
@@ -360,19 +377,24 @@ export class PersonAdd {
           this.uploadFile(this.fileToUpload, res.id);
         }
       },
-      error: (err: any) =>
+      error: (err: any) => {
+        this.commonData.hideLoader();
         this.commonData.error("Image upload failed")
+      }
     })
   }
 
   private uploadFile(file: File, folderId: string) {
     this.googleDriveService.uploadAsPublicFile(file, folderId).subscribe({
       next: (res: any) => {
+        this.commonData.hideLoader();
         this.detailsForm.patchValue({ primaryImageUrl: res });
         this.addOrUpdatePerson();
       },
-      error: (err: any) =>
+      error: (err: any) => {
+        this.commonData.hideLoader();
         this.commonData.error("Image upload failed")
+      }
     });
   }
 
@@ -382,12 +404,16 @@ export class PersonAdd {
   }
 
   public async onClickSubmit() {
+    if (this.commonData.isLoading())
+      return;
+
     this.detailsForm.markAllAsTouched();
     if (this.detailsForm.invalid) {
       this.commonData.warning("Invalid data");
       return;
     }
 
+    this.commonData.showLoader();
     if (this.fileToUpload) {
       this.initImageUpload();
       return;
@@ -405,10 +431,12 @@ export class PersonAdd {
       });
       this.initDetailsForm();
       this.fileToUpload = null;
+      this.commonData.hideLoader();
       this.commonData.success("Item added successfully");
     } else {
       this.store.dispatch(updatePerson({ person: person }));
       this.commonData.success("Item updated successfully");
+      this.commonData.hideLoader();
       this.router.navigate(['persons'])
     }
   }

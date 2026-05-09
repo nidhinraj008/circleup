@@ -1,21 +1,71 @@
-.image-container {
+.header-image-container {
     width: 100%;
-    aspect-ratio: 4/3;
-    object-fit: contain;
+    aspect-ratio: 4 / 3;
+    position: relative;
+    background-color: #f0f0f0;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #efefef;
-    
-    img {
+
+    .header-image {
         width: 100%;
-        aspect-ratio: 4/3;
-        object-fit: contain;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .header-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 75%;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+    }
+
+    .name-overlay {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        font-size: 1.5rem;
+        width: fit-content;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        overflow: hidden;
+    }
+
+    .gender-icon-header {
+        flex: 1;
+        font-size: 1.4rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 }
 
-.name-container {
-    width: 100%;
+.label-xs {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    letter-spacing: 0.03rem;
+    font-weight: 600;
+}
+
+.value-sm {
+    font-size: 0.95rem;
+    color: var(--primary-font-color);
     overflow-wrap: break-word;
+    line-height: 18px;
+}
+
+.family-chip {
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.section-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 0.05rem;
 }
