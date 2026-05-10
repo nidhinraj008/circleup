@@ -1,0 +1,124 @@
+<div class="view-container" style="position: relative;">
+    <div class="header-image-container shadow-sm">
+        <img [src]="personDetails()?.primaryImageUrl ?? '/images/no-image.png'" class="header-image"
+            referrerpolicy="no-referrer" (error)="$event.target.src='/images/unsupported.png'">
+
+        <div class="header-overlay d-flex p-3">
+            <div class="d-flex gap-2">
+                <div class="name-overlay fw-bold">
+                    {{personDetails()?.name}}
+                </div>
+                <div class="gender-icon-header d-flex align-items-end">
+                    @if(personDetails()?.gender === genderEnum.Female) {
+                    <i class="bi bi-gender-female" style="color: #ed72a6;"></i>
+                    } @else if (personDetails()?.gender === genderEnum.Male) {
+                    <i class="bi bi-gender-male" style="color: #58beeb;"></i>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3 d-flex flex-column gap-3">
+        <div class="shadow-outward-out p-3">
+            <div class="row g-3">
+                @if (personDetails()?.dateOfBirth) {
+                <div class="col-6">
+                    <div class="label-xs">Birth Date</div>
+                    <div class="value-sm">{{personDetails().dateOfBirth | date : 'dd MMM yyyy'}}</div>
+                </div>
+                }
+
+                @if (personDetails()?.dateOfBirth && personDetails()?.ageYears !== '') {
+                <div class="col-6">
+                    <div class="label-xs">Age</div>
+                    <div class="value-sm">
+                        {{personDetails().ageYears}}y {{personDetails().ageMonths}}m {{personDetails().ageDays}}d
+                    </div>
+                </div>
+                }
+
+                @if (personDetails()?.home) {
+                <div class="col-6">
+                    <div class="label-xs">Home</div>
+                    <div class="value-sm">{{personDetails().home}}</div>
+                </div>
+                }
+
+                @if (personDetails()?.status) {
+                <div class="col-6">
+                    <div class="label-xs">Status</div>
+                    <div class="value-sm">
+                        {{statusEnum[personDetails().status]}}
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        @if (personDetails()?.fatherName || personDetails()?.motherName || (personDetails()?.families &&
+        personDetails()?.families.length > 0)) {
+        <div class="shadow-outward-out p-3">
+            <h6 class="section-title mb-2">Relationships</h6>
+            <div class="row g-3">
+                @if (personDetails()?.fatherName) {
+                <div class="col-6" [routerLink]="['/persons/view', personDetails().fatherId]" style="cursor: pointer;">
+                    <div class="label-xs">Father</div>
+                    <div class="value-sm text-primary fw-semibold">{{personDetails().fatherName}}</div>
+                </div>
+                }
+
+                @if (personDetails()?.motherName) {
+                <div class="col-6" [routerLink]="['/persons/view', personDetails().motherId]" style="cursor: pointer;">
+                    <div class="label-xs">Mother</div>
+                    <div class="value-sm text-primary fw-semibold">{{personDetails().motherName}}</div>
+                </div>
+                }
+
+                @if (personDetails()?.families && personDetails()?.families.length > 0) {
+                <div class="col-12">
+                    <div class="label-xs">Families</div>
+                    <div class="d-flex flex-wrap gap-2 mt-1">
+                        @for (family of personDetails().families; track family.id) {
+                        <span class="family-chip shadow-outward-in px-2 py-1 text-primary"
+                            [routerLink]="['/familyTree', family.id]">
+                            {{family.name}}
+                        </span>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        }
+
+        @if (personDetails()?.status === statusEnum.Deceased) {
+        <div class="shadow-outward-out p-3 border-start border-4 border-danger"
+            style="background: linear-gradient(to right, #fffafa, var(--background-color));">
+            <h6 class="section-title mb-2 text-danger">Passing Details</h6>
+            <div class="row g-2">
+                @if (personDetails()?.deathDate) {
+                <div class="col-6">
+                    <div class="label-xs">Date</div>
+                    <div class="value-sm">{{personDetails().deathDate | date : 'dd MMM yyyy'}}</div>
+                </div>
+                }
+                @if (personDetails()?.deathCause) {
+                <div class="col-12">
+                    <div class="label-xs">Cause</div>
+                    <div class="value-sm">{{personDetails().deathCause}}</div>
+                </div>
+                }
+            </div>
+        </div>
+        }
+
+        @if (personDetails()?.notes) {
+        <div class="shadow-outward-out p-3">
+            <h6 class="section-title mb-2">Notes</h6>
+            <div class="value-sm text-secondary" [innerHTML]="personDetails().notes"
+                style="line-height: 1.5; white-space: pre-wrap;"></div>
+        </div>
+        }
+    </div>
+</div>

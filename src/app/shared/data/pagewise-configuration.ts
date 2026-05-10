@@ -76,4 +76,23 @@ export const pageWiseConfiguration = {
         isShowAdd: false,
         isPullToRefreshDisabled: false,
     },
+    relations: {
+        title: "Relations",
+        isShowMenuBar: true,
+        isShowAdd: true,
+        isPullToRefreshDisabled: false,
+    },
+    relationsAdd: {
+        title: "Relation Add",
+        isShowMenuBar: false,
+        isShowAdd: false,
+        isShowSave: true,
+        isPullToRefreshDisabled: false,
+    },
+    relationsView: {
+        title: "Relation View",
+        isShowMenuBar: false,
+        isShowAdd: false,
+        isPullToRefreshDisabled: false,
+    },
 }

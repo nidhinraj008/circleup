@@ -1,9 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonData } from '../../shared/services/common-data';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
   imports: [
+    RouterLink
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',

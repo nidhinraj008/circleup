@@ -3,7 +3,7 @@ import { Auth, GoogleAuthProvider, signInWithPopup, signInWithCredential, signOu
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { setGoogleDriveAccessToken } from '../features/auth';
+import { setGoogleDriveAccessToken } from '../store/auth';
 import { Google_Drive_API_Url } from '../../app.config';
 import { Capacitor } from '@capacitor/core';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';

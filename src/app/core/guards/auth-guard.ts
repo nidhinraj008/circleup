@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { CanActivateChildFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectPersonsById } from '../features/persons';
+import { selectPersonsById } from '../../pages/person/store';
 import { myFamily, primaryPerson } from '../../shared/data/primary';
 import { combineLatest, map, take } from 'rxjs';
-import { selectFamilyById } from '../features/family';
+import { selectFamilyById } from '../../pages/family/store';
 
 export const authGuard: CanActivateChildFn = () => {
   const store = inject(Store);
@@ -22,5 +22,4 @@ export const authGuard: CanActivateChildFn = () => {
     }),
     take(1)
   );
-
 };

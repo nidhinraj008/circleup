@@ -1,0 +1,23 @@
+<div class="view-container p-3" style="position: relative;">
+    <form [formGroup]="familyForm" (ngSubmit)="onClickSubmit()">
+        <div class="neo-formcontrol" [class.filled]="familyFormControls['name']?.value"
+            [class.invalid]="familyFormControls['name'].touched && familyFormControls['name'].invalid">
+            <input type="text" formControlName="name" autocomplete="off" />
+            <label>Name</label>
+        </div>
+
+        <div class="neo-formcontrol mb-5" [class.filled]="familyFormControls['members']?.value?.length">
+            <ng-select formControlName="members" [items]="allPersons()" bindLabel="name" bindValue="id"
+                [multiple]="true" [closeOnSelect]="false">
+                <ng-template ng-option-tmp let-item="item">
+                    <div class="d-flex align-items-center gap-2">
+                        <img [src]="item.primaryImageUrl || '/images/no-image.png'" class="rounded-circle" width="24"
+                            height="24" style="object-fit: cover;">
+                        <span>{{item.name}}</span>
+                    </div>
+                </ng-template>
+            </ng-select>
+            <label>Family Members</label>
+        </div>
+    </form>
+</div>

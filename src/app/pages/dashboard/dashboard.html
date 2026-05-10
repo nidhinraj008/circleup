@@ -1,4 +1,4 @@
-<div class="row g-0 p-2">
+<div class="view-container row g-0 p-2">
     <div class="col-6 p-2">
         <div class="shadow-outward-out p-3 d-flex flex-column justify-content-center gap-2">
             <div class="shadow-outward-in p-2 d-flex justify-content-center align-items-center">
@@ -63,8 +63,9 @@
     <div class="col-6 row g-0 px-2">
         <div class="col-12 row g-0 d-flex py-2">
             <div class="col-6 pe-2">
-                <div class="shadow-outward-out neo-icon d-flex justify-content-center align-items-center">
-                    <i class="bi bi-twitter-x"></i>
+                <div class="shadow-outward-out neo-icon d-flex justify-content-center align-items-center"
+                    [routerLink]="['/relations']">
+                    <i class="bi bi-hearts"></i>
                 </div>
             </div>
             <div class="col-6 ps-2">

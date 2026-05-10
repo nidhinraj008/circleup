@@ -1,10 +1,10 @@
-<div class="d-flex flex-column">
+<div class="view-container d-flex flex-column">
     <div class="p-3">
         <div (click)="showLoginModal = true" class="d-flex gap-3">
             <div class="profile-image-wrapper shadow-outward-out">
-                <img [src]="authService.currentUser()?.photoURL || 'images/no-image.png'"
+                <img [src]="authService.currentUser()?.photoURL || '/images/no-image.png'"
                     class="profile-image rounded-circle w-100 h-100" referrerpolicy="no-referrer"
-                    (error)="$event.target.src='images/unsupported.png'">
+                    (error)="$event.target.src='/images/unsupported.png'">
             </div>
             <div class="d-flex flex-column flex-grow-1 py-2">
                 <div class="name-block">

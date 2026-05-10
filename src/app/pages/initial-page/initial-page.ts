@@ -7,15 +7,15 @@ import { DatePipe } from '@angular/common';
 import { combineLatest, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../core/store/app.state';
-import { selectPersonsById, addPerson, updatePerson } from '../../core/features/persons';
-import { selectFamilyById, addFamily } from '../../core/features/family';
+import { selectPersonsById, addPerson, updatePerson } from '../person/store';
+import { selectFamilyById, addFamily } from '../family/store';
 import { myFamily, primaryPerson } from '../../shared/data/primary';
 import { Family } from '../../shared/types/family';
 import { Person } from '../../shared/types/person';
 import { assignPerson } from '../../shared/functions/data-assign-functions';
 import { Router } from '@angular/router';
 import { StatusEnum } from '../../shared/enum/status.enum';
-import { addFamilyMember, removeFamilyMember } from '../../core/features/family-members';
+import { addFamilyMember, removeFamilyMember } from '../family/store/family-members';
 
 @Component({
   selector: 'app-initial-page',

@@ -1,13 +1,13 @@
-import { PersonsState } from '../features/persons/persons.state';
-import { AuthState } from '../features/auth/auth.state';
-import { FamilyState } from '../features/family';
-import { PartnerState } from '../features/partner';
-import { FamilyMembersState } from '../features/family-members';
+import { PersonsState } from '../../pages/person/store/persons.state';
+import { AuthState } from './auth/auth.state';
+import { FamilyState } from '../../pages/family/store';
+import { RelationState } from '../../pages/relation/store';
+import { FamilyMembersState } from '../../pages/family/store/family-members';
 
 export interface AppState { 
     persons: PersonsState; 
     authentication: AuthState;
     families: FamilyState,
-    partners: PartnerState,
+    relations: RelationState,
     familyMembers: FamilyMembersState,
 }

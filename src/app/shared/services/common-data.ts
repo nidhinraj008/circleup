@@ -31,6 +31,8 @@ export class CommonData {
       this.router.navigate(['persons/add', 0]);
     } else if (url.includes('families')) {
       this.router.navigate(['family/add'])
+    } else if (url.includes('relations')) {
+      this.router.navigate(['relations/add'])
     }
   }
 

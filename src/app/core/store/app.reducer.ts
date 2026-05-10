@@ -1,15 +1,15 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { AppState } from './app.state';
-import { personsReducer } from '../features/persons';
-import { authenticationReducer } from '../features/auth';
-import { familyReducer } from '../features/family';
-import { partnerReducer } from '../features/partner';
-import { familyMembersReducer } from '../features/family-members';
+import { personsReducer } from '../../pages/person/store';
+import { authenticationReducer } from './auth';
+import { familyReducer } from '../../pages/family/store';
+import { relationReducer } from '../../pages/relation/store';
+import { familyMembersReducer } from '../../pages/family/store/family-members';
 
 export const reducers: ActionReducerMap<AppState> = {
     persons: personsReducer,
     authentication: authenticationReducer,
     families: familyReducer,
-    partners: partnerReducer,
+    relations: relationReducer,
     familyMembers: familyMembersReducer,
 };

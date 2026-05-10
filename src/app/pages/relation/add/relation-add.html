@@ -1,0 +1,77 @@
+<div class="view-container p-3">
+    <form [formGroup]="relationForm">
+        <div class="neo-formcontrol" [class.filled]="relationForm.get('maleId')?.value"
+            [class.invalid]="relationForm.get('maleId')?.touched && relationForm.get('maleId')?.invalid">
+            <ng-select formControlName="maleId" [items]="malePersons()" bindLabel="name" bindValue="id">
+                <ng-template ng-option-tmp let-item="item">
+                    <div class="d-flex align-items-center gap-2">
+                        <img [src]="item.primaryImageUrl || '/images/no-image.png'" class="rounded-circle" width="24"
+                            height="24" style="object-fit: cover;">
+                        <span>{{item.name}}</span>
+                    </div>
+                </ng-template>
+            </ng-select>
+            <label>Male Partner</label>
+        </div>
+
+        <div class="neo-formcontrol" [class.filled]="relationForm.get('femaleId')?.value"
+            [class.invalid]="relationForm.get('femaleId')?.touched && relationForm.get('femaleId')?.invalid">
+            <ng-select formControlName="femaleId" [items]="femalePersons()" bindLabel="name" bindValue="id">
+                <ng-template ng-option-tmp let-item="item">
+                    <div class="d-flex align-items-center gap-2">
+                        <img [src]="item.primaryImageUrl || '/images/no-image.png'" class="rounded-circle" width="24"
+                            height="24" style="object-fit: cover;">
+                        <span>{{item.name}}</span>
+                    </div>
+                </ng-template>
+            </ng-select>
+            <label>Female Partner</label>
+        </div>
+
+        <div class="neo-formcontrol" [class.filled]="relationForm.get('status')?.value">
+            <ng-select formControlName="status" [items]="statusOptions" bindLabel="label" bindValue="value"
+                [clearable]="false"></ng-select>
+            <label>Relationship Status</label>
+        </div>
+
+        <div class="neo-formcontrol filled" [class.invalid]="firstSeenDateInvalid()">
+            <input type="text" [value]="firstSeenDateDisplay" (input)="onDateTextChange($event, 'firstSeenDate')"
+                (click)="onDateClick($event)" placeholder="dd-mm-yyyy" autocomplete="off" />
+            <label>First Seen Date</label>
+            <div class="right-icon" (click)="firstSeenInput.showPicker()">
+                <i class="bi bi-calendar3"></i>
+            </div>
+            <input #firstSeenInput type="date" [max]="currentDate | date:'yyyy-MM-dd'"
+                [value]="relationForm.get('firstSeenDate')?.value"
+                (change)="onNativeDateChange($event, 'firstSeenDate')" class="hidden-date-input" />
+        </div>
+
+        <div class="neo-formcontrol filled" [class.invalid]="marriageDateInvalid()">
+            <input type="text" [value]="marriageDateDisplay" (input)="onDateTextChange($event, 'marriageDate')"
+                (click)="onDateClick($event)" placeholder="dd-mm-yyyy" autocomplete="off" />
+            <label>Marriage Date</label>
+            <div class="right-icon" (click)="marriageInput.showPicker()">
+                <i class="bi bi-calendar3"></i>
+            </div>
+            <input #marriageInput type="date" [max]="currentDate | date:'yyyy-MM-dd'"
+                [value]="relationForm.get('marriageDate')?.value" (change)="onNativeDateChange($event, 'marriageDate')"
+                class="hidden-date-input" />
+        </div>
+
+        @if (relationForm.get('status')?.value === relationStatusEnum.Separated ||
+        relationForm.get('status')?.value === relationStatusEnum.Divorced ||
+        relationForm.get('status')?.value === relationStatusEnum.Widowed) {
+        <div class="neo-formcontrol filled" [class.invalid]="separationDateInvalid()">
+            <input type="text" [value]="separationDateDisplay" (input)="onDateTextChange($event, 'separationDate')"
+                (click)="onDateClick($event)" placeholder="dd-mm-yyyy" autocomplete="off" />
+            <label>Separation Date</label>
+            <div class="right-icon" (click)="separationInput.showPicker()">
+                <i class="bi bi-calendar3"></i>
+            </div>
+            <input #separationInput type="date" [max]="currentDate | date:'yyyy-MM-dd'"
+                [value]="relationForm.get('separationDate')?.value"
+                (change)="onNativeDateChange($event, 'separationDate')" class="hidden-date-input" />
+        </div>
+        }
+    </form>
+</div>

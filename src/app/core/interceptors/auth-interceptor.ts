@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectGoogleDriveAccessToken } from '../features/auth';
+import { selectGoogleDriveAccessToken } from '../store/auth';
 import { Google_Drive_API_Url } from '../../app.config';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { GoogleDriveService } from '../../shared/services/google-drive.service';
