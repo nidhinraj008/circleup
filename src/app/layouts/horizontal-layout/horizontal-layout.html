@@ -18,6 +18,10 @@
                 <div (click)="commonData.onSaveClick()" class="d-flex align-items-center justify-content-end">
                     <i class="bi bi-floppy"></i>
                 </div>
+                } @else if(commonData.configurations().isShowEdit) {
+                <div (click)="commonData.onEditClick()" class="d-flex align-items-center justify-content-end">
+                    <i class="bi bi-pencil-fill"></i>
+                </div>
                 }
             </div>
         </div>

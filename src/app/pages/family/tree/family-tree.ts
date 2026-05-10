@@ -1,18 +1,20 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, signal } from '@angular/core';
 import { NgxGraphModule, NgxGraphZoomOptions } from '@swimlane/ngx-graph';
 import { selectAllByFamilyId } from '../../person/store';
 import { selectAllRelations } from '../../relation/store';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/store/app.state';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { combineLatest, Subject } from 'rxjs';
+import { CommonData } from '../../../shared/services/common-data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-family-tree',
   imports: [
     NgxGraphModule,
-    DecimalPipe
+    DecimalPipe,
   ],
   templateUrl: './family-tree.html',
   styleUrl: './family-tree.scss',
@@ -23,7 +25,7 @@ export class FamilyTree {
   relations: any[] = [];
   personNodes: any[] = [];
   personLinks: any[] = [];
-
+  familyId: number = 0;
   layoutSettings = {
     orientation: 'TB',
     rankPadding: 80,
@@ -38,7 +40,16 @@ export class FamilyTree {
   constructor(
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private commonData: CommonData,
+    private destroyRef: DestroyRef
+
   ) {
+    this.commonData.editClick$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      this.familyId && this.router.navigate(['family/edit', this.familyId]);
+    });
   }
 
   ngOnInit(): void {
@@ -52,9 +63,9 @@ export class FamilyTree {
 
   private getRouterData() {
     this.activatedRoute.paramMap.subscribe(data => {
-      const id = Number(data.get("id") ?? '0');
-      if (id > 0) {
-        this.getData(id);
+      this.familyId = Number(data.get("id") ?? '0');
+      if (this.familyId > 0) {
+        this.getData(this.familyId);
       }
     })
   }
@@ -69,6 +80,15 @@ export class FamilyTree {
 
   public resetZoom() {
     this.zoomLevel.set(1);
+  }
+
+  public onClickPerson(person: any) {
+    const id = person.id.replace('id', '');
+    this.router.navigate(['persons/view', id]);
+  }
+
+  public onClickJunction(person: any) {
+
   }
 
   private processTreeData() {
@@ -101,19 +121,19 @@ export class FamilyTree {
 
     // Add junctions for explicit Relation records (for childless couples)
     for (let relation of this.relations) {
-        const p1Id = Number(relation.maleId);
-        const p2Id = Number(relation.femaleId);
+      const p1Id = Number(relation.maleId);
+      const p2Id = Number(relation.femaleId);
 
-        // only add if both persons are in the current family tree
-        if (personIds.has(p1Id) && personIds.has(p2Id)) {
-            const key = `${p1Id}W${p2Id}`;
-            if (!weddingSet.has(key)) {
-                weddingSet.add(key);
-                nodes.push({ id: key, label: 'junction', name: "junction", fatherId: null, motherId: null })
-                links.push({ source: `id${p1Id}`, target: key });
-                links.push({ source: `id${p2Id}`, target: key });
-            }
+      // only add if both persons are in the current family tree
+      if (personIds.has(p1Id) && personIds.has(p2Id)) {
+        const key = `${p1Id}W${p2Id}`;
+        if (!weddingSet.has(key)) {
+          weddingSet.add(key);
+          nodes.push({ id: key, label: 'junction', name: "junction", fatherId: null, motherId: null })
+          links.push({ source: `id${p1Id}`, target: key });
+          links.push({ source: `id${p2Id}`, target: key });
         }
+      }
     }
 
     this.personLinks = links;
@@ -125,8 +145,8 @@ export class FamilyTree {
 
   private getData(id: number) {
     combineLatest([
-        this.store.select(selectAllByFamilyId(id)),
-        this.store.select(selectAllRelations)
+      this.store.select(selectAllByFamilyId(id)),
+      this.store.select(selectAllRelations)
     ]).subscribe({
       next: ([persons, relations]: [any[], any[]]) => {
         this.treeData = persons;

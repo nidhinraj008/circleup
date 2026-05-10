@@ -15,6 +15,7 @@ export class CommonData {
     isShowAdd: false
   });
   submitClick$ = new Subject<void>();
+  editClick$ = new Subject<void>();
   isLoading = signal(false);
   requestCount: number = 0;
 
@@ -38,6 +39,10 @@ export class CommonData {
 
   public onSaveClick() {
     this.submitClick$.next();
+  }
+
+  public onEditClick() {
+    this.editClick$.next();
   }
 
   //#region Loader

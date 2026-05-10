@@ -30,6 +30,7 @@ export const pageWiseConfiguration = {
         isShowMenuBar: false,
         isShowAdd: false,
         isPullToRefreshDisabled: false,
+        isShowEdit: true,
     },
     families: {
         title: "Families",
@@ -56,6 +57,7 @@ export const pageWiseConfiguration = {
         isShowMenuBar: false,
         isShowAdd: false,
         isPullToRefreshDisabled: true,
+        isShowEdit: true,
     },
     profile: {
         title: "Profile",
@@ -100,5 +102,7 @@ export const pageWiseConfiguration = {
         isShowMenuBar: false,
         isShowAdd: false,
         isPullToRefreshDisabled: false,
+        isShowEdit: true,
+
     },
 }

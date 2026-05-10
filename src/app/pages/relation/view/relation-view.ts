@@ -1,10 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/store/app.state';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { selectRelationWithDetails } from '../store';
 import { RelationStatusEnum } from '../../../shared/enum/relation-status.enum';
 import { DatePipe } from '@angular/common';
+import { CommonData } from '../../../shared/services/common-data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-relation-view',
@@ -23,7 +25,17 @@ export class RelationView {
   constructor(
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
-  ) {}
+    private commonData: CommonData,
+    private router: Router,
+    private destroyRef: DestroyRef
+  ) {
+    this.commonData.editClick$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      const relation = this.relationDetails();
+      relation && this.router.navigate(['relations/edit', relation.id]);
+    });
+  }
 
   ngOnInit(): void {
     this.getRouterData();

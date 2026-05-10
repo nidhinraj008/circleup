@@ -28,30 +28,12 @@
             [zoomToFit$]="zoomToFit$" style="width: 100%; height: 100%; touch-action: none; overflow: hidden;">
             <ng-template #nodeTemplate let-node>
                 @if(node.name != 'junction') {
-                <svg:g class="d-none">
-                    <svg:rect width="220" height="70" fill="white" rx="10">
-                    </svg:rect>
-                    <svg:clipPath [attr.id]="'clip-' + node.id">
-                        <circle cx="35" cy="35" r="25"></circle>
-                    </svg:clipPath>
-                    <svg:image x="10" y="10" width="50" height="50"
-                        [attr.href]="node.primaryImageUrl ?? '/images/no-image.png'"
-                        [attr.clip-path]="'url(#clip-' + node.id + ')'">
-                    </svg:image>
-                    <svg:text x="70" y="30" font-size="14" font-weight="600">
-                        {{node.label}}
-                    </svg:text>
-                    <svg:text x="70" y="50" font-size="12">
-                        Age {{node?.age || "_"}}
-                    </svg:text>
-                </svg:g>
-
                 <svg:g>
                     <svg:foreignObject width="220" height="90">
                         <div class="w-100 h-100 position-relative" style="border-radius: var(--border-radius);">
 
                             <div class="d-flex gap-3 p-2 shadow-outward-out align-items-center position-absolute"
-                                style="inset: 5px;">
+                                style="inset: 5px;" (click)="onClickPerson(node)">
                                 <div class="rounded-pill shadow-outward-out"
                                     style="width: fit-content; height: fit-content; padding: 1px;">
                                     <img [src]="node.primaryImageUrl || '/images/no-image.png'"
@@ -69,7 +51,7 @@
                 } @else {
                 <svg:g style="filter: drop-shadow(0px 0px 1px #888)" fill="none" stroke="none">
                     <svg:foreignObject width="16" height="16">
-                        <div style="border: 1px solid #c5c5c5"
+                        <div (click)="onClickJunction(node)" style="border: 1px solid #c5c5c5"
                             class="d-flex align-items-center justify-content-center w-100 h-100 rounded-pill">
                             <i class="bi bi-dash" style="color: #555"></i>
                         </div>

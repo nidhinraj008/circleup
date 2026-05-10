@@ -1,13 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/store/app.state';
 import { selectPersonsById } from '../store';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GenderEnum } from '../../../shared/enum/gender.enum';
 import { StatusEnum } from '../../../shared/enum/status.enum';
 import { DatePipe } from '@angular/common';
 import { calculateFullAge } from '../../../shared/functions/common-functions';
 import { TTSService } from '../../../shared/services/tts.service';
+import { CommonData } from '../../../shared/services/common-data';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-person-view',
@@ -28,7 +30,17 @@ export class PersonView {
   constructor(
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
-  ) { }
+    private commonData: CommonData,
+    private router: Router,
+    private destroyRef: DestroyRef
+  ) {
+    this.commonData.editClick$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      const person = this.personDetails();
+      person && this.router.navigate(['persons/edit', person.id]);
+    });
+  }
 
   ngOnInit(): void {
     this.getRouterData();
