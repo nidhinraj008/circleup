@@ -115,7 +115,13 @@
 
         @if (personDetails()?.notes) {
         <div class="shadow-outward-out p-3">
-            <h6 class="section-title mb-2">Notes</h6>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="section-title m-0">Notes</h6>
+                <div (click)="toggleTTS()"
+                    class="tts-icon-btn shadow-outward-out d-flex align-items-center justify-content-center">
+                    <i class="bi bi-volume-up-fill" [class.text-primary]="ttsService.showPlayer()"></i>
+                </div>
+            </div>
             <div class="value-sm text-secondary" [innerHTML]="personDetails().notes"
                 style="line-height: 1.5; white-space: pre-wrap;"></div>
         </div>

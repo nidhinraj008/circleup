@@ -46,3 +46,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.tts-icon-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:active {
+        transform: scale(0.9);
+    }
+}

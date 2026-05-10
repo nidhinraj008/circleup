@@ -1,0 +1,30 @@
+@if (ttsService.showPlayer()) {
+<div class="tts-player-floating shadow-outward-out p-3 overflow-hidden">
+    <div class="progress-hit-area" (mousedown)="onSeekStart($event)" (touchstart)="onSeekStart($event)">
+        <div class="top-progress-bar" [style.width.%]="ttsService.progress()"></div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between gap-3">
+        <div (click)="changeVoice()" class="player-btn shadow-outward-out">
+            <i class="bi bi-person-badge"></i>
+        </div>
+
+        <div (click)="ttsService.rewind()" class="player-btn shadow-outward-out">
+            <i class="bi bi-rewind-fill"></i>
+        </div>
+
+        <div (click)="ttsService.togglePause()" class="player-btn-lg shadow-outward-out">
+            <i class="bi" [class.bi-pause-fill]="!ttsService.isPaused()"
+                [class.bi-play-fill]="ttsService.isPaused()"></i>
+        </div>
+
+        <div (click)="ttsService.forward()" class="player-btn shadow-outward-out">
+            <i class="bi bi-fast-forward-fill"></i>
+        </div>
+
+        <div (click)="changeSpeed()" class="player-btn shadow-outward-out fw-bold" style="font-size: 0.7rem;">
+            {{ttsService.speed()}}x
+        </div>
+    </div>
+</div>
+}

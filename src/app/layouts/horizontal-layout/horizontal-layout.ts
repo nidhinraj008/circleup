@@ -7,11 +7,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Location } from '@angular/common';
 // import { PullToRefresh } from '../../shared/components/pull-to-refresh/pull-to-refresh';
 
+import { TTSPlayer } from '../../shared/components/tts-player/tts-player';
+
 @Component({
   selector: 'app-horizontal-layout',
   imports: [
     RouterOutlet,
     RouterLink,
+    TTSPlayer
     // PullToRefresh
   ],
   templateUrl: './horizontal-layout.html',

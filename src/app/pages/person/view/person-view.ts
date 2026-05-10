@@ -1,4 +1,4 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/store/app.state';
 import { selectPersonsById } from '../store';
@@ -7,6 +7,7 @@ import { GenderEnum } from '../../../shared/enum/gender.enum';
 import { StatusEnum } from '../../../shared/enum/status.enum';
 import { DatePipe } from '@angular/common';
 import { calculateFullAge } from '../../../shared/functions/common-functions';
+import { TTSService } from '../../../shared/services/tts.service';
 
 @Component({
   selector: 'app-person-view',
@@ -18,16 +19,16 @@ import { calculateFullAge } from '../../../shared/functions/common-functions';
   styleUrl: './person-view.scss',
 })
 export class PersonView {
-  
-  personDetails = signal<any>(null);
 
+  personDetails = signal<any>(null);
   genderEnum = GenderEnum;
   statusEnum = StatusEnum;
-  
+  ttsService = inject(TTSService);
+
   constructor(
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getRouterData();
@@ -47,5 +48,23 @@ export class PersonView {
         this.personDetails.set({ ...res, ...fullAge });
       }
     })
+  }
+
+  public toggleTTS() {
+    if (this.ttsService.showPlayer()) {
+      this.ttsService.stop();
+      return;
+    }
+
+    const notes = this.personDetails()?.notes;
+    if (!notes) return;
+
+    const div = document.createElement('div');
+    div.innerHTML = notes;
+    const text = div.textContent || div.innerText || '';
+
+    if (text.trim()) {
+      this.ttsService.play(text);
+    }
   }
 }

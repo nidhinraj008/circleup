@@ -5,13 +5,15 @@
         <div class="d-flex align-items-center gap-3">
             <div class="d-flex align-items-center">
                 <div class="rounded-pill shadow-outward-out" style="padding: 1px;">
-                    <img [src]="item.person1Image || '/images/no-image.png'" class="profile-image rounded-circle"
-                        referrerpolicy="no-referrer" (error)="$event.target.src='/images/unsupported.png'">
+                    <img [src]="item.person1Image || '/images/no-image.png'" loading="lazy"
+                        class="profile-image rounded-circle" referrerpolicy="no-referrer"
+                        (error)="$event.target.src='/images/unsupported.png'">
                 </div>
                 <div class="rounded-pill shadow-outward-out ms-n3"
                     style="padding: 1px; z-index: 1; margin-left: -15px;">
-                    <img [src]="item.person2Image || '/images/no-image.png'" class="profile-image rounded-circle"
-                        referrerpolicy="no-referrer" (error)="$event.target.src='/images/unsupported.png'">
+                    <img [src]="item.person2Image || '/images/no-image.png'" loading="lazy"
+                        class="profile-image rounded-circle" referrerpolicy="no-referrer"
+                        (error)="$event.target.src='/images/unsupported.png'">
                 </div>
             </div>
             <div class="flex-grow-1 min-width-0">

@@ -2,7 +2,6 @@ import { Component, ElementRef, HostListener, input, signal, viewChild } from '@
 
 @Component({
   selector: 'app-pull-to-refresh',
-  standalone: true,
   templateUrl: './pull-to-refresh.html',
   styleUrl: './pull-to-refresh.scss',
 })
@@ -10,7 +9,7 @@ export class PullToRefresh {
   public disabled = input<boolean>(false);
   protected readonly Math = Math;
   private container = viewChild<ElementRef<HTMLDivElement>>('scrollContainer');
-  
+
   protected readonly pullDistance = signal(0);
   protected readonly isRefreshing = signal(false);
   private startY = 0;
@@ -33,12 +32,12 @@ export class PullToRefresh {
     if (this.startY > 0 && !this.isRefreshing()) {
       const currentY = event.touches[0].pageY;
       const diff = currentY - this.startY;
-      
+
       if (diff > 0) {
         // Logarithmic-like resistance for "rubber band" effect
         const distance = Math.pow(diff, 0.85);
         this.pullDistance.set(distance);
-        
+
         // Prevent scrolling when pulling
         if (distance > 10 && event.cancelable) {
           event.preventDefault();

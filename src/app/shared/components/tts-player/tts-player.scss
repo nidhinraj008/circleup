@@ -1,0 +1,68 @@
+.tts-player-floating {
+    position: fixed;
+    bottom: 28px;
+    left: 15px;
+    right: 15px;
+    background-color: var(--background-color);
+    z-index: 9;
+    max-width: 570px;
+    margin: 0 auto;
+}
+
+.player-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: var(--background-color);
+    border: none;
+    color: var(--primary-font-color);
+
+    &:active {
+        transform: scale(0.9);
+        box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+    }
+}
+
+.player-btn-lg {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    transition: all 0.2s;
+    background-color: var(--background-color);
+    border: none;
+
+    &:active {
+        transform: scale(0.9);
+        box-shadow: inset 2px 2px 4px var(--shadow-primary), inset -2px -2px 4px var(--shadow-secondary);
+    }
+}
+
+.progress-hit-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    cursor: pointer;
+    z-index: 10;
+
+    .top-progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 5px;
+        background-color: var(--primary-color);
+        transition: width 0.1s linear;
+    }
+}

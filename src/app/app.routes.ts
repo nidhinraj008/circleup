@@ -82,6 +82,12 @@ export const routes: Routes = [
                     .then(c => c.Settings)
             },
             {
+                path: 'settings/tts',
+                data: { config: pageWiseConfiguration.ttsSettings },
+                loadComponent: () => import('./pages/settings/tts-settings/tts-settings')
+                    .then(c => c.TTSSettings)
+            },
+            {
                 path: 'about',
                 data: { config: pageWiseConfiguration.about },
                 loadComponent: () => import('./pages/about/about')

@@ -70,6 +70,12 @@ export const pageWiseConfiguration = {
         isShowAdd: false,
         isPullToRefreshDisabled: false,
     },
+    ttsSettings: {
+        title: "TTS Settings",
+        isShowMenuBar: false,
+        isShowAdd: false,
+        isPullToRefreshDisabled: false,
+    },
     about: {
         title: "About",
         isShowMenuBar: false,

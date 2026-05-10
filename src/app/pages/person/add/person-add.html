@@ -3,8 +3,9 @@
         <div class="text-center pb-2">
             <div (click)="showImageActionModal = true"
                 class="position-relative d-inline-block rounded-pill shadow-outward-out" style="padding: 1px;">
-                <img [src]="profileImageUrl() ?? '/images/no-image.png'" class="profile-image rounded-circle"
-                    referrerpolicy="no-referrer" (error)="$event.target.src='/images/unsupported.png'">
+                <img [src]="profileImageUrl() ?? '/images/no-image.png'" loading="lazy"
+                    class="profile-image rounded-circle" referrerpolicy="no-referrer"
+                    (error)="$event.target.src='/images/unsupported.png'">
             </div>
         </div>
 
