@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonData } from '../../shared/services/common-data';
 import { RouterLink } from "@angular/router";
+import { ThemeService } from '../../shared/services/theme.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,9 @@ import { RouterLink } from "@angular/router";
 })
 export class Dashboard implements OnInit {
 
+  private readonly themeService = inject(ThemeService);
+  public readonly isDarkMode = this.themeService.isDarkMode;
+
   totalDaysInYear = 0;
   remainingDays = 0;
   progress = 0;
@@ -19,6 +23,10 @@ export class Dashboard implements OnInit {
 
   constructor(private readonly commonData: CommonData) {
 
+  }
+
+  public toggleTheme() {
+    this.themeService.toggleTheme();
   }
 
   ngOnInit(): void {

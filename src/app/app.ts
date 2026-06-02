@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Loader } from './shared/components/loader/loader';
 import { Toast } from './shared/components/toast/toast';
+import { ThemeService } from './shared/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { Toast } from './shared/components/toast/toast';
 })
 export class App {
   protected readonly title = signal('circleup');
+  private readonly themeService = inject(ThemeService);
 
   ngOnInit(): void {
     setTimeout(() => {

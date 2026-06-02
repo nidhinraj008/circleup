@@ -1,7 +1,7 @@
 export const APP_INFO = {
     name: 'CircleUp',
-    version: '1.2.1',
-    buildTime: '26-05-10',
+    version: '1.2.2',
+    buildTime: '26-06-02',
     buildNumber: 1,
     env: 'prod'
 };

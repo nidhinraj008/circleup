@@ -12,20 +12,20 @@
 .name-block {
     font-size: 18px;
     font-weight: 500;
-    color: #111
+    color: var(--primary-font-color);
 }
 
 .id-block {
     font-size: 12px;
     font-weight: 600;
-    color: #888
+    color: var(--secondary-font-color);
 }
 
 .list-item {
     .item-icon {
         font-weight: 600;
         font-size: 20;
-        color: #555;
+        color: var(--secondary-font-color);
     }
 }
 
@@ -46,14 +46,14 @@
 
     .login-sub {
         font-size: 14px;
-        color: #555;
+        color: var(--secondary-font-color);
         line-height: 1.6;
-    }
-
-    .highlight {
-        color: #444;
+     }
+ 
+     .highlight {
+        color: var(--primary-font-color);
         font-weight: 600;
-    }
+     }
 
     .login-items {
         border-radius: 50px;

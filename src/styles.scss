@@ -16,9 +16,29 @@
     --border-radius: 10px;
 }
 
+:root[data-theme="dark"] {
+    --background-color: #111;
+    --shadow-primary: #000;
+    --shadow-secondary: #3e3e3e;
+
+    --primary-color: #60209a;
+    --error-color: #d2465f;
+    --primary-color-rgb: 96, 32, 154;
+    --secondary-color: #938a72;
+    --primary-font-color: #ccc;
+    --secondary-font-color: #999;
+    --font-color-3: #000;
+    --safe-top: env(safe-area-inset-top);
+    --safe-bottom: env(safe-area-inset-bottom);
+
+    --border-radius: 10px;
+}
+
+
 body {
     margin: 0;
     background-color: var(--background-color);
+    color: var(--primary-font-color);
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -102,7 +122,7 @@ body {
 .label {
     font-size: 11px;
     font-weight: 400;
-    color: #505050;
+    color: var(--secondary-font-color);
 }
 
 .value {
@@ -144,7 +164,7 @@ body {
         i {
             font-weight: 700;
             font-size: 20px;
-            color: #5e5e5e
+            color: var(--secondary-font-color);
         }
     }
 
@@ -429,11 +449,17 @@ body {
         align-items: center;
         gap: 2px;
         height: fit-content !important;
-        background-color: #fff;
+        background-color: var(--shadow-primary);
+        color: var(--primary-font-color);
+        border-radius: 4px;
 
         .ng-value-icon {
-            border-right: 1px solid #eee;
-            padding: 0px 5px
+            border-right: 1px solid var(--shadow-secondary);
+            padding: 0px 5px;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
         }
 
         .ng-value-label {
@@ -453,6 +479,11 @@ body {
             .ng-option {
                 padding: 10px 14px;
                 color: var(--primary-font-color);
+
+                &.ng-option-marked {
+                    background-color: var(--shadow-primary) !important;
+                    color: var(--primary-font-color) !important;
+                }
 
                 &.ng-option-selected {
                     background-color: var(--primary-color) !important;

@@ -22,12 +22,16 @@ export class TTSService implements OnDestroy {
   private availableVoices: SpeechSynthesisVoice[] = [];
 
   constructor() {
-    window.speechSynthesis.cancel();
+    try {
+      window.speechSynthesis?.cancel();
+    } catch (e) { }
     this.loadVoices();
 
     // Ensure speech stops when the tab is closed or refreshed
     window.addEventListener('beforeunload', () => {
-      window.speechSynthesis.cancel();
+      try {
+        window.speechSynthesis?.cancel();
+      } catch (e) { }
     });
   }
 
@@ -36,13 +40,24 @@ export class TTSService implements OnDestroy {
   }
 
   private loadVoices() {
-    const voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      this.availableVoices = voices;
-    } else {
-      window.speechSynthesis.onvoiceschanged = () => {
-        this.availableVoices = window.speechSynthesis.getVoices();
-      };
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+
+    const tryLoad = () => {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        this.availableVoices = voices;
+        // If no voice selected, pick the first one as default
+        if (!this.selectedVoiceName() && voices.length > 0) {
+          this.setVoice(voices[0].name);
+        }
+      }
+    };
+
+    tryLoad();
+    if (this.availableVoices.length === 0) {
+      window.speechSynthesis.onvoiceschanged = () => tryLoad();
+      // Fallback for some browsers that don't fire onvoiceschanged
+      setTimeout(tryLoad, 1000);
     }
   }
 
@@ -75,6 +90,7 @@ export class TTSService implements OnDestroy {
   }
 
   private start(fromIndex: number) {
+    if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     
     this.currentCharIndex = fromIndex;
@@ -82,7 +98,12 @@ export class TTSService implements OnDestroy {
     
     this.utterance = new SpeechSynthesisUtterance(textToPlay);
     
-    const voice = this.availableVoices.find(v => v.name === this.selectedVoiceName());
+    // Pick the selected voice, or fall back to the first available one
+    let voice = this.availableVoices.find(v => v.name === this.selectedVoiceName());
+    if (!voice && this.availableVoices.length > 0) {
+      voice = this.availableVoices[0];
+    }
+    
     if (voice) {
       this.utterance.voice = voice;
     }
@@ -103,9 +124,18 @@ export class TTSService implements OnDestroy {
       }
     };
 
+    this.utterance.onerror = (event) => {
+      console.error('TTS Utterance Error:', event);
+      this.isPlaying.set(false);
+    };
+
     this.isPlaying.set(true);
     this.isPaused.set(false);
-    window.speechSynthesis.speak(this.utterance);
+    
+    // Tiny delay before speaking helps Android WebViews handle the transition from cancel()
+    setTimeout(() => {
+      window.speechSynthesis.speak(this.utterance!);
+    }, 50);
   }
 
   togglePause() {

@@ -19,6 +19,7 @@ export class TTSPlayer {
   }
 
   public changeVoice() {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
     const voices = window.speechSynthesis.getVoices();
     if (voices.length === 0) return;
 

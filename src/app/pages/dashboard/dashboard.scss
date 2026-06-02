@@ -18,24 +18,37 @@
 .neo-toggle {
     height: 70px;
     border-radius: 40px;
-    // background: linear-gradient(145deg, #d1f0e0, #a0cbb8);
-    background-color: #91b5a9;
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    
+    background-color: #e9d7ad;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &.dark-active {
+        background-color: #91b5a9;
+    }
+
     .toggle-circle {
         height: 50px;
-        aspect-ratio: 1.5/1;
+        width: 75px;
         background: var(--background-color);
         border-radius: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
+        position: absolute;
+        left: 8px;
+        top: 10px;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
         i {
             font-size: 30px;
-            color: #333;
+            color: var(--primary-font-color);
+            transition: color 0.3s ease;
         }
+    }
+
+    &.dark-active .toggle-circle {
+        left: calc(100% - 75px - 8px);
     }
 }
 
@@ -47,6 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     .progress-content {
         width: 30px;
         height: 30px;
@@ -63,5 +77,5 @@
 .neo-icon {
     aspect-ratio: 1;
     font-size: 25px;
-    color: #333;
+    color: var(--primary-font-color);
 }

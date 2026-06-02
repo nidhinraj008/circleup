@@ -33,9 +33,9 @@
                         <div class="w-100 h-100 position-relative" style="border-radius: var(--border-radius);">
 
                             <div class="d-flex gap-3 p-2 shadow-outward-out align-items-center position-absolute"
-                                style="inset: 5px;" (click)="onClickPerson(node)">
+                                style="inset: 5px; background-color: var(--background-color);" (click)="onClickPerson(node)">
                                 <div class="rounded-pill shadow-outward-out"
-                                    style="width: fit-content; height: fit-content; padding: 1px;">
+                                    style="width: fit-content; height: fit-content; padding: 1px; background-color: var(--background-color);">
                                     <img [src]="node.primaryImageUrl || '/images/no-image.png'"
                                         class="profile-image rounded-circle" referrerpolicy="no-referrer"
                                         (error)="$event.target.src='/images/unsupported.png'">
@@ -51,9 +51,9 @@
                 } @else {
                 <svg:g style="filter: drop-shadow(0px 0px 1px #888)" fill="none" stroke="none">
                     <svg:foreignObject width="16" height="16">
-                        <div (click)="onClickJunction(node)" style="border: 1px solid #c5c5c5"
+                        <div (click)="onClickJunction(node)" style="border: 1px solid var(--secondary-font-color); background-color: var(--background-color);"
                             class="d-flex align-items-center justify-content-center w-100 h-100 rounded-pill">
-                            <i class="bi bi-dash" style="color: #555"></i>
+                            <i class="bi bi-dash" style="color: var(--secondary-font-color)"></i>
                         </div>
                     </svg:foreignObject>
                 </svg:g>

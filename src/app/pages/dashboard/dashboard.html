@@ -52,7 +52,7 @@
                     <div style="font-size: 15px;">
                         This year
                     </div>
-                    <div style="color: #555">
+                    <div style="color: var(--secondary-font-color)">
                         {{remainingDays}} d
                     </div>
                 </div>
@@ -76,9 +76,9 @@
         </div>
 
         <div class="col-12 py-2">
-            <div class="neo-toggle shadow-outward-out">
-                <div class="toggle-circle shadow-outward-outs">
-                    <i class="bi bi-moon-stars-fill"></i>
+            <div class="neo-toggle shadow-outward-out" [class.dark-active]="isDarkMode()" (click)="toggleTheme()">
+                <div class="toggle-circle shadow-outward-out">
+                    <i [class]="isDarkMode() ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill'"></i>
                 </div>
             </div>
         </div>
