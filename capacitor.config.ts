@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'CircleUp',
   webDir: 'www',
   server: {
-    url: 'https://notifications-d7fc6.web.app/',
+    url: 'https://trycircleup.web.app/',
     cleartext: false
   },
   plugins: {

@@ -1,9 +1,9 @@
 {
   "project_info": {
     "project_number": "375661429566",
-    "firebase_url": "https://notifications-d7fc6-default-rtdb.firebaseio.com",
-    "project_id": "notifications-d7fc6",
-    "storage_bucket": "notifications-d7fc6.firebasestorage.app"
+    "firebase_url": "https://trycircleup-default-rtdb.firebaseio.com",
+    "project_id": "trycircleup",
+    "storage_bucket": "trycircleup.firebasestorage.app"
   },
   "client": [
     {

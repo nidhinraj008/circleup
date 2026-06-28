@@ -12,15 +12,14 @@ import { metaReducers } from './core/store/meta-reducers';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyDwIyU33ABgYDcQCIB82S9KJDsrbE5pAMo",
-  authDomain: "notifications-d7fc6.firebaseapp.com",
-  databaseURL: "https://notifications-d7fc6-default-rtdb.firebaseio.com",
-  projectId: "notifications-d7fc6",
-  storageBucket: "notifications-d7fc6.firebasestorage.app",
-  messagingSenderId: "375661429566",
-  appId: "1:375661429566:web:7b869e8a90df1e1304a26f",
-  measurementId: "G-X5QXE7N0W6"
+const firebaseConfig = {
+  apiKey: "AIzaSyBdEm5D1pazT6hhprq0hQKUSm-n5_vz4Uk",
+  authDomain: "trycircleup.firebaseapp.com",
+  projectId: "trycircleup",
+  storageBucket: "trycircleup.firebasestorage.app",
+  messagingSenderId: "484192843057",
+  appId: "1:484192843057:web:619e8cbc9d5872f08aac10",
+  measurementId: "G-KDR408WJWG"
 };
 
 export const Google_Drive_API_Url = new InjectionToken<string>('Google Drive API Url', {
